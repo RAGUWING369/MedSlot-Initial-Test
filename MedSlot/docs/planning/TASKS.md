@@ -332,19 +332,20 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** US-001, US-002, US-012, US-013
 - **Sprint:** Sprint 1
-- **Status:** 🔵 In Progress
+- **Status:** 🟢 Done
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-011, TASK-012, TASK-013
 - **Blocked By:** TASK-007
 - **Acceptance Criteria:**
-  - [ ] `accounts/models.py`: `CustomUser(AbstractBaseUser)` with fields: `id` (UUID PK), `phone` (unique, indexed), `role` (choices: patient/doctor/admin), `is_active`, `created_at`; no password field
-  - [ ] `PatientProfile` model: FK to CustomUser (1:1), `full_name` (# PHI), `date_of_birth` (# PHI), `gender`, `email` (# PHI), `created_at`
-  - [ ] `DoctorProfile` model: FK to CustomUser (1:1), `full_name`, `specialty` (FK to Specialty), `mci_number` (indexed), `clinic_name`, `clinic_area`, `clinic_city`, `credential_document_s3_key`, `account_status` (choices: pending/approved/rejected/suspended), `approved_at`, `created_at`; PHI fields annotated `# PHI`
-  - [ ] `Specialty` model: `id`, `name` (unique), `slug`; 13-row seed data migration
-  - [ ] `AUTH_USER_MODEL = 'accounts.CustomUser'` in settings
-  - [ ] Migration runs without errors; `python manage.py migrate` completes
-  - [ ] All PHI fields annotated with `# PHI` comment
+  - [x] `accounts/models.py`: `CustomUser(AbstractBaseUser)` with fields: `id` (UUID PK), `phone` (unique, indexed), `role` (choices: patient/doctor/admin), `is_active`, `created_at`; no password field
+  - [x] `PatientProfile` model: FK to CustomUser (1:1), `full_name` (# PHI), `date_of_birth` (# PHI), `gender`, `email` (# PHI), `created_at`
+  - [x] `DoctorProfile` model: FK to CustomUser (1:1), `full_name`, `specialty` (FK to Specialty), `mci_number` (indexed), `clinic_name`, `clinic_area`, `clinic_city`, `credential_document_s3_key`, `account_status` (choices: pending/approved/rejected/suspended), `approved_at`, `created_at`; PHI fields annotated `# PHI`
+  - [x] `Specialty` model: `id`, `name` (unique), `slug`; 13-row seed data migration
+  - [x] `AUTH_USER_MODEL = 'accounts.CustomUser'` in settings
+  - [x] Migration runs without errors; `python manage.py migrate` completes
+  - [x] All PHI fields annotated with `# PHI` comment
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** CustomUser (AbstractBaseUser + PermissionsMixin, UUID PK, phone-based auth), PatientProfile, DoctorProfile, Specialty models with PHI annotations; 0001_initial schema migration + 0002_seed_specialties data migration (13 specialties, reversible); CustomUserManager with create_user/create_superuser; 31 unit tests covering all 4 models including PHI non-leakage in __str__.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -353,20 +354,21 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** US-001, US-002, US-012, US-013
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-013
 - **Blocked By:** TASK-007, TASK-010
 - **Acceptance Criteria:**
-  - [ ] `accounts/services.py` → `OTPService`: `generate_otp(phone)` generates 6-digit numeric OTP; stores SHA-256+PEPPER hash in Redis key `otp:{phone}` with 5-min TTL
-  - [ ] `verify_otp(phone, code)` checks hash; increments failure counter `otp_fail:{phone}`; returns OTPResult enum (valid/invalid/expired/locked)
-  - [ ] After 3 failures within 10 min: sets `otp_lock:{phone}` with 15-min TTL; returns locked
-  - [ ] Rate limit: `otp_rate:{phone}` counter with 60-min TTL; max 5 requests; returns 429 on excess
-  - [ ] `MSG91Adapter.send_otp(phone, otp_code)` makes POST to MSG91 OTP API v5; retries once on 5xx
-  - [ ] Unit tests cover: successful OTP, expired OTP, 3-failure lockout, rate limit, MSG91 retry
+  - [x] `accounts/services.py` → `OTPService`: `generate_otp(phone)` generates 6-digit numeric OTP; stores SHA-256+PEPPER hash in Redis key `otp:{phone}` with 5-min TTL
+  - [x] `verify_otp(phone, code)` checks hash; increments failure counter `otp_fail:{phone}`; returns OTPResult enum (valid/invalid/expired/locked)
+  - [x] After 3 failures within 10 min: sets `otp_lock:{phone}` with 15-min TTL; returns locked
+  - [x] Rate limit: `otp_rate:{phone}` counter with 60-min TTL; max 5 requests; returns 429 on excess
+  - [x] `MSG91Adapter.send_otp(phone, otp_code)` makes POST to MSG91 OTP API v5; retries once on 5xx
+  - [x] Unit tests cover: successful OTP, expired OTP, 3-failure lockout, rate limit, MSG91 retry
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
 - **Wireframe Ref:** —
 - **API Ref:** POST /api/v1/auth/otp/request/, POST /api/v1/auth/otp/verify/
+- **Implementation Note:** `accounts/enums.py` introduces `OTPResult` enum (5 variants); `accounts/services.py` implements `OTPService` (generate_otp, verify_otp, check_rate_limit, is_locked, _record_failure, _clear_failure_counter) and `MSG91Adapter` (send_otp with single retry on 5xx); all cache operations via Django's `cache` framework (not direct Redis) for testability; OTP stored as SHA-256+PEPPER hex digest; phone numbers never appear in log entries; 43 unit tests; 100% coverage on both new files; no DB migrations required.
 
 ### TASK-012 — JWT Auth Service & DRF Permission Classes * (Critical Path)
 - **Type:** backend
