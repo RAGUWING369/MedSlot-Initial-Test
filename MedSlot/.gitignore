@@ -88,6 +88,7 @@ docker-compose.override.yml
 .env
 .env.*
 !.env.example
+!.env.local.example
 *.pem
 *.key
 *.p12

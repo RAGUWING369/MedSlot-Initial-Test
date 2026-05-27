@@ -1,0 +1,75 @@
+version: "3.9"
+
+# MedSlot local development stack.
+# Run from the medslot/ directory: docker-compose up --build
+# Prerequisites: copy .env.example to .env.local and fill in values.
+
+services:
+
+  # ── PostgreSQL 16 ──────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: medslot
+      POSTGRES_USER: medslot
+      POSTGRES_PASSWORD: medslot_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medslot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis 7 ────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Django API ─────────────────────────────────────────────────────────────
+  # Dev command overrides the production gunicorn CMD in the Dockerfile.
+  # The entrypoint handles: wait-for-db + migrate before starting the server.
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.local
+    environment:
+      - DJANGO_SETTINGS_MODULE=medslot.settings.local
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ── Next.js Frontend ───────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: runner
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    depends_on:
+      - api
+
+# ── Named volumes ──────────────────────────────────────────────────────────
+volumes:
+  postgres_data:

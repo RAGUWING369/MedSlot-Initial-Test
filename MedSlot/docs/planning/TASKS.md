@@ -143,18 +143,19 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** 🟡 In Progress
+- **Status:** 🟢 Done
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-002, TASK-003, TASK-004, TASK-005, TASK-006
 - **Blocked By:** —
 - **Acceptance Criteria:**
-  - [ ] `medslot/` root directory created with `frontend/`, `backend/`, `infra/`, `.github/workflows/` directories
-  - [ ] `frontend/` initialized as Next.js 14 TypeScript project (`npx create-next-app@latest` with App Router, TypeScript, Tailwind CSS)
-  - [ ] `backend/` initialized as Django 5 project (`django-admin startproject medslot .`) with 8 app stubs: accounts, appointments, prescriptions, records, notifications, subscriptions, analytics, audit
-  - [ ] `infra/` initialized as AWS CDK TypeScript project
-  - [ ] Root `.gitignore` covers Node, Python, CDK, Docker artifacts
-  - [ ] `README.md` at root with setup instructions
+  - [x] `medslot/` root directory created with `frontend/`, `backend/`, `infra/`, `.github/workflows/` directories
+  - [x] `frontend/` initialized as Next.js 14 TypeScript project (`npx create-next-app@latest` with App Router, TypeScript, Tailwind CSS)
+  - [x] `backend/` initialized as Django 5 project (`django-admin startproject medslot .`) with 8 app stubs: accounts, appointments, prescriptions, records, notifications, subscriptions, analytics, audit
+  - [x] `infra/` initialized as AWS CDK TypeScript project
+  - [x] Root `.gitignore` covers Node, Python, CDK, Docker artifacts
+  - [x] `README.md` at root with setup instructions
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** Scaffolded Next.js 14 TypeScript (App Router), Django 5 with 8 app stubs, AWS CDK TypeScript (4 stack stubs), and all supporting config files. Project source code reorganized into `medslot/` subdirectory to keep SDLC artifacts and source code cleanly separated at the repo root.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -163,7 +164,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟡 In Progress
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-007, TASK-008
 - **Blocked By:** TASK-001
