@@ -328,3 +328,38 @@ class MSG91Adapter:
                     )
 
         return False
+
+
+# ── AuthService ────────────────────────────────────────────────────────────────
+
+from rest_framework_simplejwt.tokens import AccessToken  # noqa: E402
+
+
+class AuthService:
+    """
+    Issues JWT access tokens for authenticated MedSlot users.
+
+    Uses djangorestframework-simplejwt with HS256 algorithm.
+    Token lifetime: 24 hours (ACCESS_TOKEN_LIFETIME in settings).
+    No refresh tokens in v1 — patients/doctors re-authenticate via OTP.
+
+    Security: token payload includes user_id (UUID) and role — never PHI.
+    """
+
+    @staticmethod
+    def issue_jwt(user) -> str:
+        """
+        Issue a 24-hour HS256 JWT access token for the given user.
+
+        Adds 'role' claim to the standard simplejwt payload so downstream
+        permission classes can read the role without a DB query.
+
+        Args:
+            user: CustomUser instance (must be active).
+
+        Returns:
+            Encoded JWT string ready for use in Authorization: Bearer header.
+        """
+        token = AccessToken.for_user(user)
+        token["role"] = user.role  # custom claim — role never contains PHI
+        return str(token)
