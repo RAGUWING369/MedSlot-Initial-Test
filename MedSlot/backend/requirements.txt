@@ -1,0 +1,5 @@
+# MedSlot Backend — Python Dependencies
+# Full requirements are configured in TASK-007 (Backend Requirements & Base Django Configuration).
+# This file is the scaffold stub created in TASK-001.
+
+django>=5.0,<6.0

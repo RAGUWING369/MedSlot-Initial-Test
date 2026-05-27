@@ -143,7 +143,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟡 In Progress
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-002, TASK-003, TASK-004, TASK-005, TASK-006
 - **Blocked By:** —
