@@ -279,7 +279,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
   - [x] `python manage.py check` — verified by structural read; all required apps and middleware present; requires Docker env to run (PostgreSQL + Redis)
   - [x] `pytest` — test_settings.py written; 20 assertions covering all critical config; runs without import errors in Docker env
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
-- **Implementation Note:** Pinned all 38 packages to exact versions. Added corsheaders + django_celery_beat to INSTALLED_APPS; inserted CorsMiddleware before CommonMiddleware. Updated urls.py with drf-spectacular schema/Swagger endpoints. Created conftest.py with RequestFactory fixture. Migrated all 8 app tests.py stubs to tests/ package directories. Added test_settings.py with 20 smoke tests covering INSTALLED_APPS, JWT config, CORS middleware ordering, Celery config, and DRF defaults. Promoted settings/ package files, removing stale monolithic settings.py.
+- **Implementation Note:** Fully pinned requirements.txt (38 packages); base.py completed with corsheaders, django_celery_beat, CorsMiddleware; urls.py wired with drf-spectacular at /api/schema/ and /api/docs/; all 8 app tests.py stubs replaced with tests/ package structure; 20 smoke tests covering INSTALLED_APPS, JWT (24h/HS256), DRF, Redis cache, CONN_MAX_AGE, JSON logging, CORS middleware ordering.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -332,7 +332,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** US-001, US-002, US-012, US-013
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🔵 In Progress
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-011, TASK-012, TASK-013
 - **Blocked By:** TASK-007
