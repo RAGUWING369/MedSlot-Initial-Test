@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+      - "fix/**"
+      - "chore/**"
+  pull_request:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+      - "fix/**"
+      - "chore/**"
+
+jobs:
+  # ── Backend: lint, format check, and test ──────────────────────────────────
+  backend:
+    name: Backend (Python 3.12)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: medslot/backend
+
+    env:
+      SECRET_KEY: ci-test-secret-key-not-for-production
+      DJANGO_SETTINGS_MODULE: medslot.settings.local
+      POSTGRES_DB: medslot_test
+      POSTGRES_USER: medslot
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_HOST: localhost
+      REDIS_URL: redis://localhost:6379/0
+      OTP_PEPPER: ci-test-pepper
+      JWT_SECRET: ci-test-jwt-secret
+
+    services:
+      db:
+        image: postgres:16
+        env:
+          POSTGRES_DB: medslot_test
+          POSTGRES_USER: medslot
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U medslot -d medslot_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('medslot/backend/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt black isort flake8 pytest pytest-django pytest-cov
+
+      - name: Check formatting (black)
+        run: black --check .
+
+      - name: Check import order (isort)
+        run: isort --check-only .
+
+      - name: Lint (flake8)
+        run: flake8 . --max-line-length=88 --extend-ignore=E203,W503
+
+      - name: Run tests with coverage
+        run: >-
+          pytest
+          --cov=.
+          --cov-report=term-missing
+          --cov-fail-under=90
+          --ds=medslot.settings.local
+
+  # ── Frontend: lint, type-check, test, and build ────────────────────────────
+  frontend:
+    name: Frontend (Node 20)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: medslot/frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: medslot/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (ESLint via next lint)
+        run: npm run lint
+
+      - name: Type check (TypeScript)
+        run: npx tsc --noEmit
+
+      - name: Run tests with coverage
+        run: >-
+          npm run test --
+          --coverage
+          --coverageThreshold='{"global":{"lines":90}}'
+
+      - name: Build (production)
+        run: npm run build

@@ -164,19 +164,20 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** 🟡 In Progress
+- **Status:** 🟢 Done
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-007, TASK-008
 - **Blocked By:** TASK-001
 - **Acceptance Criteria:**
-  - [ ] `docker-compose.yml` at root defines services: `api` (Django), `frontend` (Next.js), `redis` (Redis 7), `db` (PostgreSQL 16)
-  - [ ] `backend/Dockerfile` builds Django app; runs `gunicorn medslot.wsgi` in prod mode, `python manage.py runserver` in dev override
-  - [ ] `frontend/Dockerfile` builds Next.js app; runs `node server.js`
-  - [ ] `docker-compose up --build` starts all 4 services with health checks
-  - [ ] PostgreSQL data volume persists between restarts
-  - [ ] Environment variables loaded from `.env.local` (template `.env.example` committed)
-  - [ ] `docker-compose up` runs `python manage.py migrate` on first start via entrypoint
+  - [x] `docker-compose.yml` at root defines services: `api` (Django), `frontend` (Next.js), `redis` (Redis 7), `db` (PostgreSQL 16)
+  - [x] `backend/Dockerfile` builds Django app; runs `gunicorn medslot.wsgi` in prod mode, `python manage.py runserver` in dev override
+  - [x] `frontend/Dockerfile` builds Next.js app; runs `node server.js`
+  - [x] `docker-compose up --build` starts all 4 services with health checks
+  - [x] PostgreSQL data volume persists between restarts
+  - [x] Environment variables loaded from `.env.local` (template `.env.example` committed)
+  - [x] `docker-compose up` runs `python manage.py migrate` on first start via entrypoint
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** Implemented 3-stage backend Dockerfile (base/development/production) with WeasyPrint system deps and non-root production user; 4-stage frontend Dockerfile with Next.js standalone output; docker-compose.yml with health checks for db and redis; entrypoint.sh with wait-for-PostgreSQL + auto-migrate on startup.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -185,17 +186,18 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 1
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-010, TASK-011
 - **Blocked By:** TASK-001
 - **Acceptance Criteria:**
-  - [ ] `.env.example` documents all required env vars: `DATABASE_URL`, `REDIS_URL`, `SECRET_KEY`, `JWT_SECRET`, `MSG91_API_KEY`, `SENDGRID_API_KEY`, `AWS_REGION`, `S3_RECORDS_BUCKET`, `S3_PRESCRIPTIONS_BUCKET`, `S3_CREDENTIALS_BUCKET`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`
-  - [ ] Django settings module reads all secrets from environment (no hardcoded values)
-  - [ ] `settings/base.py`, `settings/local.py`, `settings/production.py` split established
-  - [ ] `python-decouple` or `django-environ` used for env var loading
-  - [ ] `DJANGO_SETTINGS_MODULE` defaults to `medslot.settings.local` in Docker Compose
+  - [x] `.env.example` documents all required env vars: `DATABASE_URL`, `REDIS_URL`, `SECRET_KEY`, `JWT_SECRET`, `MSG91_API_KEY`, `SENDGRID_API_KEY`, `AWS_REGION`, `S3_RECORDS_BUCKET`, `S3_PRESCRIPTIONS_BUCKET`, `S3_CREDENTIALS_BUCKET`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`
+  - [x] Django settings module reads all secrets from environment (no hardcoded values)
+  - [x] `settings/base.py`, `settings/local.py`, `settings/production.py` split established
+  - [x] `python-decouple` used for env var loading
+  - [x] `DJANGO_SETTINGS_MODULE` defaults to `medslot.settings.local` in Docker Compose
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** Split monolithic settings.py into base/local/production package using python-decouple; all secrets externalised to env vars; DJANGO_SETTINGS_MODULE=medslot.settings.local wired in Docker Compose; OTP_PEPPER and JWT_SECRET added to .env.example.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -204,7 +206,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟡 In Progress
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-009
 - **Blocked By:** TASK-001
