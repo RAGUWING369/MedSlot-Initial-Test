@@ -32,7 +32,7 @@
 **Current Phase:** 7. Implementation
 
 **Repository URL(s):**
-- Primary: [TBD — GitHub repo to be created after /sdlc:ideate completes]
+- Primary: https://github.com/RAGUWING369/MedSlot-Initial-Test.git
 
 **Started:** [2026-05-25]
 
