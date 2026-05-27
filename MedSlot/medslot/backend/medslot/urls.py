@@ -1,23 +1,23 @@
 """
-URL configuration for medslot project.
+Root URL configuration for the MedSlot project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+App-level routers are included under /api/v1/ as each epic's endpoints are
+built out. OpenAPI schema and Swagger UI endpoints are available in all
+environments — restrict via SPECTACULAR_SETTINGS['SERVE_PERMISSIONS'] in
+production if needed.
 """
-
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerUIView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # API v1 — app routers included per epic as they are implemented
+    path("api/v1/", include([
+        # Auth endpoints added in TASK-013
+    ])),
+    # OpenAPI schema — raw schema JSON/YAML download
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Swagger UI — interactive API browser
+    path("api/docs/", SpectacularSwaggerUIView.as_view(url_name="schema"), name="swagger-ui"),
 ]

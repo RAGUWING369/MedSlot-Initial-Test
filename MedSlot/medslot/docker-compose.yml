@@ -51,6 +51,10 @@ services:
       - .env.local
     environment:
       - DJANGO_SETTINGS_MODULE=medslot.settings.local
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=medslot
+      - POSTGRES_USER=medslot
+      - POSTGRES_PASSWORD=medslot_dev
     depends_on:
       db:
         condition: service_healthy

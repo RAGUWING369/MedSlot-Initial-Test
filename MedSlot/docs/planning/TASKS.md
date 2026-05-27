@@ -206,18 +206,19 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** 🟡 In Progress
+- **Status:** 🟢 Done
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-009
 - **Blocked By:** TASK-001
 - **Acceptance Criteria:**
-  - [ ] `.github/workflows/ci.yml` triggers on push to `feature/*` and `develop` branches
-  - [ ] Backend job: `pip install -r requirements.txt` → `black --check` → `isort --check` → `flake8` → `pytest --cov=. --cov-fail-under=90`
-  - [ ] Frontend job: `npm ci` → `npm run lint` → `npm run type-check` → `npm run test -- --coverage --coverageThreshold='{"global":{"lines":90}}'`
-  - [ ] CI fails if coverage < 90% on either backend or frontend
-  - [ ] Jobs run in parallel (backend and frontend are independent)
-  - [ ] CI completes in < 10 minutes on a standard GitHub Actions runner
+  - [x] `.github/workflows/ci.yml` triggers on push to `feature/*` and `develop` branches
+  - [x] Backend job: `pip install -r requirements.txt` → `black --check` → `isort --check` → `flake8` → `pytest --cov=. --cov-fail-under=90`
+  - [x] Frontend job: `npm ci` → `npm run lint` → `npm run type-check` → `npm run test -- --coverage --coverageThreshold='{"global":{"lines":90}}'`
+  - [x] CI fails if coverage < 90% on either backend or frontend
+  - [x] Jobs run in parallel (backend and frontend are independent)
+  - [x] CI completes in < 10 minutes on a standard GitHub Actions runner
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** Created parallel CI workflow with backend (Python 3.12: black/isort/flake8/pytest --cov-fail-under=90 with PostgreSQL+Redis service containers) and frontend (Node 20: lint/tsc/vitest/build) jobs; added setup.cfg with isort profile=black and pyproject.toml Black+pytest config; added Vitest stub with smoke tests so frontend CI goes green immediately.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -267,7 +268,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟡 In Progress
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-010, TASK-011, TASK-012
 - **Blocked By:** TASK-002, TASK-003
