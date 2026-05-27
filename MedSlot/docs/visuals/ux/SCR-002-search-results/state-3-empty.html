@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-002] Doctor Search Results — Empty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-002 Doctor Search Results
+    STATE   : State 3 — Empty (no doctors match the filter combination)
+    ROUTE   : /search?specialty=neurologist&city=Shimla
+    PERSONA : Priya (public)
+    STORIES : US-003, US-004
+    FILE    : docs/visuals/ux/SCR-002-search-results/state-3-empty.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-002 Doctor Search Results</span>
+      <span style="background:#6b7280;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 3 — Empty</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /search?specialty=neurologist&city=Shimla</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-emerald-800 bg-emerald-50 font-semibold text-sm px-3 py-2 rounded-lg">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg">For Doctors</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search filter bar with current (unsuccessful) search values -->
+  <div class="bg-white border-b border-neutral-200 py-4 px-6">
+    <div class="max-w-screen-xl mx-auto flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-neutral-600">Specialty:</label>
+        <select class="border border-neutral-300 rounded-lg px-3 py-2 text-sm appearance-none bg-white pr-8 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <option>Neurologist</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-neutral-600">City:</label>
+        <input type="text" value="Shimla" class="border border-neutral-300 rounded-lg px-3 py-2 text-sm w-40 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+      </div>
+      <button class="bg-emerald-800 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-emerald-900 transition-colors">Update Search</button>
+      <a href="/" class="text-sm text-emerald-700 hover:underline font-medium">← New Search</a>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+    <div class="mb-4">
+      <h1 class="text-2xl font-semibold text-neutral-900">Neurologists in Shimla</h1>
+      <p class="text-neutral-500 text-sm mt-1">0 doctors found</p>
+    </div>
+
+    <!-- @component: EmptySearchState -->
+    <!-- @interaction: "Broaden your search" → clears city filter and re-searches; "Try a different specialty" → clears specialty and focuses dropdown -->
+    <div class="ann-wrapper">
+      <span class="ann">EmptySearchState · US-003 AC: "No doctors found" · CTA resolves empty state</span>
+      <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-16 text-center">
+        <!-- Illustration placeholder -->
+        <div class="w-20 h-20 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-neutral-900 mb-2">No Neurologists found in Shimla</h2>
+        <p class="text-neutral-500 text-base mb-8 max-w-md mx-auto">
+          We don't have any verified Neurologists in Shimla yet. Try searching in a nearby city, or browse a different specialty.
+        </p>
+        <div class="flex items-center justify-center gap-4">
+          <button class="bg-emerald-800 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-900 transition-colors">
+            Search in Bengaluru instead
+          </button>
+          <button class="border border-neutral-300 text-neutral-700 font-medium px-6 py-3 rounded-lg hover:bg-neutral-50 transition-colors">
+            Try a different specialty
+          </button>
+        </div>
+        <p class="text-neutral-400 text-sm mt-6">
+          More doctors are joining MedSlot every week. <a href="#" class="text-emerald-700 hover:underline">Notify me when a Neurologist joins in Shimla</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-8">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

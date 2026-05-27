@@ -1,0 +1,107 @@
+{
+  "version": "2.0.0",
+  "suite": "SOTA AI SDLC Suite",
+  "description": "State-of-the-Art AI-First SDLC \u2014 6 tracks, 21 agents, 21 slash commands, human gates throughout",
+  "primaryTool": "Claude Code",
+  "agentModel": "claude-sonnet-4.6",
+  "commandPrefix": "sdlc",
+  "tracks": {
+    "1-greenfield": "New project from scratch",
+    "2-existing": "Existing project mid-pipeline entry",
+    "3-ui-modernization": "Frontend/UI modernization (5 types)",
+    "4-legacy-transformation": "Legacy system transformation (6 types)",
+    "5-microservices": "Microservices decomposition or design",
+    "6-split-repo": "Cross-repository context sharing"
+  },
+  "agents": {
+    "00-onboarding": "Existing project mid-pipeline entry",
+    "00b-context-bridge": "Cross-repository context sharing",
+    "00c-repowise": "Codebase intelligence via Repowise",
+    "00d-context-snapshot": "Session continuity \u2014 multi-session state capture",
+    "01-ideation": "Phase 1 \u2014 Concept discovery",
+    "02-requirements": "Phase 2 \u2014 Requirements engineering",
+    "03-prd": "Phase 3 \u2014 Product Requirements Document",
+    "04-architecture": "Phase 4 \u2014 System architecture",
+    "05-ux-design": "Phase 5 \u2014 UI/UX design",
+    "06-task-breakdown": "Phase 6 \u2014 Sprint planning",
+    "07-implementation": "Phase 7 \u2014 Development (with full human gates)",
+    "08-code-review": "Phase 8 \u2014 Code review",
+    "09-testing": "Phase 9 \u2014 QA and testing",
+    "10-security": "Phase 10 \u2014 Security review",
+    "11-cicd": "Phase 11 \u2014 CI/CD pipeline (single and per-service)",
+    "12-deployment": "Phase 12 \u2014 Production release",
+    "13-monitoring": "Phase 13 \u2014 Observability",
+    "14-retrospective": "Phase 14 \u2014 Retrospective and DORA metrics",
+    "15-ui-modernization": "UI Modernization track \u2014 all 5 types",
+    "16-legacy-transformation": "Legacy Transformation track \u2014 all 6 types",
+    "17-microservices-decomposition": "Microservices track \u2014 3 sub-tracks"
+  },
+  "commands": {
+    "repowise": ".claude/agents/00c-repowise-agent.md",
+    "onboard": ".claude/agents/00-onboarding-agent.md",
+    "context-bridge": ".claude/agents/00b-context-bridge-agent.md",
+    "snapshot": ".claude/agents/00d-context-snapshot-agent.md",
+    "ideate": ".claude/agents/01-ideation-agent.md",
+    "requirements": ".claude/agents/02-requirements-agent.md",
+    "prd": ".claude/agents/03-prd-agent.md",
+    "architecture": ".claude/agents/04-architecture-agent.md",
+    "ux-design": ".claude/agents/05-ux-design-agent.md",
+    "task-breakdown": ".claude/agents/06-task-breakdown-agent.md",
+    "implement": ".claude/agents/07-implementation-agent.md",
+    "code-review": ".claude/agents/08-code-review-agent.md",
+    "test": ".claude/agents/09-testing-agent.md",
+    "security": ".claude/agents/10-security-agent.md",
+    "cicd": ".claude/agents/11-cicd-agent.md",
+    "deploy": ".claude/agents/12-deployment-agent.md",
+    "monitor": ".claude/agents/13-monitoring-agent.md",
+    "retrospective": ".claude/agents/14-retrospective-agent.md",
+    "ui-modernize": ".claude/agents/15-ui-modernization-agent.md",
+    "legacy-transform": ".claude/agents/16-legacy-transformation-agent.md",
+    "microservices": ".claude/agents/17-microservices-decomposition-agent.md"
+  },
+  "humanGates": {
+    "required": true,
+    "policy": "No phase or action proceeds without explicit human approval",
+    "gateTypes": [
+      "session-start",
+      "task-selection",
+      "architecture-deviation",
+      "new-dependency",
+      "destructive-migration",
+      "task-completion",
+      "phase-completion",
+      "type-selection",
+      "audit-review",
+      "plan-approval",
+      "cutover-approval"
+    ],
+    "logLocation": "CLAUDE.md#human-gates-log"
+  },
+  "sessionContinuity": {
+    "snapshotCommand": "/sdlc:snapshot",
+    "resumeInstructions": "Say: 'Load SESSION-SNAPSHOT.md and continue'",
+    "snapshotFile": "SESSION-SNAPSHOT.md"
+  },
+  "repowise": {
+    "required_for": [
+      "ui-modernization",
+      "legacy-transformation"
+    ],
+    "recommended_for": [
+      "existing-projects",
+      "microservices"
+    ],
+    "mcpPort": 7337,
+    "installCommand": "pip install 'repowise[search]'",
+    "initCommand": "repowise init",
+    "serveCommand": "repowise serve",
+    "hookCommand": "repowise hook install",
+    "dashboard": "http://localhost:7337"
+  },
+  "targetProfile": {
+    "teamSize": "2-5 dev teams",
+    "userScale": "50-500 users",
+    "segment": "mid-market",
+    "recommendedArchitecture": "Modular Monolith (until >10 engineers)"
+  }
+}

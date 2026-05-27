@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-005] Booking Confirmation — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-005 Booking Confirmation
+    STATE   : State 1 — Default
+    ROUTE   : /book/confirmed
+    PERSONA : Priya (authenticated)
+    STORIES : US-006
+    FILE    : docs/visuals/ux/SCR-005-booking-confirmation/state-1-default.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-005 Booking Confirmation</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /book/confirmed</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-006</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Records</a>
+      </div>
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div><span class="text-sm font-medium text-neutral-700">Priya S.</span></div>
+    </div>
+  </nav>
+
+  <!-- Progress complete -->
+  <div class="bg-white border-b border-neutral-100 py-4 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="flex items-center gap-3 max-w-sm">
+        <div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center"><svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><span class="text-sm text-neutral-400 line-through">Select Slot</span></div>
+        <div class="h-px w-8 bg-emerald-300"></div>
+        <div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center"><svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><span class="text-sm text-neutral-400 line-through">Confirm</span></div>
+        <div class="h-px w-8 bg-emerald-300"></div>
+        <div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-emerald-800 flex items-center justify-center"><svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><span class="text-sm font-semibold text-emerald-800">Done!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-12">
+    <div class="max-w-lg mx-auto text-center">
+
+      <!-- Success icon -->
+      <div class="ann-wrapper">
+        <span class="ann">ConfirmationPanel · GET /api/v1/appointments/{id}/ → appointment details · role="status"</span>
+        <div class="bg-white rounded-2xl shadow-md border border-green-200 p-10">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h1 class="text-2xl font-bold text-neutral-900 mb-2">Appointment Confirmed!</h1>
+          <p class="text-neutral-500 text-sm mb-8">Your appointment has been successfully booked. You're all set!</p>
+
+          <!-- Appointment details -->
+          <div class="bg-neutral-50 rounded-xl p-6 text-left mb-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-neutral-500">Doctor</span>
+              <span class="text-sm font-semibold text-neutral-900">Dr. Arjun Mehta, Cardiologist</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-neutral-500">Date</span>
+              <span class="text-sm font-semibold text-neutral-900">Wednesday, 10 June 2026</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-neutral-500">Time</span>
+              <span class="text-sm font-semibold text-neutral-900">10:30 AM IST</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-neutral-500">Clinic</span>
+              <span class="text-sm font-semibold text-neutral-900 text-right max-w-[200px]">Heart Care Clinic, Banjara Hills, Bengaluru</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-neutral-500">Status</span>
+              <span class="inline-flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">SCHEDULED</span>
+            </div>
+          </div>
+
+          <!-- Email confirmation notice -->
+          <div class="ann-wrapper">
+            <span class="ann">EmailConfirmationNotice · FR-NOTIF-002 · SendGrid email queued post-booking</span>
+            <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6">
+              <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              <p class="text-sm text-emerald-800">A confirmation email has been sent to <strong>priya.sharma@gmail.com</strong></p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <a href="/dashboard" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl transition-colors text-center">View My Appointments</a>
+            <a href="/search" class="w-full text-center text-neutral-600 font-medium py-3 rounded-xl border border-neutral-300 hover:bg-neutral-50 transition-colors">Book Another Doctor</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

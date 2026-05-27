@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-001] Landing / Doctor Search — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann {
+      position: absolute; top: -24px; left: 0; display: block;
+      border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e;
+      font-size: 0.7rem; padding: 1px 8px; border-radius: 3px;
+      font-family: monospace; line-height: 1.6; white-space: nowrap;
+      z-index: 10; pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-001 Landing / Doctor Search
+    STATE   : State 1 — Default
+    ROUTE   : /
+    PERSONA : Priya (public, unauthenticated)
+    STORIES : US-003, US-004
+    FILE    : docs/visuals/ux/SCR-001-landing-search/state-1-default.html
+  -->
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-001 Landing / Doctor Search</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Priya (public)</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-003, US-004</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <!-- @component: PublicNavBar -->
+  <!-- @data-source: Static — specialties from GET /api/v1/specialties/ loaded on search -->
+  <!-- @interaction: "Login" → /auth/patient | "For Doctors" → /auth/doctor -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="ann-wrapper">
+        <span class="ann">Brand Logo · click → / (homepage)</span>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-sm">M</span>
+          </div>
+          <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 hover:text-emerald-800 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50 bg-emerald-50 text-emerald-800 font-semibold">Find Doctors</a>
+        <a href="#" class="text-neutral-700 hover:text-emerald-800 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">For Doctors</a>
+        <a href="#" class="text-neutral-700 hover:text-emerald-800 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">How it Works</a>
+      </div>
+      <div class="ann-wrapper">
+        <span class="ann">LoginBtn · click → /auth/patient (SCR-006)</span>
+        <div class="flex items-center gap-3">
+          <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-emerald-50 transition-colors">Login</a>
+          <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-emerald-900 transition-colors">Register</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO SECTION ═══ -->
+  <!-- @component: HeroSearchSection -->
+  <!-- @interaction: Search form submit → GET /api/v1/doctors/search/?specialty=&city= → navigate to /search (SCR-002) -->
+  <section class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 py-20 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="text-center mb-10">
+        <div class="ann-wrapper">
+          <span class="ann">HeroHeadline · H1 tag · SSR for SEO</span>
+          <h1 class="text-5xl font-bold text-white mb-4 leading-tight">Find a Verified Doctor Near You</h1>
+        </div>
+        <p class="text-emerald-100 text-xl leading-relaxed max-w-2xl mx-auto">Search by specialty and city. View real availability. Book in under 2 minutes.</p>
+      </div>
+
+      <!-- Search Card -->
+      <div class="ann-wrapper max-w-2xl mx-auto">
+        <span class="ann">SearchCard · GET /api/v1/specialties/ for dropdown · submit → /search</span>
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div class="flex gap-4 mb-4">
+            <!-- Specialty Dropdown -->
+            <div class="flex-1">
+              <label class="block text-sm font-medium text-neutral-700 mb-1">Specialty</label>
+              <div class="relative">
+                <select class="w-full border border-neutral-300 rounded-lg px-4 py-3 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none bg-white cursor-pointer">
+                  <option value="">Select Specialty</option>
+                  <option>General Physician</option>
+                  <option>Dermatologist</option>
+                  <option selected>Cardiologist</option>
+                  <option>Orthopedist</option>
+                  <option>Gynecologist &amp; Obstetrics</option>
+                  <option>Pediatrician</option>
+                  <option>ENT Specialist</option>
+                  <option>Ophthalmologist</option>
+                  <option>Psychiatrist</option>
+                  <option>Dentist</option>
+                  <option>Neurologist</option>
+                  <option>Diabetologist</option>
+                  <option>General Surgeon</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+              </div>
+            </div>
+            <!-- City Input -->
+            <div class="flex-1">
+              <label class="block text-sm font-medium text-neutral-700 mb-1">City</label>
+              <input type="text" value="Bengaluru" placeholder="Enter city (e.g., Bengaluru)" class="w-full border border-neutral-300 rounded-lg px-4 py-3 text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" />
+            </div>
+          </div>
+          <button class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-semibold py-4 rounded-xl text-lg transition-colors shadow-sm">
+            Search Doctors
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TRUST SIGNALS ═══ -->
+  <!-- @component: TrustSignalBand -->
+  <section class="bg-white py-12 border-b border-neutral-100">
+    <div class="max-w-screen-xl mx-auto px-6">
+      <div class="ann-wrapper">
+        <span class="ann">TrustSignals · 3-column · static content</span>
+        <div class="grid grid-cols-3 gap-8 text-center">
+          <div class="flex flex-col items-center gap-3">
+            <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center">
+              <svg class="w-7 h-7 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-neutral-900 text-lg">MCI Verified Doctors</h3>
+              <p class="text-neutral-600 text-sm mt-1">Every doctor is manually verified against MCI registration before going live</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
+              <svg class="w-7 h-7 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-neutral-900 text-lg">Real-Time Availability</h3>
+              <p class="text-neutral-600 text-sm mt-1">See actual open slots updated in real time — no more "call to confirm"</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center">
+              <svg class="w-7 h-7 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-neutral-900 text-lg">Instant Booking</h3>
+              <p class="text-neutral-600 text-sm mt-1">Book a confirmed appointment in under 2 minutes — no phone calls, no waiting</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <section class="bg-neutral-50 py-16 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <h2 class="text-3xl font-semibold text-center text-neutral-900 mb-12">How MedSlot Works</h2>
+      <div class="grid grid-cols-3 gap-10">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-emerald-800 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+          <h3 class="font-semibold text-neutral-900 mb-2">Search a Doctor</h3>
+          <p class="text-neutral-600 text-sm">Select specialty and city. Browse verified doctors with real availability.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-emerald-800 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+          <h3 class="font-semibold text-neutral-900 mb-2">Book a Slot</h3>
+          <p class="text-neutral-600 text-sm">Pick an available time slot. Confirm with your mobile OTP. Done.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-emerald-800 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+          <h3 class="font-semibold text-neutral-900 mb-2">Visit &amp; Get Prescription</h3>
+          <p class="text-neutral-600 text-sm">Attend your appointment. Receive your prescription as a PDF by email.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOR DOCTORS CTA ═══ -->
+  <section class="bg-emerald-800 py-14 px-6 text-center">
+    <div class="max-w-screen-xl mx-auto">
+      <h2 class="text-3xl font-bold text-white mb-4">Are you a Doctor?</h2>
+      <p class="text-emerald-100 text-lg mb-8 max-w-xl mx-auto">Join MedSlot and manage your appointments, consultations, and prescriptions in one place. Start your 30-day free trial.</p>
+      <a href="/auth/doctor" class="bg-white text-emerald-800 font-bold px-8 py-4 rounded-xl text-lg hover:bg-emerald-50 transition-colors inline-block">Register as a Doctor →</a>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="bg-neutral-900 text-neutral-400 py-10 px-6">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <div>
+        <span class="text-white font-bold text-lg">MedSlot</span>
+        <p class="text-sm mt-1">Healthcare appointment &amp; consultation management</p>
+      </div>
+      <div class="flex gap-6 text-sm">
+        <a href="#" class="hover:text-white">Privacy Policy</a>
+        <a href="#" class="hover:text-white">Terms of Service</a>
+        <a href="#" class="hover:text-white">Contact</a>
+      </div>
+      <p class="text-xs">© 2026 MedSlot · v1.0 · Bengaluru, India</p>
+    </div>
+  </footer>
+
+</body>
+</html>

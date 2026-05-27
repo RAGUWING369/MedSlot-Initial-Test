@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-009] Prescription View — Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-009 Prescription View
+    STATE   : State 4 — Error (two sub-cases shown side by side)
+    ROUTE   : /dashboard/prescriptions/{id}
+    FILE    : docs/visuals/ux/SCR-009-prescription-view/state-4-error.html
+    ERROR CASES:
+      Case A — Prescription not found / not authorized (GET → 404 or 403)
+      Case B — PDF download link expired (7-day presigned URL expired → regenerate)
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-009 Prescription View</span>
+      <span style="background:#dc2626;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 4 — Error</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /dashboard/prescriptions/{id}</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Records</a>
+      </div>
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div><span class="text-sm font-medium text-neutral-700">Priya S.</span></div>
+    </div>
+  </nav>
+
+  <div class="bg-white border-b border-neutral-100 px-6 py-3">
+    <div class="max-w-screen-xl mx-auto flex items-center gap-2 text-sm text-neutral-500">
+      <a href="/dashboard" class="hover:text-emerald-700">Dashboard</a>
+      <svg class="w-4 h-4 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      <span class="text-neutral-900 font-medium">Prescription</span>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+      <!-- CASE A: Prescription not found / not authorized -->
+      <!-- @component: PrescriptionNotFoundError · GET /api/v1/prescriptions/{id}/ → 404 or 403 -->
+      <!-- @impl-note: 403 = patient accessing another patient's prescription; 404 = invalid ID -->
+      <div class="ann-wrapper">
+        <span class="ann">PrescriptionNotFoundError · GET 404/403 · ← Back to Appointments fallback · role="alert"</span>
+        <div class="bg-white rounded-2xl border border-red-200 shadow-sm p-10 text-center" role="alert">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h2 class="text-lg font-bold text-neutral-900 mb-2">Prescription Not Found</h2>
+          <p class="text-neutral-500 text-sm mb-6 max-w-xs mx-auto">We couldn't find this prescription. It may have been removed or you may not have access to it.</p>
+          <div class="flex flex-col gap-2.5">
+            <a href="/dashboard/appointments" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-2.5 rounded-xl text-sm transition-colors text-center">← Back to Appointments</a>
+            <a href="/dashboard" class="w-full text-center text-neutral-500 text-sm hover:underline py-2">Go to Dashboard</a>
+          </div>
+          <p class="text-xs text-neutral-400 mt-4">If you believe this is an error, <a href="/support" class="text-emerald-700 hover:underline">contact support</a>.</p>
+        </div>
+      </div>
+
+      <!-- CASE B: PDF download link expired -->
+      <!-- @component: PDFLinkExpiredError · S3 presigned URL > 7 days old · Regenerate CTA fires GET /api/v1/prescriptions/{id}/download/ -->
+      <div class="ann-wrapper">
+        <span class="ann">PDFLinkExpiredError · presigned URL expired after 7 days · Regenerate fires GET /api/v1/prescriptions/{id}/download/</span>
+        <div class="bg-white rounded-2xl border border-amber-200 shadow-sm p-10" role="alert">
+          <!-- Prescription details still shown — only download is broken -->
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 class="text-lg font-bold text-neutral-900 mb-2">Download Link Expired</h2>
+            <p class="text-neutral-500 text-sm mb-4 max-w-xs mx-auto">The PDF download link for this prescription expired on <strong>17 June 2026</strong>. Your prescription is still safely stored — just generate a fresh link below.</p>
+          </div>
+
+          <!-- Prescription summary — still accessible -->
+          <div class="bg-neutral-50 rounded-xl p-4 mb-5 text-sm">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-emerald-800 font-bold text-xs">AM</span></div>
+              <div><p class="font-semibold text-neutral-900 text-xs">Dr. Arjun Mehta · Cardiologist</p><p class="text-neutral-500 text-xs">Issued 10 June 2026 · Rx RX-2026-004521</p></div>
+            </div>
+            <p class="text-xs text-neutral-500">Prescription details are viewable on this page. Only the PDF download link has expired.</p>
+          </div>
+
+          <button class="w-full flex items-center justify-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl text-sm transition-colors mb-3">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            Regenerate Download Link
+          </button>
+          <p class="text-xs text-neutral-400 text-center">A new link will be valid for 7 days from today.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

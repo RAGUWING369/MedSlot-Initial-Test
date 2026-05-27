@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-002] Doctor Search Results — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann {
+      position: absolute; top: -24px; left: 0; display: block;
+      border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e;
+      font-size: 0.7rem; padding: 1px 8px; border-radius: 3px;
+      font-family: monospace; line-height: 1.6; white-space: nowrap;
+      z-index: 10; pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-002 Doctor Search Results
+    STATE   : State 1 — Default
+    ROUTE   : /search?specialty=cardiologist&city=Bengaluru
+    PERSONA : Priya (public)
+    STORIES : US-003, US-004
+    FILE    : docs/visuals/ux/SCR-002-search-results/state-1-default.html
+  -->
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-002 Doctor Search Results</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /search?specialty=cardiologist&city=Bengaluru</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-003, US-004</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- NAVIGATION -->
+  <!-- @component: PublicNavBar -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-sm">M</span>
+        </div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-emerald-800 bg-emerald-50 font-semibold text-sm px-3 py-2 rounded-lg">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">For Doctors</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SEARCH FILTER BAR (inline edit) -->
+  <!-- @component: SearchFilterBar · @data-source: GET /api/v1/specialties/ + query params -->
+  <!-- @interaction: submit → GET /api/v1/doctors/search/?specialty=&city= -->
+  <div class="bg-white border-b border-neutral-200 py-4 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="ann-wrapper">
+        <span class="ann">SearchFilterBar · inline edit · submit re-queries GET /api/v1/doctors/search/</span>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-neutral-600">Specialty:</label>
+            <div class="relative">
+              <select class="border border-neutral-300 rounded-lg px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none bg-white pr-8">
+                <option value="">All Specialties</option>
+                <option>General Physician</option>
+                <option>Dermatologist</option>
+                <option selected>Cardiologist</option>
+                <option>Orthopedist</option>
+                <option>Gynecologist &amp; Obstetrics</option>
+                <option>Pediatrician</option>
+                <option>ENT Specialist</option>
+                <option>Ophthalmologist</option>
+                <option>Psychiatrist</option>
+                <option>Dentist</option>
+                <option>Neurologist</option>
+                <option>Diabetologist</option>
+                <option>General Surgeon</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-neutral-400">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-neutral-600">City:</label>
+            <input type="text" value="Bengaluru" class="border border-neutral-300 rounded-lg px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 w-40" />
+          </div>
+          <button class="bg-emerald-800 text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-emerald-900 transition-colors">Update Search</button>
+          <span class="text-neutral-400 text-sm ml-2">|</span>
+          <a href="/" class="text-sm text-emerald-700 hover:underline font-medium">← New Search</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+
+    <!-- Results header -->
+    <div class="ann-wrapper">
+      <span class="ann">ResultsCount · dynamic text · aria-live="polite" updates when filters change</span>
+      <div class="mb-6">
+        <h1 class="text-2xl font-semibold text-neutral-900">Cardiologists in Bengaluru</h1>
+        <p class="text-neutral-500 text-sm mt-1">4 verified doctors found · Sorted by specialty match, then alphabetically</p>
+      </div>
+    </div>
+
+    <!-- Results list -->
+    <!-- @component: DoctorResultCard · @data-source: GET /api/v1/doctors/search/ → name, specialty, clinic_name, area, city, next_available -->
+    <!-- @interaction: click anywhere on card → navigate to /doctors/{slug} (SCR-003) -->
+    <div class="space-y-4">
+
+      <!-- Card 1 -->
+      <div class="ann-wrapper">
+        <span class="ann">DoctorResultCard · GET /api/v1/doctors/search/ · click → /doctors/{slug} (SCR-003)</span>
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow cursor-pointer flex items-start justify-between gap-6">
+          <div class="flex items-start gap-5">
+            <!-- Avatar placeholder -->
+            <div class="w-16 h-16 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-neutral-500 text-xl font-semibold">AM</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-3 mb-1">
+                <h2 class="text-lg font-semibold text-neutral-900">Dr. Arjun Mehta</h2>
+                <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  MCI Verified
+                </span>
+              </div>
+              <p class="text-emerald-700 font-medium text-sm">Cardiologist</p>
+              <p class="text-neutral-600 text-sm mt-1">Heart Care Clinic · Banjara Hills, Bengaluru</p>
+              <div class="flex items-center gap-2 mt-2">
+                <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <span class="text-sm text-neutral-500">Next available: <span class="text-emerald-700 font-medium">Tomorrow, Thu 11 Jun</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <a href="#" class="bg-emerald-800 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-emerald-900 transition-colors whitespace-nowrap">View Profile →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow cursor-pointer flex items-start justify-between gap-6">
+        <div class="flex items-start gap-5">
+          <div class="w-16 h-16 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+            <span class="text-neutral-500 text-xl font-semibold">SR</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <h2 class="text-lg font-semibold text-neutral-900">Dr. Suresh Rao</h2>
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                MCI Verified
+              </span>
+            </div>
+            <p class="text-emerald-700 font-medium text-sm">Cardiologist</p>
+            <p class="text-neutral-600 text-sm mt-1">Rao Cardiac Centre · Koramangala, Bengaluru</p>
+            <div class="flex items-center gap-2 mt-2">
+              <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <span class="text-sm text-neutral-500">Next available: <span class="text-emerald-700 font-medium">Fri 13 Jun</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="flex-shrink-0">
+          <a href="#" class="bg-emerald-800 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-emerald-900 transition-colors whitespace-nowrap">View Profile →</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow cursor-pointer flex items-start justify-between gap-6">
+        <div class="flex items-start gap-5">
+          <div class="w-16 h-16 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+            <span class="text-neutral-500 text-xl font-semibold">PK</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <h2 class="text-lg font-semibold text-neutral-900">Dr. Pradeep Kumar</h2>
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                MCI Verified
+              </span>
+            </div>
+            <p class="text-emerald-700 font-medium text-sm">Cardiologist</p>
+            <p class="text-neutral-600 text-sm mt-1">Fortis Heart Institute · Whitefield, Bengaluru</p>
+            <div class="flex items-center gap-2 mt-2">
+              <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <span class="text-sm text-neutral-500">Next available: <span class="text-neutral-500 font-medium">No slots available</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="flex-shrink-0">
+          <a href="#" class="bg-emerald-800 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-emerald-900 transition-colors whitespace-nowrap">View Profile →</a>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow cursor-pointer flex items-start justify-between gap-6">
+        <div class="flex items-start gap-5">
+          <div class="w-16 h-16 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+            <span class="text-neutral-500 text-xl font-semibold">VS</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <h2 class="text-lg font-semibold text-neutral-900">Dr. Vijaya Sharma</h2>
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                MCI Verified
+              </span>
+            </div>
+            <p class="text-emerald-700 font-medium text-sm">Cardiologist</p>
+            <p class="text-neutral-600 text-sm mt-1">Sharma Cardiac Care · Indiranagar, Bengaluru</p>
+            <div class="flex items-center gap-2 mt-2">
+              <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <span class="text-sm text-neutral-500">Next available: <span class="text-emerald-700 font-medium">Mon 16 Jun</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="flex-shrink-0">
+          <a href="#" class="bg-emerald-800 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-emerald-900 transition-colors whitespace-nowrap">View Profile →</a>
+        </div>
+      </div>
+
+    </div><!-- end results list -->
+
+    <!-- Pagination -->
+    <!-- @component: Pagination · @impl-note: default page size 20; use count from API response -->
+    <div class="ann-wrapper">
+      <span class="ann">Pagination · count from GET /api/v1/doctors/search/ response · page=N query param</span>
+      <div class="mt-8 flex items-center justify-center gap-1">
+        <button class="px-3 py-2 text-sm text-neutral-400 cursor-not-allowed rounded-lg">← Prev</button>
+        <button class="px-3 py-2 text-sm font-semibold bg-emerald-800 text-white rounded-lg">1</button>
+        <button class="px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg">2</button>
+        <button class="px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100 rounded-lg">Next →</button>
+      </div>
+    </div>
+
+  </div><!-- end main content -->
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-8">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <div class="flex gap-6 text-sm">
+        <a href="#" class="hover:text-white">Privacy Policy</a>
+        <a href="#" class="hover:text-white">Terms</a>
+        <a href="#" class="hover:text-white">Contact</a>
+      </div>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-010] Doctor OTP Auth — Success</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-010 Doctor OTP Auth
+    STATE   : State 5 — Success (OTP verified, JWT issued, redirecting to doctor dashboard)
+    ROUTE   : /auth/doctor → redirect to /doctor/dashboard
+    FILE    : docs/visuals/ux/SCR-010-doctor-otp-auth/state-5-success.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-010 Doctor OTP Auth</span>
+      <span style="background:#16a34a;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 5 — Success</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /auth/doctor → /doctor/dashboard</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+    </div>
+  </nav>
+
+  <div class="min-h-screen flex">
+    <div class="hidden xl:flex w-1/2 bg-gradient-to-br from-blue-900 to-blue-950 items-center justify-center p-16">
+      <div class="text-white max-w-sm">
+        <div class="flex items-center gap-3 mb-8"><div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center"><span class="text-white font-black text-xl">M</span></div><div><span class="text-white font-black text-3xl">MedSlot</span><span class="block text-blue-300 text-xs font-medium tracking-widest uppercase">For Doctors</span></div></div>
+        <h2 class="text-3xl font-bold mb-4 leading-snug">Your clinic. Your schedule. Your patients.</h2>
+        <p class="text-blue-200 text-base leading-relaxed">Manage appointments, conduct consultations, and issue digital prescriptions.</p>
+      </div>
+    </div>
+
+    <div class="flex-1 flex items-center justify-center py-16 px-8 bg-slate-50">
+      <div class="w-full max-w-sm">
+        <!-- @component: DoctorAuthSuccessPanel · JWT issued · redirect to /doctor/dashboard after 1.5s -->
+        <div class="ann-wrapper">
+          <span class="ann">DoctorAuthSuccessPanel · JWT (role=doctor) stored · redirect /doctor/dashboard after 1.5s · role="status"</span>
+          <div class="bg-white rounded-2xl shadow-md border border-green-200 p-10 text-center" role="status">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-neutral-900 mb-1">Welcome back, Dr. Arjun!</h1>
+            <p class="text-neutral-500 text-sm mb-6">Taking you to your dashboard…</p>
+            <div class="flex justify-center mb-4">
+              <svg class="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+              </svg>
+            </div>
+            <p class="text-xs text-neutral-400">If you are not redirected, <a href="/doctor/dashboard" class="text-blue-700 hover:underline">click here</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

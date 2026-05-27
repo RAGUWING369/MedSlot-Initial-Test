@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-012] Availability Calendar — No Schedule Set</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann { position: absolute; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 50; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-012 Availability Calendar Management
+    STATE   : State 3 — Empty (new doctor — no availability schedule configured yet)
+    ROUTE   : /doctor/availability
+    PERSONA : Dr. Sneha Kulkarni (newly approved, no schedule yet)
+    STORIES : US-010, US-011
+    FILE    : docs/visuals/ux/SCR-012-availability-calendar/state-3-empty.html
+  -->
+
+  <!-- Wireframe Label Bar -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-012 Availability Calendar</span>
+      <span style="background:#0B6E4F;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase">State 3 — Empty</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctor/availability</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-010, US-011</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Top Navigation -->
+  <nav style="background:#0B6E4F;color:white;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px">
+    <span style="font-weight:900;font-size:1.25rem;letter-spacing:-0.02em">Med<span style="color:#18A97A">Slot</span></span>
+    <div style="display:flex;align-items:center;gap:4px">
+      <a href="#" style="color:#a7f3d0;font-size:0.875rem;padding:6px 14px;text-decoration:none">Dashboard</a>
+      <a href="#" style="color:#a7f3d0;font-size:0.875rem;padding:6px 14px;text-decoration:none">Appointments</a>
+      <a href="#" style="background:rgba(255,255,255,0.15);color:white;font-size:0.875rem;padding:6px 14px;border-radius:4px;text-decoration:none;font-weight:600">Availability</a>
+      <a href="#" style="color:#a7f3d0;font-size:0.875rem;padding:6px 14px;text-decoration:none">Profile</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:32px;height:32px;border-radius:50%;background:#18A97A;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.8rem">SK</div>
+      <span style="font-size:0.875rem;color:#d1fae5">Dr. Sneha Kulkarni</span>
+    </div>
+  </nav>
+
+  <main style="max-width:1000px;margin:0 auto;padding:32px 24px">
+
+    <div style="margin-bottom:24px">
+      <h1 style="font-size:1.5rem;font-weight:800;color:#0f172a;margin:0 0 4px">Availability Calendar</h1>
+      <p style="color:#64748b;font-size:0.9rem;margin:0">Set your working days, hours, and appointment slot duration so patients can book with you.</p>
+    </div>
+
+    <!-- Onboarding prompt banner -->
+    <div style="background:linear-gradient(135deg,#0B6E4F,#1B5E8A);border-radius:12px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;position:relative">
+      <div class="ann" style="top:-28px;left:0">→ Onboarding nudge for newly approved doctor — only shows when no schedule exists</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="background:#18A97A;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px">Step 1 of 2</span>
+          <span style="color:#6ee7b7;font-size:0.8rem">Account setup · 2 steps remaining</span>
+        </div>
+        <h2 style="font-size:1.1rem;font-weight:700;color:white;margin:0 0 6px">Set up your availability schedule</h2>
+        <p style="color:#a7f3d0;font-size:0.875rem;margin:0;line-height:1.5;max-width:500px">Patients cannot book appointments until you configure your working hours. This takes about 2 minutes.</p>
+      </div>
+      <button style="background:white;color:#0B6E4F;border:none;font-size:0.875rem;font-weight:700;padding:12px 24px;border-radius:8px;cursor:pointer;white-space:nowrap;flex-shrink:0">Set Up Schedule →</button>
+    </div>
+
+    <!-- What you'll configure — preview -->
+    <div style="background:white;border-radius:10px;border:1px solid #e2e8f0;padding:28px;position:relative">
+      <div class="ann" style="top:-28px;left:0">→ Preview of what the schedule form looks like — greyed out until "Set Up" clicked</div>
+      <h3 style="font-size:0.9rem;font-weight:700;color:#0f172a;margin:0 0 20px">What you'll configure</h3>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;opacity:0.4">
+        <!-- Step 1 -->
+        <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;text-align:center">
+          <div style="width:44px;height:44px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+            <svg width="22" height="22" fill="none" stroke="#0B6E4F" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <p style="font-weight:600;color:#0f172a;font-size:0.85rem;margin:0 0 4px">Working Days</p>
+          <p style="color:#64748b;font-size:0.78rem;margin:0">Choose which days of the week you see patients</p>
+        </div>
+        <!-- Step 2 -->
+        <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;text-align:center">
+          <div style="width:44px;height:44px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+            <svg width="22" height="22" fill="none" stroke="#0B6E4F" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p style="font-weight:600;color:#0f172a;font-size:0.85rem;margin:0 0 4px">Clinic Hours</p>
+          <p style="color:#64748b;font-size:0.78rem;margin:0">Set start/end times per day (e.g. 9 AM – 1 PM)</p>
+        </div>
+        <!-- Step 3 -->
+        <div style="border:1px solid #e2e8f0;border-radius:8px;padding:16px;text-align:center">
+          <div style="width:44px;height:44px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+            <svg width="22" height="22" fill="none" stroke="#0B6E4F" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <p style="font-weight:600;color:#0f172a;font-size:0.85rem;margin:0 0 4px">Slot Duration</p>
+          <p style="color:#64748b;font-size:0.78rem;margin:0">15, 20, or 30-minute appointment slots</p>
+        </div>
+      </div>
+
+      <div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:14px 18px;display:flex;gap:10px;align-items:center;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Warning badge: patients cannot book until schedule is set</div>
+        <svg width="18" height="18" fill="none" stroke="#D97706" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p style="color:#92400e;font-size:0.85rem;margin:0;font-weight:600">Your profile is live but patients cannot book until you configure your schedule.</p>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

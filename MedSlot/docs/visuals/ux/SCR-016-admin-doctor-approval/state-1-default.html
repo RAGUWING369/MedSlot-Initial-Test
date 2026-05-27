@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-016] Admin — Doctor Approval Queue — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann { position: absolute; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 50; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-016 Admin — Doctor Approval Queue
+    STATE   : State 1 — Default (pending approval queue with 3 doctors)
+    ROUTE   : /admin/ (Django Admin panel; custom change_list view)
+    PERSONA : MedSlot Admin (internal staff)
+    STORIES : US-033 (doctor admin approval)
+    FILE    : docs/visuals/ux/SCR-016-admin-doctor-approval/state-1-default.html
+    NOTE    : This is the Django Admin interface — styled to match Django Admin conventions
+              with MedSlot branding overlay. Not a custom React frontend.
+  -->
+
+  <!-- Wireframe Label Bar -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-016 Admin — Doctor Approval Queue</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /admin/accounts/doctorprofile/?approval_status=pending</span>
+      <span style="color:#fcd34d;font-size:0.75rem;font-weight:600">Django Admin — ADR-007</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Django Admin Header -->
+  <div style="background:#0B6E4F;padding:0">
+    <div style="padding:8px 32px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:16px">
+        <span style="font-weight:900;font-size:1.1rem;color:white">MedSlot Admin</span>
+        <span style="color:#a7f3d0;font-size:0.8rem">Welcome, <strong>admin</strong> / <a href="#" style="color:#6ee7b7;text-decoration:none">View site</a> / <a href="#" style="color:#6ee7b7;text-decoration:none">Change password</a> / <a href="#" style="color:#6ee7b7;text-decoration:none">Log out</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div style="background:#e8f5e9;border-bottom:1px solid #c8e6c9;padding:8px 32px">
+    <span style="font-size:0.8rem;color:#475569">
+      <a href="#" style="color:#0B6E4F;text-decoration:none">Home</a> ›
+      <a href="#" style="color:#0B6E4F;text-decoration:none">Accounts</a> ›
+      <a href="#" style="color:#0B6E4F;text-decoration:none">Doctor Profiles</a> ›
+      Pending Approval
+    </span>
+  </div>
+
+  <div style="display:flex;min-height:calc(100vh - 120px)">
+    <!-- Django Admin Sidebar -->
+    <div style="width:200px;background:white;border-right:1px solid #e2e8f0;padding:16px 0;flex-shrink:0;position:relative">
+      <div class="ann" style="top:8px;left:210px">→ Django Admin sidebar — stock navigation with custom MedSlot apps</div>
+      <div style="padding:0 16px 8px;font-size:0.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em">Accounts</div>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#0B6E4F;font-weight:600;text-decoration:none;background:#f0fdf4">Doctor Profiles</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Patient Profiles</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Users</a>
+      <div style="padding:12px 16px 4px;font-size:0.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;border-top:1px solid #f1f5f9;margin-top:8px">Appointments</div>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Appointments</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Slots</a>
+      <div style="padding:12px 16px 4px;font-size:0.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.08em;border-top:1px solid #f1f5f9;margin-top:8px">Subscriptions</div>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Doctor Subscriptions</a>
+    </div>
+
+    <!-- Main Content -->
+    <div style="flex:1;padding:24px 32px;overflow:auto">
+
+      <!-- Page title & action bar -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Custom action: Approve / Reject via Django Admin action dropdown</div>
+        <div>
+          <h1 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 4px">Doctor Profiles — Pending Approval</h1>
+          <p style="color:#64748b;font-size:0.8rem;margin:0">3 doctor registrations awaiting manual verification against MCI records.</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="background:#FEF3C7;border:1px solid #FCD34D;color:#92400e;font-size:0.78rem;font-weight:700;padding:4px 12px;border-radius:4px">⏳ 3 Pending</span>
+          <a href="#" style="background:#0B6E4F;color:white;font-size:0.8rem;font-weight:600;padding:8px 16px;border-radius:4px;text-decoration:none">+ Add Doctor</a>
+        </div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div style="display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:16px;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Quick filter tabs (Django list_filter) — shows count per status</div>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;font-weight:700;color:#0B6E4F;border-bottom:2px solid #0B6E4F;margin-bottom:-2px;text-decoration:none">Pending (3)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">Approved (47)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">Rejected (5)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">All (55)</a>
+      </div>
+
+      <!-- Action bar -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Bulk action: select rows + choose action + Go</div>
+        <select style="border:1px solid #d1d5db;border-radius:4px;padding:5px 10px;font-size:0.8rem;color:#374151;background:white">
+          <option>---------</option>
+          <option>Approve selected doctors</option>
+          <option>Reject selected doctors</option>
+        </select>
+        <button style="background:#0B6E4F;color:white;border:none;padding:5px 14px;border-radius:4px;font-size:0.8rem;cursor:pointer;font-weight:600">Go</button>
+        <span style="color:#64748b;font-size:0.78rem;margin-left:8px">0 of 3 selected</span>
+      </div>
+
+      <!-- Doctor Approval Table -->
+      <div style="background:white;border-radius:8px;border:1px solid #e2e8f0;overflow:hidden">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+          <thead>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0">
+              <th style="padding:10px 12px;text-align:left;width:40px"><input type="checkbox" /></th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Doctor</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Specialty</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">MCI Reg. No.</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">City</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Registered</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Status</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Row 1 -->
+            <tr style="border-bottom:1px solid #f1f5f9;position:relative">
+              <td style="padding:14px 12px"><input type="checkbox" /></td>
+              <td style="padding:14px 12px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1B5E8A,#2563eb);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;color:white;flex-shrink:0">SK</div>
+                  <div>
+                    <p style="font-weight:600;color:#0f172a;margin:0">Dr. Sneha Kulkarni</p>
+                    <p style="color:#64748b;font-size:0.75rem;margin:0">sneha.k@gmail.com · +91 97845 23610</p>
+                  </div>
+                </div>
+              </td>
+              <td style="padding:14px 12px;color:#374151">Dermatology</td>
+              <td style="padding:14px 12px;font-family:monospace;color:#374151">KA/45678/2016</td>
+              <td style="padding:14px 12px;color:#374151">Bengaluru</td>
+              <td style="padding:14px 12px;color:#64748b">24 May 2026</td>
+              <td style="padding:14px 12px">
+                <span style="background:#FEF3C7;color:#92400e;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:3px">Pending</span>
+              </td>
+              <td style="padding:14px 12px">
+                <div style="display:flex;gap:6px;position:relative">
+                  <div class="ann" style="top:-28px;left:0">→ Per-row quick actions — opens confirm modal</div>
+                  <a href="#" style="background:#DCFCE7;color:#15803D;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✓ Approve</a>
+                  <a href="#" style="background:#FEE2E2;color:#991B1B;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✕ Reject</a>
+                  <a href="#" style="background:#DBEAFE;color:#1D4ED8;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">View</a>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 2 -->
+            <tr style="border-bottom:1px solid #f1f5f9;background:#fffbeb">
+              <td style="padding:14px 12px"><input type="checkbox" /></td>
+              <td style="padding:14px 12px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#9333ea,#a855f7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;color:white;flex-shrink:0">RP</div>
+                  <div>
+                    <p style="font-weight:600;color:#0f172a;margin:0">Dr. Rajiv Pillai</p>
+                    <p style="color:#64748b;font-size:0.75rem;margin:0">rajiv.pillai@clinic.in · +91 98001 77234</p>
+                  </div>
+                </div>
+              </td>
+              <td style="padding:14px 12px;color:#374151">Neurology</td>
+              <td style="padding:14px 12px;font-family:monospace;color:#374151">KL/22334/2011</td>
+              <td style="padding:14px 12px;color:#374151">Kochi</td>
+              <td style="padding:14px 12px;color:#64748b">22 May 2026</td>
+              <td style="padding:14px 12px">
+                <span style="background:#FEF3C7;color:#92400e;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:3px">Pending</span>
+              </td>
+              <td style="padding:14px 12px">
+                <div style="display:flex;gap:6px">
+                  <a href="#" style="background:#DCFCE7;color:#15803D;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✓ Approve</a>
+                  <a href="#" style="background:#FEE2E2;color:#991B1B;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✕ Reject</a>
+                  <a href="#" style="background:#DBEAFE;color:#1D4ED8;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">View</a>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 3 -->
+            <tr style="position:relative">
+              <td style="padding:14px 12px"><input type="checkbox" /></td>
+              <td style="padding:14px 12px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#d97706,#f59e0b);display:flex;align-items:center;justify-content:justify;font-weight:700;font-size:0.8rem;color:white;flex-shrink:0;justify-content:center">NJ</div>
+                  <div>
+                    <p style="font-weight:600;color:#0f172a;margin:0">Dr. Nidhi Joshi</p>
+                    <p style="color:#64748b;font-size:0.75rem;margin:0">nidhi.joshi@medmail.com · +91 88001 45678</p>
+                  </div>
+                </div>
+              </td>
+              <td style="padding:14px 12px;color:#374151">Gynaecology</td>
+              <td style="padding:14px 12px;position:relative">
+                <div class="ann" style="top:-28px;left:0">→ Flag: MCI number format mismatch — admin must verify manually</div>
+                <span style="font-family:monospace;color:#DC2626">MH/????/2019</span>
+                <span style="margin-left:4px;background:#FEE2E2;color:#991B1B;font-size:0.68rem;font-weight:700;padding:1px 6px;border-radius:3px">Needs Verification</span>
+              </td>
+              <td style="padding:14px 12px;color:#374151">Pune</td>
+              <td style="padding:14px 12px;color:#64748b">20 May 2026</td>
+              <td style="padding:14px 12px">
+                <span style="background:#FEF3C7;color:#92400e;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:3px">Pending</span>
+              </td>
+              <td style="padding:14px 12px">
+                <div style="display:flex;gap:6px">
+                  <a href="#" style="background:#DCFCE7;color:#15803D;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✓ Approve</a>
+                  <a href="#" style="background:#FEE2E2;color:#991B1B;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✕ Reject</a>
+                  <a href="#" style="background:#DBEAFE;color:#1D4ED8;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">View</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding:10px 16px;border-top:1px solid #f1f5f9;background:#f8fafc;font-size:0.78rem;color:#64748b">
+          3 doctor profiles pending approval · Page 1 of 1
+        </div>
+      </div>
+
+      <!-- Approve Confirm Modal (shown inline for wireframe) -->
+      <div style="margin-top:24px;background:#f0fdf4;border:2px solid #86EFAC;border-radius:8px;padding:20px;max-width:500px;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Confirmation modal for Approve action (shown inline for wireframe clarity)</div>
+        <h3 style="font-size:0.9rem;font-weight:700;color:#0f172a;margin:0 0 8px">Confirm: Approve Dr. Sneha Kulkarni?</h3>
+        <p style="font-size:0.8rem;color:#475569;margin:0 0 12px">This will activate her account. She will receive an SMS and email notification confirming approval. Her profile will become visible to patients on MedSlot.</p>
+        <div style="display:flex;gap:8px">
+          <button style="background:#16A34A;color:white;border:none;padding:8px 20px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer">Yes, Approve</button>
+          <button style="background:white;border:1px solid #d1d5db;color:#374151;padding:8px 16px;border-radius:6px;font-size:0.85rem;cursor:pointer">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

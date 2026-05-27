@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-003] Doctor Profile — Empty (No Slots)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-003 Doctor Profile
+    STATE   : State 3 — Empty (doctor profile loads but no slots available in next 7 days)
+    ROUTE   : /doctors/{slug}
+    FILE    : docs/visuals/ux/SCR-003-doctor-profile/state-3-empty.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-003 Doctor Profile</span>
+      <span style="background:#6b7280;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 3 — Empty</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Empty: no slots in next 7 days</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg">Register</a>
+      </div>
+    </div>
+  </nav>
+  <div class="bg-white border-b border-neutral-100 py-3 px-6">
+    <div class="max-w-screen-xl mx-auto text-sm text-neutral-500">
+      <a href="/" class="hover:text-emerald-700">Home</a> <span class="mx-2">›</span>
+      <a href="/search" class="hover:text-emerald-700">Cardiologists in Bengaluru</a> <span class="mx-2">›</span>
+      <span class="text-neutral-900 font-medium">Dr. Arjun Mehta</span>
+    </div>
+  </div>
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+    <div class="flex gap-8 items-start">
+      <!-- LEFT — doctor info loads fine -->
+      <div class="w-80 flex-shrink-0">
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 sticky top-32">
+          <div class="flex flex-col items-center text-center mb-6">
+            <div class="w-24 h-24 bg-neutral-200 rounded-full flex items-center justify-center mb-4"><span class="text-neutral-500 text-3xl font-bold">AM</span></div>
+            <h1 class="text-xl font-bold text-neutral-900">Dr. Arjun Mehta</h1>
+            <p class="text-emerald-700 font-semibold text-sm mt-1">Cardiologist</p>
+            <div class="mt-2">
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                MCI Verified
+              </span>
+            </div>
+          </div>
+          <div class="space-y-4 text-sm border-t border-neutral-100 pt-5">
+            <div><p class="text-neutral-500 text-xs font-medium uppercase tracking-wide mb-1">MCI Registration</p><p class="text-neutral-700 font-mono text-sm">MCI-2009-KA-12345</p></div>
+            <div><p class="text-neutral-500 text-xs font-medium uppercase tracking-wide mb-1">Clinic</p><p class="text-neutral-900 font-medium">Heart Care Clinic</p></div>
+            <div><p class="text-neutral-500 text-xs font-medium uppercase tracking-wide mb-1">Address</p><p class="text-neutral-700">42, 3rd Main Road<br/>Banjara Hills, Bengaluru — 560034</p></div>
+          </div>
+          <!-- CTA disabled since no slots -->
+          <div class="mt-6">
+            <button disabled class="w-full bg-neutral-300 text-neutral-500 font-semibold py-3 rounded-xl cursor-not-allowed">No Slots Available</button>
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT — empty slots state -->
+      <div class="flex-1 min-w-0 space-y-6">
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+          <h2 class="text-lg font-semibold text-neutral-900 mb-3">About Dr. Arjun Mehta</h2>
+          <p class="text-neutral-700 text-sm leading-relaxed">Dr. Arjun Mehta is a consultant Cardiologist with over 15 years of experience in interventional cardiology and heart failure management.</p>
+        </div>
+        <!-- Empty slot state -->
+        <div class="ann-wrapper">
+          <span class="ann">EmptySlotState · US-005 AC: no available slots · CTA to check back / search other doctors</span>
+          <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+            <h2 class="text-lg font-semibold text-neutral-900 mb-4">Available Appointments — Next 7 Days</h2>
+            <!-- Date tabs all show "No slots" -->
+            <div class="flex gap-2 mb-6 overflow-x-auto pb-1">
+              <div class="flex-shrink-0 px-4 py-2.5 rounded-lg bg-emerald-800 text-white text-sm font-semibold text-center">
+                <div class="text-xs opacity-80">Wed</div><div>10 Jun</div>
+              </div>
+              <div class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-500 text-sm text-center opacity-60">
+                <div class="text-xs">Thu</div><div>11 Jun</div>
+              </div>
+              <div class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-500 text-sm text-center opacity-60">
+                <div class="text-xs">Fri</div><div>12 Jun</div>
+              </div>
+              <div class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-500 text-sm text-center opacity-60">
+                <div class="text-xs">Mon</div><div>15 Jun</div>
+              </div>
+              <div class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-500 text-sm text-center opacity-60">
+                <div class="text-xs">Tue</div><div>16 Jun</div>
+              </div>
+            </div>
+            <!-- Empty state message for selected date -->
+            <div class="text-center py-10 bg-neutral-50 rounded-xl border border-neutral-200">
+              <div class="w-14 h-14 bg-neutral-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-7 h-7 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              </div>
+              <h3 class="font-semibold text-neutral-700 mb-1">No slots available this week</h3>
+              <p class="text-neutral-500 text-sm mb-5 max-w-sm mx-auto">Dr. Arjun has no open appointments in the next 7 days. Check back soon — availability updates daily.</p>
+              <a href="/search?specialty=cardiologist&city=Bengaluru" class="text-emerald-700 text-sm font-semibold hover:underline">← View other Cardiologists in Bengaluru</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-8">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

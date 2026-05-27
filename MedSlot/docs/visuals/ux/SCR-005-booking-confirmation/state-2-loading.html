@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-005] Booking Confirmation — Loading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-005 Booking Confirmation
+    STATE   : State 2 — Loading (fetching appointment details after redirect from SCR-004)
+    ROUTE   : /book/confirmed
+    PERSONA : Priya (authenticated)
+    STORIES : US-006
+    FILE    : docs/visuals/ux/SCR-005-booking-confirmation/state-2-loading.html
+    LOADING TYPE: Navigation / page transition — NProgress slim top bar + confirmation panel skeleton
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-005 Booking Confirmation</span>
+      <span style="background:#f59e0b;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 2 — Loading</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /book/confirmed</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Loading type: Navigation top-bar + skeleton</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- NProgress-style top progress bar -->
+  <!-- @component: NProgressBar · fires on route transition into /book/confirmed -->
+  <div style="position:fixed;top:49px;left:0;width:100%;height:3px;background:#e2e8f0;z-index:60">
+    <div style="height:100%;width:72%;background:#0B6E4F;border-radius:0 2px 2px 0;transition:width 0.4s ease;box-shadow:0 0 8px rgba(11,110,79,0.5)"></div>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Records</a>
+      </div>
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div><span class="text-sm font-medium text-neutral-700">Priya S.</span></div>
+    </div>
+  </nav>
+
+  <!-- Progress bar skeleton -->
+  <div class="bg-white border-b border-neutral-100 py-4 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="flex items-center gap-3 max-w-sm animate-pulse">
+        <div class="w-6 h-6 rounded-full bg-gray-200"></div><div class="h-3 w-16 bg-gray-200 rounded"></div>
+        <div class="h-px w-8 bg-gray-200"></div>
+        <div class="w-6 h-6 rounded-full bg-gray-200"></div><div class="h-3 w-14 bg-gray-200 rounded"></div>
+        <div class="h-px w-8 bg-gray-200"></div>
+        <div class="w-6 h-6 rounded-full bg-gray-200"></div><div class="h-3 w-10 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-12">
+    <div class="max-w-lg mx-auto">
+      <!-- @component: ConfirmationPanelSkeleton · loading GET /api/v1/appointments/{id}/ after POST 201 redirect -->
+      <div class="ann-wrapper">
+        <span class="ann">ConfirmationPanelSkeleton · GET /api/v1/appointments/{id}/ in progress · aria-busy="true" aria-label="Loading confirmation"</span>
+        <div class="bg-white rounded-2xl shadow-md border border-neutral-200 p-10 animate-pulse" role="status" aria-busy="true" aria-label="Loading your booking confirmation">
+
+          <!-- Icon skeleton -->
+          <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-6"></div>
+
+          <!-- Heading skeleton -->
+          <div class="h-6 bg-gray-200 rounded w-56 mx-auto mb-3"></div>
+          <div class="h-4 bg-gray-200 rounded w-72 mx-auto mb-8"></div>
+
+          <!-- Details card skeleton -->
+          <div class="bg-neutral-50 rounded-xl p-6 mb-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="h-3 w-12 bg-gray-200 rounded"></div>
+              <div class="h-3 w-40 bg-gray-200 rounded"></div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="h-3 w-10 bg-gray-200 rounded"></div>
+              <div class="h-3 w-36 bg-gray-200 rounded"></div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="h-3 w-8 bg-gray-200 rounded"></div>
+              <div class="h-3 w-24 bg-gray-200 rounded"></div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="h-3 w-12 bg-gray-200 rounded"></div>
+              <div class="h-3 w-44 bg-gray-200 rounded"></div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="h-3 w-12 bg-gray-200 rounded"></div>
+              <div class="h-5 w-24 bg-gray-200 rounded-full"></div>
+            </div>
+          </div>
+
+          <!-- Email notice skeleton -->
+          <div class="h-14 bg-gray-200 rounded-xl mb-6"></div>
+
+          <!-- CTA skeleton -->
+          <div class="flex flex-col gap-3">
+            <div class="h-12 bg-gray-200 rounded-xl w-full"></div>
+            <div class="h-11 bg-gray-100 rounded-xl w-full border border-gray-200"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

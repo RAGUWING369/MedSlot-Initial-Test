@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-012] Availability Calendar — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-012 Availability Calendar
+    STATE   : State 1 — Default (doctor sets working days, hours, slot duration)
+    ROUTE   : /doctor/calendar
+    PERSONA : Dr. Arjun (authenticated, approved doctor)
+    STORIES : US-022, US-023
+    FILE    : docs/visuals/ux/SCR-012-availability-calendar/state-1-default.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-012 Availability Calendar</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctor/calendar</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-022, US-023</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+        <span class="ml-2 text-xs font-semibold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">Doctor</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="/doctor/dashboard" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Dashboard</a>
+        <a href="/doctor/calendar" class="text-blue-800 font-semibold text-sm px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">Availability</a>
+        <a href="/doctor/appointments" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Appointments</a>
+        <a href="/doctor/profile" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">My Profile</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><span class="text-blue-800 font-semibold text-sm">A</span></div>
+        <div><span class="text-sm font-medium text-neutral-700 block leading-none">Dr. Arjun M.</span><span class="text-xs text-blue-600">Cardiologist</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="bg-white border-b border-neutral-100 px-6 py-3">
+    <div class="max-w-screen-xl mx-auto flex items-center gap-2 text-sm text-neutral-500">
+      <a href="/doctor/dashboard" class="hover:text-blue-700">Dashboard</a>
+      <svg class="w-4 h-4 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      <span class="text-neutral-900 font-medium" aria-current="page">Availability Settings</span>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-neutral-900">Availability Settings</h1>
+        <p class="text-neutral-500 text-sm mt-0.5">Set the days and hours patients can book appointments with you.</p>
+      </div>
+      <!-- Save button — submits PUT /api/v1/calendar/me/ -->
+      <!-- @component: SaveAvailabilityButton · PUT /api/v1/calendar/me/ · debounced 500ms · success toast on save -->
+      <div class="ann-wrapper">
+        <span class="ann">SaveAvailabilityButton · PUT /api/v1/calendar/me/ · success toast on save · slots auto-regenerated async</span>
+        <button class="flex items-center gap-2 bg-blue-800 hover:bg-blue-900 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+          Save Availability
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+
+      <!-- Left 2/3: availability form -->
+      <div class="col-span-2 space-y-6">
+
+        <!-- Working days -->
+        <!-- @component: WorkingDaysSelector · AvailabilityCalendar.working_days (array) · PUT /api/v1/calendar/me/ -->
+        <div class="ann-wrapper">
+          <span class="ann">WorkingDaysSelector · AvailabilityCalendar.working_days · toggle buttons · aria-pressed per day</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <h2 class="text-base font-bold text-neutral-900 mb-1">Working Days</h2>
+            <p class="text-neutral-500 text-sm mb-5">Select the days you are available for appointments.</p>
+            <div class="flex gap-3" role="group" aria-label="Select working days">
+              <!-- Mon — active -->
+              <button aria-pressed="true" class="flex-1 py-3 rounded-xl border-2 border-blue-600 bg-blue-600 text-white text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400">Mon</button>
+              <!-- Tue — active -->
+              <button aria-pressed="true" class="flex-1 py-3 rounded-xl border-2 border-blue-600 bg-blue-600 text-white text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400">Tue</button>
+              <!-- Wed — active -->
+              <button aria-pressed="true" class="flex-1 py-3 rounded-xl border-2 border-blue-600 bg-blue-600 text-white text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400">Wed</button>
+              <!-- Thu — active -->
+              <button aria-pressed="true" class="flex-1 py-3 rounded-xl border-2 border-blue-600 bg-blue-600 text-white text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400">Thu</button>
+              <!-- Fri — active -->
+              <button aria-pressed="true" class="flex-1 py-3 rounded-xl border-2 border-blue-600 bg-blue-600 text-white text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400">Fri</button>
+              <!-- Sat — inactive -->
+              <button aria-pressed="false" class="flex-1 py-3 rounded-xl border-2 border-neutral-200 bg-white text-neutral-500 text-sm font-semibold transition-all hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">Sat</button>
+              <!-- Sun — inactive -->
+              <button aria-pressed="false" class="flex-1 py-3 rounded-xl border-2 border-neutral-200 bg-white text-neutral-500 text-sm font-semibold transition-all hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">Sun</button>
+            </div>
+            <p class="text-xs text-neutral-400 mt-3">Active: Monday – Friday (5 days)</p>
+          </div>
+        </div>
+
+        <!-- Working hours -->
+        <!-- @component: WorkingHoursSelector · AvailabilityCalendar.start_time + end_time · time picker inputs -->
+        <div class="ann-wrapper">
+          <span class="ann">WorkingHoursSelector · AvailabilityCalendar.start_time + end_time · 15-min step time inputs · validates end > start</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <h2 class="text-base font-bold text-neutral-900 mb-1">Consultation Hours</h2>
+            <p class="text-neutral-500 text-sm mb-5">Set the start and end time for patient appointments each day.</p>
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label for="start-time" class="block text-sm font-medium text-neutral-700 mb-1.5">Start Time <span class="text-red-500">*</span></label>
+                <input id="start-time" type="time" value="09:00" step="900" class="w-full border border-neutral-300 rounded-xl px-4 py-3 text-sm text-neutral-900 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all" aria-describedby="start-time-hint" />
+                <p id="start-time-hint" class="text-xs text-neutral-400 mt-1">First slot begins at this time.</p>
+              </div>
+              <div>
+                <label for="end-time" class="block text-sm font-medium text-neutral-700 mb-1.5">End Time <span class="text-red-500">*</span></label>
+                <input id="end-time" type="time" value="17:00" step="900" class="w-full border border-neutral-300 rounded-xl px-4 py-3 text-sm text-neutral-900 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all" aria-describedby="end-time-hint" />
+                <p id="end-time-hint" class="text-xs text-neutral-400 mt-1">No slots will be generated after this time.</p>
+              </div>
+            </div>
+            <div class="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-center gap-2">
+              <svg class="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <p class="text-xs text-blue-800">With 30-minute slots from 9:00 AM to 5:00 PM, <strong>16 slots</strong> are generated per working day.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot duration -->
+        <!-- @component: SlotDurationSelector · AvailabilityCalendar.slot_duration_minutes · radio group -->
+        <div class="ann-wrapper">
+          <span class="ann">SlotDurationSelector · AvailabilityCalendar.slot_duration_minutes · radio group · affects slot count preview</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <h2 class="text-base font-bold text-neutral-900 mb-1">Appointment Slot Duration</h2>
+            <p class="text-neutral-500 text-sm mb-5">How long is each patient consultation?</p>
+            <div class="grid grid-cols-4 gap-3" role="radiogroup" aria-label="Slot duration">
+              <label class="flex flex-col items-center gap-2 border-2 border-neutral-200 rounded-xl p-4 cursor-pointer hover:border-blue-300 transition-all">
+                <input type="radio" name="slot-duration" value="15" class="sr-only" />
+                <span class="text-2xl font-bold text-neutral-700">15</span>
+                <span class="text-xs text-neutral-500">minutes</span>
+                <span class="text-xs text-neutral-400">32 slots/day</span>
+              </label>
+              <!-- 30 min — selected -->
+              <label class="flex flex-col items-center gap-2 border-2 border-blue-600 bg-blue-50 rounded-xl p-4 cursor-pointer transition-all ring-2 ring-blue-200">
+                <input type="radio" name="slot-duration" value="30" checked class="sr-only" aria-checked="true" />
+                <span class="text-2xl font-bold text-blue-800">30</span>
+                <span class="text-xs text-blue-700 font-medium">minutes</span>
+                <span class="text-xs text-blue-600 font-semibold">16 slots/day</span>
+              </label>
+              <label class="flex flex-col items-center gap-2 border-2 border-neutral-200 rounded-xl p-4 cursor-pointer hover:border-blue-300 transition-all">
+                <input type="radio" name="slot-duration" value="45" class="sr-only" />
+                <span class="text-2xl font-bold text-neutral-700">45</span>
+                <span class="text-xs text-neutral-500">minutes</span>
+                <span class="text-xs text-neutral-400">10 slots/day</span>
+              </label>
+              <label class="flex flex-col items-center gap-2 border-2 border-neutral-200 rounded-xl p-4 cursor-pointer hover:border-blue-300 transition-all">
+                <input type="radio" name="slot-duration" value="60" class="sr-only" />
+                <span class="text-2xl font-bold text-neutral-700">60</span>
+                <span class="text-xs text-neutral-500">minutes</span>
+                <span class="text-xs text-neutral-400">8 slots/day</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exceptions / blocked dates -->
+        <!-- @component: BlockedDatesPanel · POST /api/v1/calendar/me/block/ {date} · lists existing blocked dates -->
+        <div class="ann-wrapper">
+          <span class="ann">BlockedDatesPanel · POST /api/v1/calendar/me/block/ · DELETE /api/v1/calendar/me/block/{date}/ to unblock</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <h2 class="text-base font-bold text-neutral-900 mb-1">Blocked Dates</h2>
+            <p class="text-neutral-500 text-sm mb-5">Block specific dates when you're unavailable (holiday, leave, training).</p>
+
+            <!-- Add blocked date -->
+            <div class="flex items-center gap-3 mb-5">
+              <input type="date" class="flex-1 border border-neutral-300 rounded-xl px-4 py-2.5 text-sm text-neutral-900 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all" aria-label="Select date to block" />
+              <button class="flex items-center gap-2 bg-neutral-800 hover:bg-neutral-900 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                Block This Date
+              </button>
+            </div>
+
+            <!-- Existing blocked dates list -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800">Thursday, 19 June 2026</p>
+                    <p class="text-xs text-neutral-500">Medical conference — all day</p>
+                  </div>
+                </div>
+                <button class="text-xs text-red-500 font-medium hover:text-red-700 transition-colors" aria-label="Unblock 19 June 2026">Remove</button>
+              </div>
+              <div class="flex items-center justify-between bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800">Friday, 4 July 2026</p>
+                    <p class="text-xs text-neutral-500">Personal leave</p>
+                  </div>
+                </div>
+                <button class="text-xs text-red-500 font-medium hover:text-red-700 transition-colors" aria-label="Unblock 4 July 2026">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right 1/3: live slot preview -->
+      <div class="col-span-1 space-y-5">
+
+        <!-- Slot preview -->
+        <!-- @component: SlotPreviewPanel · computed from form values · not persisted until Save clicked -->
+        <div class="ann-wrapper">
+          <span class="ann">SlotPreviewPanel · computed client-side from form state · preview only · not API data</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5 sticky top-32">
+            <h2 class="text-sm font-bold text-neutral-900 mb-4">Slot Preview</h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+              <p class="text-xs font-semibold text-blue-800 mb-1">Wednesday, 10 June 2026</p>
+              <p class="text-xs text-blue-700 mb-3">30-min slots · 9:00 AM – 5:00 PM</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">09:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">09:30</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">10:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">10:30</span>
+                <span class="text-xs bg-neutral-200 text-neutral-500 border border-neutral-200 px-2 py-1 rounded-lg line-through">11:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">11:30</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">12:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">12:30</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">13:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">13:30</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">14:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">14:30</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">15:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">15:30</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">16:00</span>
+                <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-lg font-medium">16:30</span>
+              </div>
+              <div class="flex items-center gap-3 mt-3 text-xs">
+                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-emerald-200 rounded-sm inline-block"></span><span class="text-neutral-500">Available (15)</span></div>
+                <div class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-neutral-200 rounded-sm inline-block"></span><span class="text-neutral-500">Booked (1)</span></div>
+              </div>
+            </div>
+
+            <!-- Summary stats -->
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between py-2 border-b border-neutral-100">
+                <span class="text-neutral-500">Working days</span>
+                <span class="font-semibold text-neutral-800">Mon – Fri</span>
+              </div>
+              <div class="flex items-center justify-between py-2 border-b border-neutral-100">
+                <span class="text-neutral-500">Hours</span>
+                <span class="font-semibold text-neutral-800">9:00 AM – 5:00 PM</span>
+              </div>
+              <div class="flex items-center justify-between py-2 border-b border-neutral-100">
+                <span class="text-neutral-500">Slot duration</span>
+                <span class="font-semibold text-neutral-800">30 minutes</span>
+              </div>
+              <div class="flex items-center justify-between py-2">
+                <span class="text-neutral-500">Slots per day</span>
+                <span class="font-semibold text-blue-700">16 slots</span>
+              </div>
+            </div>
+
+            <button class="w-full mt-5 bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+              Save Availability
+            </button>
+            <p class="text-xs text-neutral-400 text-center mt-2">Changes take effect immediately after saving.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

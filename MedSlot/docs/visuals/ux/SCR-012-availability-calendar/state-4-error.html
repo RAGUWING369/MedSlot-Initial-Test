@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-012] Availability Calendar — Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-012 Availability Calendar
+    STATE   : State 4 — Error (GET /api/v1/calendar/me/ failed; save conflict error)
+    ROUTE   : /doctor/calendar
+    PERSONA : Dr. Arjun Mehta (Doctor)
+    STORIES : US-DOC-007, US-DOC-008
+    FILE    : docs/visuals/ux/SCR-012-availability-calendar/state-4-error.html
+
+    Two error cases shown side-by-side:
+    Case A — Load failure: GET /api/v1/calendar/me/ returned 500/503 → can't show current settings
+    Case B — Save conflict: PUT /api/v1/calendar/me/ returned 409 → slots already booked on affected dates
+  -->
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-012 Availability Calendar</span>
+      <span style="background:#dc2626;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 4 — Error</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctor/calendar</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Dr. Arjun Mehta</span>
+      <span style="color:#fca5a5;font-size:0.8rem">Cases: Load failure · Save conflict (409)</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Doctor Nav -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+        <span class="ml-2 text-xs font-semibold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">Doctor</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="/doctor/dashboard" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Dashboard</a>
+        <a href="#" class="text-blue-800 font-semibold text-sm px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">Availability</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">My Profile</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><span class="text-blue-800 font-semibold text-sm">A</span></div>
+        <div><span class="text-sm font-medium text-neutral-700 block leading-none">Dr. Arjun M.</span><span class="text-xs text-blue-600">Cardiologist</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm mb-6" aria-label="Breadcrumb">
+      <a href="/doctor/dashboard" class="text-blue-700 hover:underline font-medium">Dashboard</a>
+      <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      <span class="text-neutral-500">Availability Settings</span>
+    </nav>
+
+    <div class="flex items-start justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-neutral-900">Availability Settings</h1>
+        <p class="text-neutral-500 text-sm mt-0.5">There was a problem — see details below.</p>
+      </div>
+    </div>
+
+    <!-- ── TWO ERROR CASES SIDE BY SIDE ── -->
+    <div class="grid grid-cols-2 gap-8">
+
+      <!-- ══ CASE A: Load failure ══ -->
+      <div>
+        <div class="mb-4 flex items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-widest text-red-700 bg-red-100 px-2 py-0.5 rounded">Case A</span>
+          <span class="text-sm text-neutral-600 font-medium">GET /api/v1/calendar/me/ failed — cannot load current settings</span>
+        </div>
+
+        <!-- @component: CalendarLoadErrorPanel -->
+        <!-- @data-source: GET /api/v1/calendar/me/ → 500 or 503 -->
+        <!-- @interaction: Retry button → re-fires GET /api/v1/calendar/me/ · Back link → /doctor/dashboard -->
+        <!-- @impl-note: Show this panel in place of all form panels when initial load fails. Do NOT show empty form (misleads doctor into thinking they have no settings) -->
+        <div class="ann-wrapper">
+          <span class="ann">CalendarLoadErrorPanel · role="alert" · Retry re-fires GET /api/v1/calendar/me/ · existing settings preserved in DB</span>
+          <div class="bg-white rounded-2xl border border-red-200 shadow-sm" role="alert">
+            <div class="p-8 text-center">
+              <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              </div>
+              <h2 class="text-base font-bold text-neutral-900 mb-2">Couldn't load your availability settings</h2>
+              <p class="text-sm text-neutral-500 mb-2 max-w-xs mx-auto">We had trouble retrieving your current schedule configuration. Your existing settings are safe and your calendar is still active for patients.</p>
+              <p class="text-xs text-neutral-400 mb-6">Check your connection and try again. If the problem persists, contact support.</p>
+              <div class="flex flex-col items-center gap-3">
+                <button onclick="window.location.reload()" class="flex items-center gap-2 bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-colors">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                  Try Again
+                </button>
+                <a href="/doctor/dashboard" class="text-sm text-neutral-500 hover:text-blue-700 hover:underline transition-colors">← Back to Dashboard</a>
+                <a href="#" class="text-xs text-neutral-400 hover:underline">Contact support</a>
+              </div>
+            </div>
+
+            <!-- Reassurance footer strip -->
+            <div class="border-t border-red-100 bg-red-50 rounded-b-2xl px-6 py-3 flex items-center gap-2">
+              <svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <p class="text-xs text-red-700">Your availability settings were NOT changed. This is a display error only — patients can still book appointments as normal.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Context: form panels shown dimmed/disabled when load fails — DO NOT let doctor edit -->
+        <div class="ann-wrapper">
+          <span class="ann">Dimmed form panels — pointer-events-none · aria-disabled="true" · cannot save with unknown current state</span>
+          <div class="opacity-30 pointer-events-none mt-2 space-y-3" aria-disabled="true">
+            <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5">
+              <div class="h-4 w-32 bg-gray-200 rounded mb-3"></div>
+              <div class="flex gap-2">
+                <div class="h-9 w-16 bg-blue-100 rounded-xl"></div>
+                <div class="h-9 w-16 bg-blue-100 rounded-xl"></div>
+                <div class="h-9 w-16 bg-blue-100 rounded-xl"></div>
+                <div class="h-9 w-16 bg-blue-100 rounded-xl"></div>
+                <div class="h-9 w-16 bg-blue-100 rounded-xl"></div>
+                <div class="h-9 w-16 bg-gray-100 rounded-xl"></div>
+                <div class="h-9 w-16 bg-gray-100 rounded-xl"></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5 h-20"></div>
+            <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5 h-16"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ CASE B: Save conflict (409) ══ -->
+      <div>
+        <div class="mb-4 flex items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-700 bg-amber-100 px-2 py-0.5 rounded">Case B</span>
+          <span class="text-sm text-neutral-600 font-medium">PUT /api/v1/calendar/me/ returned 409 — active bookings conflict</span>
+        </div>
+
+        <!-- @component: CalendarSaveConflictError -->
+        <!-- @data-source: PUT /api/v1/calendar/me/ → 409 { conflicting_dates: ["2026-06-12", "2026-06-13"], conflicting_count: 3 } -->
+        <!-- @interaction: "View Appointments" → /doctor/appointments?date=2026-06-12 · "Save Anyway (Exclude Booked Slots)" → PUT with force=true flag · "Go Back" → re-opens form for editing -->
+        <!-- @impl-note: 409 means doctor tried to remove a working day or shorten hours that already have confirmed bookings. API returns conflicting_dates[]. Show them explicitly. Doctor must resolve before save. -->
+        <div class="ann-wrapper">
+          <span class="ann">CalendarSaveConflictError · role="alert" · 409 response · conflicting_dates[] shown · doctor must choose action</span>
+          <div class="bg-white rounded-2xl border border-amber-200 shadow-sm" role="alert">
+            <div class="px-6 py-5 border-b border-amber-100 flex items-start gap-3">
+              <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              </div>
+              <div>
+                <h2 class="text-sm font-bold text-neutral-900 mb-0.5">Your changes conflict with existing appointments</h2>
+                <p class="text-sm text-neutral-600">3 confirmed appointments fall within the slots you're trying to remove or shorten. You need to resolve this before saving.</p>
+              </div>
+            </div>
+
+            <!-- Conflicting dates list -->
+            <div class="px-6 py-4 border-b border-amber-100">
+              <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">Affected Dates (2 days · 3 appointments)</p>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-neutral-800">Friday, 12 June 2026</p>
+                      <p class="text-xs text-amber-700">2 confirmed appointments affected</p>
+                    </div>
+                  </div>
+                  <a href="/doctor/appointments?date=2026-06-12" class="text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">View Appointments</a>
+                </div>
+                <div class="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-neutral-800">Saturday, 13 June 2026</p>
+                      <p class="text-xs text-amber-700">1 confirmed appointment affected</p>
+                    </div>
+                  </div>
+                  <a href="/doctor/appointments?date=2026-06-13" class="text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">View Appointments</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resolution actions -->
+            <div class="px-6 py-5">
+              <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">How would you like to proceed?</p>
+              <div class="space-y-3">
+                <!-- Option 1: Go back and adjust -->
+                <div class="flex items-start gap-3 p-3 rounded-xl border border-neutral-200 hover:border-blue-300 hover:bg-blue-50 transition-colors cursor-pointer group">
+                  <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 transition-colors">
+                    <svg class="w-4 h-4 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800 group-hover:text-blue-800 transition-colors">Go back and adjust my changes</p>
+                    <p class="text-xs text-neutral-500">Keep existing schedule for the conflicting dates. Recommended.</p>
+                  </div>
+                </div>
+                <!-- Option 2: Cancel those appointments first -->
+                <div class="flex items-start gap-3 p-3 rounded-xl border border-neutral-200 hover:border-amber-300 hover:bg-amber-50 transition-colors cursor-pointer group">
+                  <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-amber-200 transition-colors">
+                    <svg class="w-4 h-4 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800 group-hover:text-amber-800 transition-colors">View and cancel conflicting appointments first</p>
+                    <p class="text-xs text-neutral-500">Cancel the 3 appointments manually, then save your new schedule. Patients will be notified by SMS.</p>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs text-neutral-400 mt-4 text-center">Conflicting appointments cannot be automatically cancelled — patient notification is required.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form panels shown (editable, user can go back and adjust) -->
+        <div class="ann-wrapper mt-2">
+          <span class="ann">Form remains editable in Case B — doctor can adjust settings to avoid conflict before retrying save</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5 mt-1">
+            <p class="text-sm font-semibold text-neutral-700 mb-3">Current working days (unchanged):</p>
+            <div class="flex gap-2">
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white border-2 border-blue-600" aria-pressed="true">Mon</button>
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white border-2 border-blue-600" aria-pressed="true">Tue</button>
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white border-2 border-blue-600" aria-pressed="true">Wed</button>
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white border-2 border-blue-600" aria-pressed="true">Thu</button>
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white border-2 border-blue-600" aria-pressed="true">Fri</button>
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-neutral-100 text-neutral-500 border-2 border-neutral-200" aria-pressed="false">Sat</button>
+              <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-neutral-100 text-neutral-500 border-2 border-neutral-200" aria-pressed="false">Sun</button>
+            </div>
+            <p class="text-xs text-neutral-400 mt-3">Adjust days/hours to avoid conflicts, then try saving again.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-8">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

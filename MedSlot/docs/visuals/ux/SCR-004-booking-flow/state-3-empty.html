@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-004] Appointment Booking — No Slots Available</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann { position: absolute; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 50; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-004 Appointment Booking Flow
+    STATE   : State 3 — Empty (no slots available on selected date)
+    ROUTE   : /book/[doctor-slug]?date=2026-06-15
+    PERSONA : Priya Sharma (authenticated patient)
+    STORIES : US-012, US-013
+    FILE    : docs/visuals/ux/SCR-004-booking-flow/state-3-empty.html
+  -->
+
+  <!-- Wireframe Label Bar -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-004 Appointment Booking Flow</span>
+      <span style="background:#0B6E4F;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase">State 3 — No Slots</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /book/dr-arjun-mehta?date=2026-06-15</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-012, US-013</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Top Navigation -->
+  <nav style="background:#0B6E4F;color:white;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px">
+    <span style="font-weight:900;font-size:1.25rem;letter-spacing:-0.02em">Med<span style="color:#18A97A">Slot</span></span>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span style="font-size:0.875rem;color:#d1fae5">Priya Sharma</span>
+      <a href="#" style="color:#a7f3d0;font-size:0.875rem;text-decoration:none">My Appointments</a>
+    </div>
+  </nav>
+
+  <!-- Booking Progress -->
+  <div style="background:white;border-bottom:1px solid #e2e8f0;padding:14px 32px">
+    <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;gap:0">
+      <div style="display:flex;align-items:center;gap:8px;color:#0B6E4F;font-size:0.8rem;font-weight:700">
+        <div style="width:24px;height:24px;border-radius:50%;background:#0B6E4F;color:white;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700">✓</div>
+        Doctor Selected
+      </div>
+      <div style="flex:1;height:2px;background:#0B6E4F;margin:0 12px"></div>
+      <div style="display:flex;align-items:center;gap:8px;color:#0B6E4F;font-size:0.8rem;font-weight:700">
+        <div style="width:24px;height:24px;border-radius:50%;background:#0B6E4F;color:white;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700">2</div>
+        Choose Slot
+      </div>
+      <div style="flex:1;height:2px;background:#e2e8f0;margin:0 12px"></div>
+      <div style="display:flex;align-items:center;gap:8px;color:#94a3b8;font-size:0.8rem">
+        <div style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;color:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700">3</div>
+        Confirm
+      </div>
+    </div>
+  </div>
+
+  <main style="max-width:880px;margin:0 auto;padding:32px 24px">
+
+    <!-- Doctor Mini Card -->
+    <div style="background:white;border-radius:10px;border:1px solid #e2e8f0;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
+      <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0B6E4F,#18A97A);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.1rem;flex-shrink:0">AM</div>
+      <div style="flex:1">
+        <h2 style="font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 2px">Dr. Arjun Mehta</h2>
+        <p style="color:#64748b;font-size:0.85rem;margin:0">Cardiology · Koramangala Cardiac Centre, Bengaluru</p>
+      </div>
+      <div style="text-align:right">
+        <p style="font-size:0.78rem;color:#64748b;margin:0">Consultation fee</p>
+        <p style="font-size:1rem;font-weight:700;color:#0f172a;margin:0">₹800 <span style="font-size:0.75rem;color:#64748b;font-weight:400">(paid at clinic)</span></p>
+      </div>
+    </div>
+
+    <!-- Date Picker Row -->
+    <div style="background:white;border-radius:10px;border:1px solid #e2e8f0;padding:20px;margin-bottom:20px">
+      <h3 style="font-size:0.9rem;font-weight:700;color:#0f172a;margin:0 0 14px">Select Date</h3>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#475569;cursor:pointer;text-align:center">
+          <div style="font-weight:600">Mon</div><div>09 Jun</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#475569;cursor:pointer">
+          <div style="font-weight:600">Tue</div><div>10 Jun</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#94a3b8;cursor:not-allowed;opacity:0.5">
+          <div style="font-weight:600">Wed</div><div>11 Jun</div>
+          <div style="font-size:0.65rem;color:#94a3b8">Unavailable</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#475569;cursor:pointer">
+          <div style="font-weight:600">Thu</div><div>12 Jun</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#475569;cursor:pointer">
+          <div style="font-weight:600">Fri</div><div>13 Jun</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#475569;cursor:pointer">
+          <div style="font-weight:600">Sat</div><div>14 Jun</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:2px solid #0B6E4F;background:#f0fdf4;font-size:0.78rem;color:#0B6E4F;cursor:pointer;font-weight:700">
+          <div style="font-weight:700">Sun</div><div>15 Jun</div>
+        </button>
+        <button style="flex-shrink:0;padding:10px 16px;border-radius:8px;border:1px solid #e2e8f0;background:white;font-size:0.78rem;color:#475569;cursor:pointer">
+          <div style="font-weight:600">Mon</div><div>16 Jun</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- No Slots State -->
+    <div style="background:white;border-radius:10px;border:1px solid #e2e8f0;padding:48px 24px;text-align:center;position:relative">
+      <div class="ann" style="top:-28px;left:50%;transform:translateX(-50%)">→ Empty state: doctor has no slots for Sunday (not a working day)</div>
+      <div style="width:64px;height:64px;border-radius:50%;background:#FEF3C7;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+        <svg width="32" height="32" fill="none" stroke="#D97706" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin:0 0 8px">No slots available on Sunday, 15 June</h3>
+      <p style="color:#64748b;font-size:0.875rem;max-width:360px;margin:0 auto 24px;line-height:1.6">Dr. Arjun Mehta does not have clinic hours on Sundays. Please choose a weekday.</p>
+
+      <!-- Next available hint -->
+      <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:14px 20px;max-width:340px;margin:0 auto 20px;position:relative">
+        <div class="ann" style="top:-28px;right:-40px">→ "Next available" nudge — drives rebooking to a slot-available date</div>
+        <p style="font-size:0.8rem;font-weight:600;color:#0B6E4F;margin:0 0 4px">Next available slot</p>
+        <p style="font-size:0.875rem;color:#0f172a;font-weight:700;margin:0">Monday, 16 June · 9:00 AM</p>
+      </div>
+      <button style="background:#0B6E4F;color:white;border:none;padding:10px 24px;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">View Monday 16 June →</button>
+    </div>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-009] Prescription View — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-009 Prescription View
+    STATE   : State 1 — Default (patient views prescription details + downloads PDF)
+    ROUTE   : /dashboard/prescriptions/{id}
+    PERSONA : Priya (authenticated patient)
+    STORIES : US-015, US-016
+    FILE    : docs/visuals/ux/SCR-009-prescription-view/state-1-default.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-009 Prescription View</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /dashboard/prescriptions/{id}</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-015, US-016</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="/search" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="/dashboard" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Appointments</a>
+        <a href="/dashboard/records" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Records</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div>
+        <span class="text-sm font-medium text-neutral-700">Priya S.</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="bg-white border-b border-neutral-100 px-6 py-3">
+    <div class="max-w-screen-xl mx-auto">
+      <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-neutral-500">
+        <a href="/dashboard" class="hover:text-emerald-700">Dashboard</a>
+        <svg class="w-4 h-4 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        <a href="/dashboard/appointments" class="hover:text-emerald-700">My Appointments</a>
+        <svg class="w-4 h-4 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        <span class="text-neutral-900 font-medium" aria-current="page">Prescription — Dr. Arjun Mehta</span>
+      </nav>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-3 gap-8">
+
+      <!-- Left: prescription document panel -->
+      <div class="col-span-2">
+
+        <!-- Page header -->
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h1 class="text-2xl font-bold text-neutral-900">Prescription</h1>
+            <p class="text-neutral-500 text-sm mt-0.5">Issued on Wednesday, 10 June 2026</p>
+          </div>
+          <!-- @component: DownloadPDFButton · GET /api/v1/prescriptions/{id}/download/ → S3 presigned URL (7-day expiry) -->
+          <div class="ann-wrapper">
+            <span class="ann">DownloadPDFButton · GET /api/v1/prescriptions/{id}/download/ → S3 presigned URL · 7-day expiry · opens in new tab</span>
+            <a href="#" target="_blank" rel="noopener" class="flex items-center gap-2 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+              Download PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Prescription document card -->
+        <!-- @component: PrescriptionCard · GET /api/v1/prescriptions/{id}/ → full prescription data -->
+        <!-- @impl-note: mirrors WeasyPrint PDF HTML template layout — what patient sees here matches the PDF they download -->
+        <div class="ann-wrapper">
+          <span class="ann">PrescriptionCard · GET /api/v1/prescriptions/{id}/ · mirrors WeasyPrint PDF template layout</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+
+            <!-- Prescription header -->
+            <div class="bg-emerald-800 px-8 py-6 text-white">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="font-black text-xl">MedSlot</span>
+                    <span class="text-emerald-300 text-xs">Digital Prescription</span>
+                  </div>
+                  <h2 class="text-2xl font-bold">Dr. Arjun Mehta</h2>
+                  <p class="text-emerald-200 text-sm">MBBS, MD (Cardiology)</p>
+                  <p class="text-emerald-200 text-sm">MCI Reg. No. MH-2004-12345</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-emerald-200 text-xs">Heart Care Clinic</p>
+                  <p class="text-emerald-200 text-xs">42, 3rd Main Road, Banjara Hills</p>
+                  <p class="text-emerald-200 text-xs">Bengaluru — 560034</p>
+                  <p class="text-emerald-200 text-xs mt-2">Date: 10 Jun 2026</p>
+                  <p class="text-emerald-200 text-xs">Rx No: RX-2026-004521</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Patient info -->
+            <div class="px-8 py-5 bg-neutral-50 border-b border-neutral-200">
+              <div class="grid grid-cols-3 gap-4">
+                <div><p class="text-xs text-neutral-500 font-medium">Patient Name</p><p class="text-sm font-semibold text-neutral-900 mt-0.5">Priya Sharma</p></div>
+                <div><p class="text-xs text-neutral-500 font-medium">Age / Gender</p><p class="text-sm font-semibold text-neutral-900 mt-0.5">34 years / Female</p></div>
+                <div><p class="text-xs text-neutral-500 font-medium">Date of Consultation</p><p class="text-sm font-semibold text-neutral-900 mt-0.5">10 June 2026</p></div>
+              </div>
+            </div>
+
+            <div class="px-8 py-6">
+
+              <!-- Chief complaints -->
+              <div class="mb-6">
+                <h3 class="text-sm font-bold text-neutral-700 uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <span class="w-1 h-4 bg-emerald-600 rounded inline-block"></span>
+                  Chief Complaints
+                </h3>
+                <p class="text-sm text-neutral-700 leading-relaxed">Occasional chest discomfort on exertion. Mild breathlessness on climbing stairs. No history of syncopal episodes.</p>
+              </div>
+
+              <!-- Diagnosis -->
+              <div class="mb-6">
+                <h3 class="text-sm font-bold text-neutral-700 uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <span class="w-1 h-4 bg-blue-600 rounded inline-block"></span>
+                  Diagnosis
+                </h3>
+                <p class="text-sm text-neutral-700">Mild hypertension (Stage 1). Probable early-stage coronary artery disease. Recommend stress ECG.</p>
+              </div>
+
+              <!-- Medications table -->
+              <!-- @impl-note: medicines array from ConsultationNote.medicines JSON field -->
+              <div class="mb-6">
+                <h3 class="text-sm font-bold text-neutral-700 uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <span class="w-1 h-4 bg-purple-600 rounded inline-block"></span>
+                  Medications
+                </h3>
+                <table class="w-full border border-neutral-200 rounded-xl overflow-hidden text-sm" aria-label="Prescribed medications">
+                  <thead class="bg-neutral-50">
+                    <tr>
+                      <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Medicine</th>
+                      <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Dosage</th>
+                      <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Frequency</th>
+                      <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Duration</th>
+                      <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wide">Instructions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-neutral-100">
+                    <tr>
+                      <td class="px-4 py-3 font-medium text-neutral-900">Tab. Amlodipine</td>
+                      <td class="px-4 py-3 text-neutral-700">5 mg</td>
+                      <td class="px-4 py-3 text-neutral-700">Once daily</td>
+                      <td class="px-4 py-3 text-neutral-700">30 days</td>
+                      <td class="px-4 py-3 text-neutral-600 text-xs">After breakfast</td>
+                    </tr>
+                    <tr class="bg-neutral-50">
+                      <td class="px-4 py-3 font-medium text-neutral-900">Tab. Aspirin</td>
+                      <td class="px-4 py-3 text-neutral-700">75 mg</td>
+                      <td class="px-4 py-3 text-neutral-700">Once daily</td>
+                      <td class="px-4 py-3 text-neutral-700">30 days</td>
+                      <td class="px-4 py-3 text-neutral-600 text-xs">After dinner</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 font-medium text-neutral-900">Tab. Atorvastatin</td>
+                      <td class="px-4 py-3 text-neutral-700">10 mg</td>
+                      <td class="px-4 py-3 text-neutral-700">Once daily at bedtime</td>
+                      <td class="px-4 py-3 text-neutral-700">30 days</td>
+                      <td class="px-4 py-3 text-neutral-600 text-xs">At night</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Follow-up advice -->
+              <div class="mb-6">
+                <h3 class="text-sm font-bold text-neutral-700 uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <span class="w-1 h-4 bg-amber-500 rounded inline-block"></span>
+                  Advice &amp; Follow-Up
+                </h3>
+                <ul class="text-sm text-neutral-700 space-y-1.5 list-disc list-inside">
+                  <li>Low sodium diet. Avoid processed foods.</li>
+                  <li>30 minutes of brisk walking daily.</li>
+                  <li>Stress ECG to be done within 2 weeks.</li>
+                  <li>Follow up after 4 weeks with ECG report.</li>
+                  <li>Monitor BP at home — record twice daily.</li>
+                </ul>
+              </div>
+
+              <!-- Digital signature -->
+              <div class="pt-5 border-t border-neutral-200 flex items-end justify-between">
+                <div>
+                  <p class="text-xs text-neutral-400">Digitally issued via MedSlot · Rx No: RX-2026-004521</p>
+                  <p class="text-xs text-neutral-400 mt-0.5">This prescription is valid for 30 days from the date of issue.</p>
+                </div>
+                <div class="text-right">
+                  <div class="w-32 border-b-2 border-neutral-400 mb-1"></div>
+                  <p class="text-xs font-semibold text-neutral-700">Dr. Arjun Mehta</p>
+                  <p class="text-xs text-neutral-500">MCI Reg. MH-2004-12345</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PDF expiry notice -->
+        <!-- @component: PDFExpiryNotice · presigned URL expires in 7 days · regenerate CTA if expired -->
+        <div class="ann-wrapper">
+          <span class="ann">PDFExpiryNotice · S3 presigned URL 7-day expiry · "Regenerate Link" fires GET /api/v1/prescriptions/{id}/download/</span>
+          <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center gap-3">
+            <svg class="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <p class="text-sm text-amber-800">The PDF download link expires on <strong>17 June 2026</strong>. After expiry, use the Regenerate Link button to get a fresh link.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right sidebar: appointment context + actions -->
+      <div class="col-span-1 space-y-5">
+
+        <!-- Appointment context card -->
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+          <h2 class="text-base font-bold text-neutral-900 mb-4">Appointment Details</h2>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-emerald-800 font-bold text-xs">AM</span></div>
+              <div><p class="text-sm font-semibold text-neutral-900">Dr. Arjun Mehta</p><p class="text-xs text-emerald-700">Cardiologist</p></div>
+            </div>
+            <div class="pt-3 border-t border-neutral-100 space-y-2 text-xs text-neutral-600">
+              <div class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> Wed, 10 June 2026 · 10:30 AM</div>
+              <div class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg> Heart Care Clinic, Banjara Hills</div>
+            </div>
+            <div class="pt-3 border-t border-neutral-100">
+              <span class="inline-flex items-center bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">COMPLETED</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+          <h2 class="text-base font-bold text-neutral-900 mb-4">Actions</h2>
+          <div class="space-y-2.5">
+            <a href="#" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition-colors group">
+              <div class="w-9 h-9 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+              <span class="text-sm font-medium text-neutral-700 group-hover:text-emerald-800">Download PDF</span>
+            </a>
+            <a href="/search?specialty=cardiologist" class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors group">
+              <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+              <span class="text-sm font-medium text-neutral-700 group-hover:text-blue-800">Book Follow-up</span>
+            </a>
+            <a href="/dashboard" class="flex items-center gap-3 p-3 rounded-xl hover:bg-neutral-50 transition-colors group">
+              <div class="w-9 h-9 bg-neutral-100 rounded-lg flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></div>
+              <span class="text-sm font-medium text-neutral-700">Back to Dashboard</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

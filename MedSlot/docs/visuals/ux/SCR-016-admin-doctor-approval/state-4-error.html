@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-016] Admin — Doctor Approval Queue — Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann { position: absolute; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 50; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-016 Admin — Doctor Approval Queue
+    STATE   : State 4 — Error (bulk action failed / DB write error during approval)
+    FILE    : docs/visuals/ux/SCR-016-admin-doctor-approval/state-4-error.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-016 Admin — Doctor Approval Queue</span>
+      <span style="background:#dc2626;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase">State 4 — Error</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+  <div style="background:#0B6E4F;padding:8px 32px">
+    <span style="font-weight:900;font-size:1.1rem;color:white">MedSlot Admin</span>
+    <span style="color:#a7f3d0;font-size:0.8rem;margin-left:12px">Welcome, admin</span>
+  </div>
+  <div style="background:#e8f5e9;border-bottom:1px solid #c8e6c9;padding:8px 32px">
+    <span style="font-size:0.8rem;color:#475569">Home › Accounts › Doctor Profiles › Pending Approval</span>
+  </div>
+  <div style="display:flex;min-height:calc(100vh - 100px)">
+    <div style="width:200px;background:white;border-right:1px solid #e2e8f0;padding:16px 0;flex-shrink:0">
+      <div style="padding:0 16px 8px;font-size:0.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase">Accounts</div>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#0B6E4F;font-weight:600;text-decoration:none;background:#f0fdf4">Doctor Profiles</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Patient Profiles</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Users</a>
+    </div>
+    <div style="flex:1;padding:24px 32px">
+
+      <!-- Django Admin error message block -->
+      <div style="background:#FEE2E2;border:1px solid #FCA5A5;border-radius:6px;padding:14px 18px;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Django messages framework error block — auto-rendered at top of changelist</div>
+        <svg width="20" height="20" fill="none" stroke="#DC2626" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>
+          <p style="font-weight:700;color:#991B1B;margin:0 0 4px;font-size:0.875rem">Action failed: Could not approve Dr. Sneha Kulkarni.</p>
+          <p style="color:#B91C1C;margin:0;font-size:0.8rem">A database error occurred while updating the approval status. The doctor account was <strong>not</strong> activated. Please try again. If the problem persists, check the Celery worker logs — notification dispatch may have failed.</p>
+          <p style="color:#B91C1C;margin:4px 0 0;font-size:0.75rem;font-family:monospace">Error ref: IntegrityError at /admin/accounts/doctorprofile/1/change/ — NOT NULL constraint on accounts_doctorprofile.approved_at</p>
+        </div>
+      </div>
+
+      <!-- Table still shows (data was not mutated) -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <h1 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0">Doctor Profiles — Pending Approval</h1>
+        <span style="background:#FEF3C7;border:1px solid #FCD34D;color:#92400e;font-size:0.78rem;font-weight:700;padding:4px 12px;border-radius:4px">⏳ 3 Pending</span>
+      </div>
+      <div style="display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:16px">
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;font-weight:700;color:#0B6E4F;border-bottom:2px solid #0B6E4F;margin-bottom:-2px;text-decoration:none">Pending (3)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">Approved (47)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">All (55)</a>
+      </div>
+      <div style="background:white;border-radius:8px;border:1px solid #e2e8f0;overflow:hidden;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Table unchanged — action was transactional; rollback preserved data integrity</div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+          <thead>
+            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0">
+              <th style="padding:10px 12px;width:40px"><input type="checkbox"/></th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Doctor</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Specialty</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">MCI Reg. No.</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Status</th>
+              <th style="padding:10px 12px;text-align:left;color:#374151;font-weight:600">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f1f5f9;background:#FEF2F2">
+              <td style="padding:12px"><input type="checkbox"/></td>
+              <td style="padding:12px">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:32px;height:32px;border-radius:50%;background:#1B5E8A;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem">SK</div>
+                  <div>
+                    <p style="font-weight:600;color:#0f172a;margin:0;font-size:0.85rem">Dr. Sneha Kulkarni</p>
+                    <p style="color:#DC2626;font-size:0.72rem;margin:0;font-weight:600">⚠ Approval failed — retry required</p>
+                  </div>
+                </div>
+              </td>
+              <td style="padding:12px;color:#374151">Dermatology</td>
+              <td style="padding:12px;font-family:monospace;color:#374151">KA/45678/2016</td>
+              <td style="padding:12px"><span style="background:#FEF3C7;color:#92400e;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:3px">Pending</span></td>
+              <td style="padding:12px">
+                <div style="display:flex;gap:6px">
+                  <a href="#" style="background:#DCFCE7;color:#15803D;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">↻ Retry Approve</a>
+                  <a href="#" style="background:#FEE2E2;color:#991B1B;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✕ Reject</a>
+                </div>
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f5f9">
+              <td style="padding:12px"><input type="checkbox"/></td>
+              <td style="padding:12px"><div style="display:flex;align-items:center;gap:8px"><div style="width:32px;height:32px;border-radius:50%;background:#9333ea;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem">RP</div><span style="font-weight:600;color:#0f172a;font-size:0.85rem">Dr. Rajiv Pillai</span></div></td>
+              <td style="padding:12px;color:#374151">Neurology</td>
+              <td style="padding:12px;font-family:monospace;color:#374151">KL/22334/2011</td>
+              <td style="padding:12px"><span style="background:#FEF3C7;color:#92400e;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:3px">Pending</span></td>
+              <td style="padding:12px"><div style="display:flex;gap:6px"><a href="#" style="background:#DCFCE7;color:#15803D;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✓ Approve</a><a href="#" style="background:#FEE2E2;color:#991B1B;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✕ Reject</a></div></td>
+            </tr>
+            <tr>
+              <td style="padding:12px"><input type="checkbox"/></td>
+              <td style="padding:12px"><div style="display:flex;align-items:center;gap:8px"><div style="width:32px;height:32px;border-radius:50%;background:#d97706;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem">NJ</div><span style="font-weight:600;color:#0f172a;font-size:0.85rem">Dr. Nidhi Joshi</span></div></td>
+              <td style="padding:12px;color:#374151">Gynaecology</td>
+              <td style="padding:12px;font-family:monospace;color:#DC2626">MH/????/2019 <span style="font-family:sans-serif;background:#FEE2E2;color:#991B1B;font-size:0.68rem;padding:1px 5px;border-radius:3px">Verify</span></td>
+              <td style="padding:12px"><span style="background:#FEF3C7;color:#92400e;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:3px">Pending</span></td>
+              <td style="padding:12px"><div style="display:flex;gap:6px"><a href="#" style="background:#DCFCE7;color:#15803D;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✓ Approve</a><a href="#" style="background:#FEE2E2;color:#991B1B;font-size:0.75rem;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none">✕ Reject</a></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

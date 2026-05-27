@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-014] Prescription Issuance — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-014 Prescription Issuance
+    STATE   : State 1 — Default (preview + confirm before generating PDF)
+    ROUTE   : /doctor/appointments/{id}/prescription
+    PERSONA : Dr. Arjun Mehta (Doctor)
+    STORIES : US-DOC-013, US-DOC-014
+    FILE    : docs/visuals/ux/SCR-014-prescription-issuance/state-1-default.html
+  -->
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-014 Prescription Issuance</span>
+      <span style="background:#2563eb;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctor/appointments/{id}/prescription</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Dr. Arjun Mehta</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-DOC-013, US-DOC-014</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Doctor Nav -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+        <span class="ml-2 text-xs font-semibold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">Doctor</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/doctor/appointments/{id}/consult" class="text-sm text-neutral-600 font-medium hover:text-neutral-900 px-3 py-1.5 rounded-lg hover:bg-neutral-100 flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
+          Back to Consultation
+        </a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><span class="text-blue-800 font-semibold text-sm">A</span></div>
+        <div><span class="text-sm font-medium text-neutral-700 block leading-none">Dr. Arjun M.</span><span class="text-xs text-blue-600">Cardiologist</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-6">
+
+    <!-- Page header -->
+    <div class="flex items-start justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-neutral-900">Issue Prescription</h1>
+        <p class="text-neutral-500 text-sm mt-0.5">Review the prescription below. Once issued, a PDF will be generated and emailed to the patient.</p>
+      </div>
+      <div class="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-xl px-4 py-2">
+        <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span class="text-xs font-medium text-blue-800">This action cannot be undone — review carefully before issuing</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+
+      <!-- Left 2/3: Prescription preview (mirrors WeasyPrint PDF layout) -->
+      <div class="col-span-2">
+
+        <!-- @component: PrescriptionPreviewCard -->
+        <!-- @data-source: GET /api/v1/consultations/{id}/ → all note fields + doctor profile + patient details -->
+        <!-- @impl-note: This card EXACTLY mirrors the WeasyPrint HTML template layout. What the doctor sees here is what the patient receives as PDF. Any edits made on this screen fire PATCH /api/v1/consultations/{id}/ before the prescription is generated. -->
+        <div class="ann-wrapper">
+          <span class="ann">PrescriptionPreviewCard · mirrors WeasyPrint PDF template · editable fields fire PATCH /api/v1/consultations/{id}/ · exact layout = generated PDF</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
+
+            <!-- Prescription header — emerald branded -->
+            <div class="bg-emerald-800 px-8 py-5 flex items-start justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-white font-bold text-xl">MedSlot</span>
+                  <span class="text-emerald-300 text-xs">Digital Prescription</span>
+                </div>
+                <p class="text-emerald-100 font-bold text-base">Dr. Arjun Mehta</p>
+                <p class="text-emerald-200 text-xs mt-0.5">MBBS, MD (Cardiology) · MCI Reg. No. MH-2014-78432</p>
+                <p class="text-emerald-200 text-xs mt-0.5">Arjun Heart &amp; Vascular Clinic, 14B Koramangala 5th Block, Bengaluru – 560095</p>
+              </div>
+              <div class="text-right">
+                <p class="text-emerald-200 text-xs mb-1">Date</p>
+                <p class="text-white font-semibold text-sm">10 June 2026</p>
+                <p class="text-emerald-200 text-xs mt-2">Rx No.</p>
+                <p class="text-white font-mono text-xs">RX-2026-001847</p>
+              </div>
+            </div>
+
+            <!-- Patient information -->
+            <div class="px-8 py-4 bg-neutral-50 border-b border-neutral-200">
+              <div class="grid grid-cols-4 gap-4">
+                <div>
+                  <p class="text-xs text-neutral-400 mb-0.5">Patient Name</p>
+                  <p class="text-sm font-semibold text-neutral-800">Priya Sharma</p>
+                </div>
+                <div>
+                  <p class="text-xs text-neutral-400 mb-0.5">Age / Gender</p>
+                  <p class="text-sm font-semibold text-neutral-800">29 years / Female</p>
+                </div>
+                <div>
+                  <p class="text-xs text-neutral-400 mb-0.5">Date of Birth</p>
+                  <p class="text-sm font-semibold text-neutral-800">15 Mar 1997</p>
+                </div>
+                <div>
+                  <p class="text-xs text-neutral-400 mb-0.5">Blood Group</p>
+                  <p class="text-sm font-semibold text-neutral-800">B Positive</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-8 py-5 space-y-5">
+
+              <!-- Chief Complaint — editable -->
+              <div class="ann-wrapper">
+                <span class="ann">ChiefComplaintEditable · inline edit before issue · PATCH /api/v1/consultations/{id}/ on change · shown on PDF</span>
+                <div>
+                  <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Chief Complaint</p>
+                  <div class="bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 group hover:border-blue-300 transition-colors cursor-text relative">
+                    <p class="text-sm text-neutral-800">Chest tightness and shortness of breath on exertion for 3 days. Worsens on climbing stairs.</p>
+                    <span class="absolute top-2 right-3 text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity font-medium">Edit</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Diagnosis — editable -->
+              <div>
+                <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Diagnosis</p>
+                <div class="bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 group hover:border-blue-300 transition-colors cursor-text relative">
+                  <p class="text-sm font-semibold text-neutral-800">Hypertensive heart disease with stable angina</p>
+                  <p class="text-xs text-neutral-500 mt-0.5">ICD-10: I11.9 · Evaluate for coronary artery disease</p>
+                  <span class="absolute top-2 right-3 text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity font-medium">Edit</span>
+                </div>
+              </div>
+
+              <!-- Medications table -->
+              <!-- @component: PrescriptionMedicationsTable -->
+              <!-- @impl-note: Editable inline — each row can be modified. Changes sync to ConsultationNote.medications[] via PATCH before PDF generation. -->
+              <div class="ann-wrapper">
+                <span class="ann">PrescriptionMedicationsTable · inline editable rows · syncs to ConsultationNote.medications[] · exactly mirrors PDF table layout</span>
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Medications</p>
+                    <button class="text-xs font-semibold text-blue-700 hover:underline">+ Add medication</button>
+                  </div>
+                  <div class="border border-neutral-200 rounded-xl overflow-hidden">
+                    <table class="w-full text-sm" role="table">
+                      <thead>
+                        <tr class="bg-neutral-100 border-b border-neutral-200">
+                          <th class="text-left px-4 py-2.5 text-xs font-bold text-neutral-600 uppercase tracking-wide">Medicine</th>
+                          <th class="text-left px-4 py-2.5 text-xs font-bold text-neutral-600 uppercase tracking-wide">Dosage</th>
+                          <th class="text-left px-4 py-2.5 text-xs font-bold text-neutral-600 uppercase tracking-wide">Frequency</th>
+                          <th class="text-left px-4 py-2.5 text-xs font-bold text-neutral-600 uppercase tracking-wide">Duration</th>
+                          <th class="text-left px-4 py-2.5 text-xs font-bold text-neutral-600 uppercase tracking-wide">Instructions</th>
+                          <th class="px-3 py-2.5"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-neutral-100">
+                        <tr class="hover:bg-blue-50 transition-colors group">
+                          <td class="px-4 py-3 font-semibold text-neutral-800">Tab. Amlodipine 5mg</td>
+                          <td class="px-4 py-3 text-neutral-700">5 mg</td>
+                          <td class="px-4 py-3 text-neutral-700">Once daily</td>
+                          <td class="px-4 py-3 text-neutral-700">30 days</td>
+                          <td class="px-4 py-3 text-neutral-600">After food</td>
+                          <td class="px-3 py-3"><button class="text-neutral-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all" aria-label="Remove Amlodipine"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></td>
+                        </tr>
+                        <tr class="hover:bg-blue-50 transition-colors group">
+                          <td class="px-4 py-3 font-semibold text-neutral-800">Tab. Aspirin 75mg</td>
+                          <td class="px-4 py-3 text-neutral-700">75 mg</td>
+                          <td class="px-4 py-3 text-neutral-700">Once daily</td>
+                          <td class="px-4 py-3 text-neutral-700">30 days</td>
+                          <td class="px-4 py-3 text-neutral-600">After breakfast</td>
+                          <td class="px-3 py-3"><button class="text-neutral-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all" aria-label="Remove Aspirin"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></td>
+                        </tr>
+                        <tr class="hover:bg-blue-50 transition-colors group">
+                          <td class="px-4 py-3 font-semibold text-neutral-800">Tab. Atorvastatin 10mg</td>
+                          <td class="px-4 py-3 text-neutral-700">10 mg</td>
+                          <td class="px-4 py-3 text-neutral-700">Once daily</td>
+                          <td class="px-4 py-3 text-neutral-700">30 days</td>
+                          <td class="px-4 py-3 text-neutral-600">At bedtime</td>
+                          <td class="px-3 py-3"><button class="text-neutral-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all" aria-label="Remove Atorvastatin"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Advice & Follow-up -->
+              <div class="grid grid-cols-2 gap-5">
+                <div>
+                  <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Advice</p>
+                  <div class="bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 group hover:border-blue-300 transition-colors cursor-text relative">
+                    <p class="text-sm text-neutral-700">Low-sodium diet. Avoid strenuous activity for 2 weeks. Monitor BP daily. Avoid NSAIDs.</p>
+                    <span class="absolute top-2 right-3 text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity font-medium">Edit</span>
+                  </div>
+                </div>
+                <div class="space-y-3">
+                  <div>
+                    <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Follow-up Date</p>
+                    <div class="bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3">
+                      <p class="text-sm font-semibold text-neutral-800">10 July 2026</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Investigations Advised</p>
+                    <div class="bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3">
+                      <p class="text-sm text-neutral-700">ECG, Stress test, Lipid profile</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Digital signature line -->
+              <div class="border-t border-neutral-200 pt-4 flex items-end justify-between">
+                <div>
+                  <p class="text-xs text-neutral-400 mb-1">Digitally signed by</p>
+                  <p class="text-sm font-bold text-neutral-800">Dr. Arjun Mehta</p>
+                  <p class="text-xs text-neutral-500">MBBS, MD (Cardiology) · MCI Reg. No. MH-2014-78432</p>
+                  <p class="text-xs text-neutral-400 mt-1">10 June 2026 · 11:03 AM IST</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-neutral-400 mb-1">Verified by MedSlot</p>
+                  <div class="flex items-center gap-1.5 justify-end">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                    <span class="text-xs font-semibold text-emerald-700">MCI Verified Doctor</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right 1/3: issue actions panel -->
+      <div class="col-span-1 space-y-5">
+
+        <!-- Issue prescription action card -->
+        <!-- @component: IssuePrescriptionActionCard -->
+        <!-- @interaction: "Issue & Send to Patient" → POST /api/v1/prescriptions/ { consultation_id, appointment_id } → 202 Accepted → Celery queues WeasyPrint → state-2-loading -->
+        <!-- @impl-note: POST returns 202 immediately. Celery worker generates PDF, uploads to S3, sends SendGrid email. Doctor is shown state-2-loading (full-page wait screen) while this completes. Appointment marked COMPLETED after S3 confirmation. -->
+        <div class="ann-wrapper">
+          <span class="ann">IssuePrescriptionActionCard · POST /api/v1/prescriptions/ → 202 Accepted → Celery → state-2-loading (PDF generation wait)</span>
+          <div class="bg-white rounded-2xl border border-blue-200 shadow-sm p-5">
+            <h2 class="text-sm font-bold text-neutral-900 mb-1">Issue Prescription</h2>
+            <p class="text-xs text-neutral-500 mb-4">Once issued, MedSlot will generate a PDF and email it to the patient. The appointment will be marked as complete.</p>
+
+            <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-4 space-y-1.5">
+              <div class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                <span class="text-xs text-blue-800">PDF generated by MedSlot</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                <span class="text-xs text-blue-800">Emailed to priya.sharma@email.com</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                <span class="text-xs text-blue-800">Available in patient's My Appointments</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                <span class="text-xs text-blue-800">Appointment marked Completed</span>
+              </div>
+            </div>
+
+            <button class="w-full flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-4 rounded-xl text-sm transition-colors">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+              Issue &amp; Send to Patient
+            </button>
+            <p class="text-xs text-neutral-400 text-center mt-2">This cannot be undone. Review the prescription above before issuing.</p>
+          </div>
+        </div>
+
+        <!-- Appointment summary -->
+        <div class="ann-wrapper">
+          <span class="ann">AppointmentSummaryCard · GET /api/v1/appointments/{id}/ → slot_time, patient details · read-only</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5">
+            <h2 class="text-sm font-bold text-neutral-900 mb-3">Appointment</h2>
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-neutral-400">Patient</p>
+                  <p class="text-sm font-semibold text-neutral-800">Priya Sharma</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-neutral-400">Date &amp; Time</p>
+                  <p class="text-sm font-semibold text-neutral-800">10 Jun 2026 · 10:30 AM</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-neutral-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                </div>
+                <div>
+                  <p class="text-xs text-neutral-400">Clinic</p>
+                  <p class="text-sm font-semibold text-neutral-800">Arjun Heart &amp; Vascular</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back to consultation link -->
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-4">
+          <p class="text-xs text-neutral-500 mb-2">Need to make changes to your notes?</p>
+          <a href="/doctor/appointments/{id}/consult" class="flex items-center gap-2 text-sm font-medium text-blue-700 hover:underline">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
+            Back to Consultation Notes
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-6 px-6 mt-6">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

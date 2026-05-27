@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-014] Prescription Issuance — Loading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+    @keyframes pulse-bar { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .pulse-bar { animation: pulse-bar 1.5s ease-in-out infinite; }
+    @keyframes step-complete { 0%{transform:scale(0.8);opacity:0} 100%{transform:scale(1);opacity:1} }
+    .step-done { animation: step-complete 0.3s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-014 Prescription Issuance
+    STATE   : State 2 — Loading (WeasyPrint PDF generation in progress — Celery async task)
+    ROUTE   : /doctor/appointments/{id}/prescription
+    PERSONA : Dr. Arjun Mehta (Doctor)
+    STORIES : US-DOC-013, US-DOC-014
+    FILE    : docs/visuals/ux/SCR-014-prescription-issuance/state-2-loading.html
+    LOADING TYPE: Long-running server operation — full-page branded wait screen with step indicator
+    (POST /api/v1/prescriptions/ returns 202 immediately; Celery task generates PDF → S3 → SendGrid email → marks appointment COMPLETED)
+    Frontend polls GET /api/v1/prescriptions/{id}/status/ every 3s to detect completion.
+  -->
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-014 Prescription Issuance</span>
+      <span style="background:#f59e0b;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 2 — Loading</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Loading type: Long-running server op (WeasyPrint Celery task)</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Polls GET /api/v1/prescriptions/{id}/status/ every 3s</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Doctor Nav — minimal during generation -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+        <span class="ml-2 text-xs font-semibold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">Doctor</span>
+      </div>
+      <!-- Nav items disabled during generation to prevent navigation away -->
+      <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg font-medium">Do not navigate away — prescription is being generated</p>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><span class="text-blue-800 font-semibold text-sm">A</span></div>
+        <div><span class="text-sm font-medium text-neutral-700 block leading-none">Dr. Arjun M.</span><span class="text-xs text-blue-600">Cardiologist</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Full-page wait screen -->
+  <div class="min-h-screen flex items-center justify-center py-16" aria-busy="true" aria-label="Generating prescription PDF">
+
+    <!-- @component: PrescriptionGenerationWaitScreen -->
+    <!-- @data-source: POST /api/v1/prescriptions/ → { prescription_id } · polls GET /api/v1/prescriptions/{id}/status/ → { status, step } -->
+    <!-- @interaction: on status="completed" → navigate to state-5-success · on status="failed" → navigate to state-4-error -->
+    <!-- @impl-note: Steps fire sequentially as Celery task progresses. Step 2 (S3) is typically fastest. Step 3 (email) may take 2–5s extra. Total expected: 4–8s P95. Do NOT show estimated time — too variable. -->
+    <div class="ann-wrapper" style="width:560px">
+      <span class="ann">PrescriptionGenerationWaitScreen · aria-busy="true" · polls every 3s · step 1 active · steps 2-3 pending · NFR-PE-004: ≤4s P95</span>
+      <div class="bg-white rounded-3xl border border-neutral-200 shadow-xl p-10 text-center" style="width:560px">
+
+        <!-- Animated prescription icon -->
+        <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+          <svg class="w-10 h-10 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          <!-- Spinning ring -->
+          <div class="absolute inset-0 rounded-full border-4 border-emerald-200 border-t-emerald-600" style="animation: spin 1.2s linear infinite;"></div>
+        </div>
+
+        <h2 class="text-xl font-bold text-neutral-900 mb-2">Generating Prescription PDF</h2>
+        <p class="text-sm text-neutral-500 mb-2">For <span class="font-semibold text-neutral-700">Priya Sharma</span> · Appointment 10 Jun 2026, 10:30 AM</p>
+        <p class="text-xs text-neutral-400 mb-8">Please wait — the prescription will be ready in a few seconds.</p>
+
+        <!-- Progress bar -->
+        <div class="mb-8">
+          <div class="h-2 bg-neutral-100 rounded-full overflow-hidden mb-2">
+            <div class="h-full bg-emerald-500 rounded-full pulse-bar" style="width:38%"></div>
+          </div>
+          <p class="text-xs text-neutral-400">Step 1 of 3</p>
+        </div>
+
+        <!-- Step indicator -->
+        <div class="space-y-3 text-left">
+
+          <!-- Step 1: Active — PDF generation -->
+          <div class="flex items-center gap-4 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
+            <div class="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+            </div>
+            <div class="flex-1">
+              <p class="text-sm font-semibold text-emerald-800">Generating prescription PDF</p>
+              <p class="text-xs text-emerald-600">Formatting your consultation notes into a medical document…</p>
+            </div>
+          </div>
+
+          <!-- Step 2: Pending — S3 upload -->
+          <div class="flex items-center gap-4 bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 opacity-50">
+            <div class="w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-neutral-500 font-bold text-sm">2</span>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-neutral-600">Saving to secure storage</p>
+              <p class="text-xs text-neutral-400">Uploading PDF to encrypted cloud storage (AWS S3)</p>
+            </div>
+          </div>
+
+          <!-- Step 3: Pending — Email delivery -->
+          <div class="flex items-center gap-4 bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 opacity-50">
+            <div class="w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-neutral-500 font-bold text-sm">3</span>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-neutral-600">Sending to patient</p>
+              <p class="text-xs text-neutral-400">Emailing prescription to priya.sharma@email.com</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Patient reassurance note -->
+        <div class="mt-6 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 flex items-center gap-2">
+          <svg class="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <p class="text-xs text-blue-700">Priya Sharma will receive an email with the prescription PDF and a secure download link valid for 7 days.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  </style>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-6 px-6">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

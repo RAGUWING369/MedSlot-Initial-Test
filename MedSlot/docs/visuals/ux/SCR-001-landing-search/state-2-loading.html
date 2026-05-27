@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-001] Landing / Doctor Search — Loading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann {
+      position: absolute; top: -24px; left: 0; display: block;
+      border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e;
+      font-size: 0.7rem; padding: 1px 8px; border-radius: 3px;
+      font-family: monospace; line-height: 1.6; white-space: nowrap;
+      z-index: 10; pointer-events: none;
+    }
+    @keyframes nprogress {
+      0%   { width: 0%; opacity: 1; }
+      50%  { width: 70%; opacity: 1; }
+      100% { width: 95%; opacity: 1; }
+    }
+    .nprogress-bar { animation: nprogress 1.4s ease-in-out forwards; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-001 Landing / Doctor Search
+    STATE   : State 2 — Loading (Navigation/Page Transition type)
+    ROUTE   : / (after search submitted)
+    PERSONA : Priya (public)
+    STORIES : US-003, US-004
+    FILE    : docs/visuals/ux/SCR-001-landing-search/state-2-loading.html
+    LOADING TYPE: Navigation top progress bar (NProgress-style) + Search button spinner
+    CLASSIFICATION: Form submission → spinner on submit button + slim top progress bar
+  -->
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-001 Landing / Doctor Search</span>
+      <span style="background:#f59e0b;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 2 — Loading</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: / (post-search)</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- NProgress-style slim top progress bar -->
+  <!-- @component: NProgressBar · @impl-note: Use NProgress library or CSS animation; fires on route change -->
+  <div class="fixed top-[49px] left-0 right-0 z-40 h-1 bg-transparent">
+    <div class="nprogress-bar h-full bg-emerald-400 shadow-sm"></div>
+  </div>
+
+  <!-- NAVIGATION (identical to default) -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center">
+          <span class="text-white font-bold text-sm">M</span>
+        </div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-emerald-800 bg-emerald-50 font-semibold text-sm px-3 py-2 rounded-lg">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">For Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">How it Works</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION — search form with loading state -->
+  <section class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-700 py-20 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="text-center mb-10">
+        <h1 class="text-5xl font-bold text-white mb-4 leading-tight">Find a Verified Doctor Near You</h1>
+        <p class="text-emerald-100 text-xl leading-relaxed max-w-2xl mx-auto">Search by specialty and city. View real availability. Book in under 2 minutes.</p>
+      </div>
+
+      <!-- Search Card — Loading State -->
+      <!-- @component: SearchCard · loading state: button disabled + spinner -->
+      <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div class="ann-wrapper">
+            <span class="ann">SearchCard loading · button disabled + spinner · inputs locked</span>
+            <div class="flex gap-4 mb-4">
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-neutral-700 mb-1">Specialty</label>
+                <div class="relative">
+                  <select disabled class="w-full border border-neutral-200 rounded-lg px-4 py-3 text-neutral-400 bg-neutral-100 cursor-not-allowed appearance-none">
+                    <option>Cardiologist</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-neutral-700 mb-1">City</label>
+                <input type="text" disabled value="Bengaluru" class="w-full border border-neutral-200 rounded-lg px-4 py-3 text-neutral-400 bg-neutral-100 cursor-not-allowed" />
+              </div>
+            </div>
+            <!-- Loading button -->
+            <button disabled class="w-full bg-emerald-700 text-white font-semibold py-4 rounded-xl text-lg opacity-80 cursor-not-allowed flex items-center justify-center gap-3">
+              <!-- Spinner SVG -->
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Searching...
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dimmed trust signals section to indicate loading in-progress -->
+  <section class="bg-white py-12 border-b border-neutral-100 opacity-40 pointer-events-none">
+    <div class="max-w-screen-xl mx-auto px-6">
+      <div class="grid grid-cols-3 gap-8 text-center">
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-14 h-14 bg-neutral-200 rounded-full"></div>
+          <div class="space-y-2">
+            <div class="h-4 bg-neutral-200 rounded w-40 mx-auto"></div>
+            <div class="h-3 bg-neutral-200 rounded w-56 mx-auto"></div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-14 h-14 bg-neutral-200 rounded-full"></div>
+          <div class="space-y-2">
+            <div class="h-4 bg-neutral-200 rounded w-40 mx-auto"></div>
+            <div class="h-3 bg-neutral-200 rounded w-56 mx-auto"></div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-14 h-14 bg-neutral-200 rounded-full"></div>
+          <div class="space-y-2">
+            <div class="h-4 bg-neutral-200 rounded w-40 mx-auto"></div>
+            <div class="h-3 bg-neutral-200 rounded w-56 mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Note panel explaining loading behavior -->
+  <div class="max-w-2xl mx-auto mt-8 mb-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-blue-800 text-sm">
+    <strong>Loading State Behavior:</strong> When the user clicks "Search Doctors":
+    <ul class="list-disc ml-5 mt-2 space-y-1">
+      <li>NProgress slim bar animates across the top of the viewport</li>
+      <li>Search button becomes disabled with a spinner and "Searching..." label</li>
+      <li>Form inputs become disabled to prevent re-submission</li>
+      <li>On completion: navigates to /search (SCR-002) with query parameters</li>
+      <li>If API fails after timeout: shows inline error below search card</li>
+    </ul>
+  </div>
+
+</body>
+</html>

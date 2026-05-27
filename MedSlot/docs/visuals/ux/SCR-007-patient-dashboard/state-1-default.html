@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-007] Patient Dashboard — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-007 Patient Dashboard
+    STATE   : State 1 — Default (authenticated patient with existing appointments)
+    ROUTE   : /dashboard
+    PERSONA : Priya (authenticated patient)
+    STORIES : US-007, US-008, US-009, US-010, US-011, US-012
+    FILE    : docs/visuals/ux/SCR-007-patient-dashboard/state-1-default.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-007 Patient Dashboard</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /dashboard</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Priya (authenticated)</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-007–US-012</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Authenticated nav -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="/search" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="/dashboard/appointments" class="text-emerald-800 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200">My Appointments</a>
+        <a href="/dashboard/records" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Records</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 cursor-pointer hover:bg-neutral-50 rounded-lg px-2 py-1 transition-colors">
+          <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div>
+          <span class="text-sm font-medium text-neutral-700">Priya S.</span>
+          <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page body -->
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+
+    <!-- Page header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-2xl font-bold text-neutral-900">Good morning, Priya</h1>
+        <p class="text-neutral-500 text-sm mt-0.5">Wednesday, 10 June 2026</p>
+      </div>
+      <a href="/search" class="bg-emerald-800 hover:bg-emerald-900 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+        Book an Appointment
+      </a>
+    </div>
+
+    <!-- Summary stats row -->
+    <!-- @component: DashboardStatCards · GET /api/v1/appointments/?patient=me&status=upcoming,completed,cancelled -->
+    <div class="ann-wrapper">
+      <span class="ann">DashboardStatCards · GET /api/v1/appointments/?patient=me → counts by status · 3 stat tiles</span>
+      <div class="grid grid-cols-3 gap-5 mb-8">
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 flex items-center gap-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-neutral-900">2</p>
+            <p class="text-sm text-neutral-500 mt-0.5">Upcoming</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 flex items-center gap-4">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-neutral-900">7</p>
+            <p class="text-sm text-neutral-500 mt-0.5">Completed</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 flex items-center gap-4">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-neutral-900">4</p>
+            <p class="text-sm text-neutral-500 mt-0.5">Prescriptions</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+
+      <!-- Left 2/3: Upcoming appointments -->
+      <div class="col-span-2 space-y-5">
+
+        <!-- Upcoming appointments section -->
+        <!-- @component: UpcomingAppointmentsList · GET /api/v1/appointments/?patient=me&status=scheduled&ordering=slot__start_time -->
+        <div class="ann-wrapper">
+          <span class="ann">UpcomingAppointmentsList · GET /api/v1/appointments/?status=scheduled · cancel action inline · ≥2h before start</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="text-lg font-bold text-neutral-900">Upcoming Appointments</h2>
+              <a href="/dashboard/appointments" class="text-sm text-emerald-700 font-medium hover:underline">View all</a>
+            </div>
+
+            <!-- Appointment card 1 — tomorrow -->
+            <div class="border border-neutral-200 rounded-xl p-5 mb-4 hover:border-emerald-300 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-emerald-800 font-bold text-sm">AM</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-neutral-900">Dr. Arjun Mehta</p>
+                    <p class="text-emerald-700 text-sm">Cardiologist</p>
+                    <div class="flex items-center gap-3 mt-2 text-xs text-neutral-500">
+                      <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> Wed, 10 Jun 2026</span>
+                      <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> 10:30 AM IST</span>
+                      <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg> Heart Care Clinic, Banjara Hills</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                  <span class="inline-flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">SCHEDULED</span>
+                  <button class="text-xs text-red-500 hover:text-red-700 font-medium hover:underline transition-colors">Cancel</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Appointment card 2 — next week -->
+            <div class="border border-neutral-200 rounded-xl p-5 hover:border-emerald-300 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="text-purple-800 font-bold text-sm">SR</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-neutral-900">Dr. Suresh Rao</p>
+                    <p class="text-purple-700 text-sm">General Physician</p>
+                    <div class="flex items-center gap-3 mt-2 text-xs text-neutral-500">
+                      <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> Mon, 15 Jun 2026</span>
+                      <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> 09:00 AM IST</span>
+                      <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg> Wellness Clinic, Koramangala</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                  <span class="inline-flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">SCHEDULED</span>
+                  <button class="text-xs text-red-500 hover:text-red-700 font-medium hover:underline transition-colors">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent completed appointments -->
+        <!-- @component: RecentAppointmentsList · GET /api/v1/appointments/?status=completed&ordering=-slot__start_time&limit=3 -->
+        <div class="ann-wrapper">
+          <span class="ann">RecentAppointmentsList · GET /api/v1/appointments/?status=completed&limit=3 · prescription download inline</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="text-lg font-bold text-neutral-900">Past Appointments</h2>
+              <a href="/dashboard/appointments?tab=completed" class="text-sm text-emerald-700 font-medium hover:underline">View all</a>
+            </div>
+
+            <div class="space-y-4">
+              <!-- Past appt 1 -->
+              <div class="flex items-center justify-between py-3 border-b border-neutral-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 bg-neutral-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-neutral-600 font-semibold text-xs">DR</span></div>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800">Dr. Deepa Rao</p>
+                    <p class="text-xs text-neutral-500">Dermatologist · 28 May 2026</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex items-center bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full">COMPLETED</span>
+                  <a href="#" class="text-xs text-emerald-700 font-medium hover:underline flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Prescription
+                  </a>
+                </div>
+              </div>
+              <!-- Past appt 2 -->
+              <div class="flex items-center justify-between py-3 border-b border-neutral-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 bg-neutral-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-neutral-600 font-semibold text-xs">AM</span></div>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800">Dr. Arjun Mehta</p>
+                    <p class="text-xs text-neutral-500">Cardiologist · 12 Apr 2026</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex items-center bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full">COMPLETED</span>
+                  <a href="#" class="text-xs text-emerald-700 font-medium hover:underline flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Prescription
+                  </a>
+                </div>
+              </div>
+              <!-- Past appt 3 — no show -->
+              <div class="flex items-center justify-between py-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 bg-neutral-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-neutral-600 font-semibold text-xs">SR</span></div>
+                  <div>
+                    <p class="text-sm font-semibold text-neutral-800">Dr. Suresh Rao</p>
+                    <p class="text-xs text-neutral-500">General Physician · 3 Mar 2026</p>
+                  </div>
+                </div>
+                <span class="inline-flex items-center bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-0.5 rounded-full">NO-SHOW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right 1/3: Quick actions + health records -->
+      <div class="col-span-1 space-y-5">
+
+        <!-- Quick actions -->
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+          <h2 class="text-base font-bold text-neutral-900 mb-4">Quick Actions</h2>
+          <div class="space-y-2.5">
+            <a href="/search" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition-colors group">
+              <div class="w-9 h-9 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-200 transition-colors">
+                <svg class="w-5 h-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              </div>
+              <span class="text-sm font-medium text-neutral-700 group-hover:text-emerald-800">Find a Doctor</span>
+            </a>
+            <a href="/dashboard/records/upload" class="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors group">
+              <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 transition-colors">
+                <svg class="w-5 h-5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+              </div>
+              <span class="text-sm font-medium text-neutral-700 group-hover:text-blue-800">Upload Health Record</span>
+            </a>
+            <a href="/dashboard/records" class="flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 transition-colors group">
+              <div class="w-9 h-9 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-purple-200 transition-colors">
+                <svg class="w-5 h-5 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+              </div>
+              <span class="text-sm font-medium text-neutral-700 group-hover:text-purple-800">View Records</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Recent health records -->
+        <!-- @component: RecentRecordsWidget · GET /api/v1/records/?patient=me&ordering=-uploaded_at&limit=3 -->
+        <div class="ann-wrapper">
+          <span class="ann">RecentRecordsWidget · GET /api/v1/records/?limit=3 · S3 presigned URL on download · SCR-008</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-bold text-neutral-900">Health Records</h2>
+              <a href="/dashboard/records" class="text-sm text-emerald-700 font-medium hover:underline">View all</a>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 transition-colors cursor-pointer">
+                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-semibold text-neutral-800 truncate">Blood Report — May 2026</p>
+                  <p class="text-xs text-neutral-400">PDF · 28 May 2026</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 transition-colors cursor-pointer">
+                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" /></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-semibold text-neutral-800 truncate">ECG Scan — Apr 2026</p>
+                  <p class="text-xs text-neutral-400">JPG · 12 Apr 2026</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 transition-colors cursor-pointer">
+                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-semibold text-neutral-800 truncate">Discharge Summary — Jan 2026</p>
+                  <p class="text-xs text-neutral-400">PDF · 8 Jan 2026</p>
+                </div>
+              </div>
+            </div>
+            <a href="/dashboard/records/upload" class="mt-4 flex items-center justify-center gap-2 w-full border border-dashed border-neutral-300 hover:border-emerald-400 hover:bg-emerald-50 rounded-xl py-3 text-sm text-neutral-500 hover:text-emerald-700 font-medium transition-colors">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+              Upload New Record
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

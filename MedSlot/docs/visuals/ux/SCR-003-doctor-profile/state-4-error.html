@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-003] Doctor Profile — Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-003 Doctor Profile
+    STATE   : State 4 — Error (profile API fails)
+    FILE    : docs/visuals/ux/SCR-003-doctor-profile/state-4-error.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-003 Doctor Profile</span>
+      <span style="background:#dc2626;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 4 — Error</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg">Register</a>
+      </div>
+    </div>
+  </nav>
+  <div class="max-w-screen-xl mx-auto px-6 py-16">
+    <div class="ann-wrapper max-w-lg mx-auto">
+      <span class="ann">ErrorPanel · profile API failed · Retry + Go Back recovery · no HTTP codes</span>
+      <div class="bg-white rounded-xl border border-red-200 shadow-sm p-16 text-center">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        </div>
+        <h2 class="text-xl font-semibold text-neutral-900 mb-2">Couldn't load this doctor's profile</h2>
+        <p class="text-neutral-500 text-base mb-8 max-w-sm mx-auto">Something went wrong loading the profile. Try refreshing the page or go back to search.</p>
+        <div class="flex items-center justify-center gap-4">
+          <button onclick="window.location.reload()" class="bg-emerald-800 text-white font-semibold px-6 py-3 rounded-lg hover:bg-emerald-900 transition-colors">Refresh Page</button>
+          <a href="/search" class="border border-neutral-300 text-neutral-700 font-medium px-6 py-3 rounded-lg hover:bg-neutral-50 transition-colors">← Back to Search</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-009] Prescription View — Loading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-009 Prescription View
+    STATE   : State 2 — Loading (skeleton — page navigation type)
+    ROUTE   : /dashboard/prescriptions/{id}
+    FILE    : docs/visuals/ux/SCR-009-prescription-view/state-2-loading.html
+    LOADING TYPE: Navigation / page transition — slim NProgress top bar + skeleton content
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-009 Prescription View</span>
+      <span style="background:#f59e0b;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 2 — Loading</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Loading type: Navigation top-bar + skeleton</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- NProgress top bar -->
+  <div style="position:fixed;top:49px;left:0;width:100%;height:3px;background:#e2e8f0;z-index:60">
+    <div style="height:100%;width:68%;background:#0B6E4F;border-radius:0 2px 2px 0;box-shadow:0 0 8px rgba(11,110,79,0.5)"></div>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg">My Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg">My Records</a>
+      </div>
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div><span class="text-sm font-medium text-neutral-700">Priya S.</span></div>
+    </div>
+  </nav>
+
+  <div class="bg-white border-b border-neutral-100 px-6 py-3">
+    <div class="max-w-screen-xl mx-auto animate-pulse flex items-center gap-2">
+      <div class="h-3 w-16 bg-gray-200 rounded"></div>
+      <div class="h-3 w-3 bg-gray-200 rounded"></div>
+      <div class="h-3 w-24 bg-gray-200 rounded"></div>
+      <div class="h-3 w-3 bg-gray-200 rounded"></div>
+      <div class="h-3 w-36 bg-gray-200 rounded"></div>
+    </div>
+  </div>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-8" aria-busy="true" aria-label="Loading prescription">
+    <div class="grid grid-cols-3 gap-8">
+
+      <!-- Left col skeleton -->
+      <div class="col-span-2">
+        <div class="flex items-center justify-between mb-6 animate-pulse">
+          <div><div class="h-7 w-36 bg-gray-200 rounded mb-2"></div><div class="h-4 w-48 bg-gray-200 rounded"></div></div>
+          <div class="h-10 w-36 bg-gray-200 rounded-xl"></div>
+        </div>
+
+        <!-- @component: PrescriptionCardSkeleton · mirrors PrescriptionCard layout -->
+        <div class="ann-wrapper">
+          <span class="ann">PrescriptionCardSkeleton · mirrors PrescriptionCard layout · GET /api/v1/prescriptions/{id}/ in flight · aria-hidden</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden animate-pulse" aria-hidden="true">
+            <!-- Header skeleton -->
+            <div class="bg-gray-200 px-8 py-6 h-28"></div>
+            <!-- Patient info skeleton -->
+            <div class="px-8 py-5 bg-neutral-50 border-b border-neutral-200">
+              <div class="grid grid-cols-3 gap-4">
+                <div><div class="h-3 w-20 bg-gray-200 rounded mb-2"></div><div class="h-4 w-28 bg-gray-200 rounded"></div></div>
+                <div><div class="h-3 w-20 bg-gray-200 rounded mb-2"></div><div class="h-4 w-24 bg-gray-200 rounded"></div></div>
+                <div><div class="h-3 w-20 bg-gray-200 rounded mb-2"></div><div class="h-4 w-28 bg-gray-200 rounded"></div></div>
+              </div>
+            </div>
+            <!-- Content skeleton -->
+            <div class="px-8 py-6 space-y-6">
+              <div>
+                <div class="h-4 w-36 bg-gray-200 rounded mb-3"></div>
+                <div class="space-y-2"><div class="h-3 w-full bg-gray-100 rounded"></div><div class="h-3 w-4/5 bg-gray-100 rounded"></div></div>
+              </div>
+              <div>
+                <div class="h-4 w-28 bg-gray-200 rounded mb-3"></div>
+                <div class="space-y-2"><div class="h-3 w-full bg-gray-100 rounded"></div><div class="h-3 w-3/4 bg-gray-100 rounded"></div></div>
+              </div>
+              <div>
+                <div class="h-4 w-32 bg-gray-200 rounded mb-3"></div>
+                <div class="h-32 bg-gray-100 rounded-xl"></div>
+              </div>
+              <div>
+                <div class="h-4 w-40 bg-gray-200 rounded mb-3"></div>
+                <div class="space-y-2">
+                  <div class="h-3 w-3/4 bg-gray-100 rounded"></div>
+                  <div class="h-3 w-2/3 bg-gray-100 rounded"></div>
+                  <div class="h-3 w-4/5 bg-gray-100 rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 h-14 bg-amber-50 border border-amber-100 rounded-xl animate-pulse" aria-hidden="true"></div>
+      </div>
+
+      <!-- Right col skeleton -->
+      <div class="col-span-1 space-y-5">
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 animate-pulse" aria-hidden="true">
+          <div class="h-5 w-36 bg-gray-200 rounded mb-4"></div>
+          <div class="flex items-center gap-3 mb-4"><div class="w-9 h-9 bg-gray-200 rounded-full"></div><div><div class="h-4 w-28 bg-gray-200 rounded mb-1"></div><div class="h-3 w-20 bg-gray-200 rounded"></div></div></div>
+          <div class="space-y-2 pt-3 border-t border-neutral-100">
+            <div class="h-3 w-full bg-gray-100 rounded"></div>
+            <div class="h-3 w-3/4 bg-gray-100 rounded"></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 animate-pulse" aria-hidden="true">
+          <div class="h-5 w-20 bg-gray-200 rounded mb-4"></div>
+          <div class="space-y-3">
+            <div class="h-12 bg-gray-100 rounded-xl"></div>
+            <div class="h-12 bg-gray-100 rounded-xl"></div>
+            <div class="h-12 bg-gray-100 rounded-xl"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

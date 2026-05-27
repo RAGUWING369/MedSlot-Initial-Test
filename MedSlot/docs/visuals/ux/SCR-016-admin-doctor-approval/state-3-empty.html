@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-016] Admin — Doctor Approval Queue — Empty</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann { position: absolute; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 50; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-016 Admin — Doctor Approval Queue
+    STATE   : State 3 — Empty (no pending approvals — queue fully cleared)
+    FILE    : docs/visuals/ux/SCR-016-admin-doctor-approval/state-3-empty.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-016 Admin — Doctor Approval Queue</span>
+      <span style="background:#0B6E4F;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase">State 3 — Empty</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+  <div style="background:#0B6E4F;padding:8px 32px">
+    <span style="font-weight:900;font-size:1.1rem;color:white">MedSlot Admin</span>
+    <span style="color:#a7f3d0;font-size:0.8rem;margin-left:12px">Welcome, admin / <a href="#" style="color:#6ee7b7;text-decoration:none">View site</a> / <a href="#" style="color:#6ee7b7;text-decoration:none">Log out</a></span>
+  </div>
+  <div style="background:#e8f5e9;border-bottom:1px solid #c8e6c9;padding:8px 32px">
+    <span style="font-size:0.8rem;color:#475569">Home › Accounts › Doctor Profiles › Pending Approval</span>
+  </div>
+  <div style="display:flex;min-height:calc(100vh - 100px)">
+    <div style="width:200px;background:white;border-right:1px solid #e2e8f0;padding:16px 0;flex-shrink:0">
+      <div style="padding:0 16px 8px;font-size:0.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase">Accounts</div>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#0B6E4F;font-weight:600;text-decoration:none;background:#f0fdf4">Doctor Profiles</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Patient Profiles</a>
+      <a href="#" style="display:block;padding:6px 16px;font-size:0.8rem;color:#475569;text-decoration:none">Users</a>
+    </div>
+    <div style="flex:1;padding:24px 32px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+        <div>
+          <h1 style="font-size:1.25rem;font-weight:700;color:#0f172a;margin:0 0 4px">Doctor Profiles — Pending Approval</h1>
+          <p style="color:#64748b;font-size:0.8rem;margin:0">Doctor registrations awaiting manual verification.</p>
+        </div>
+        <a href="#" style="background:#0B6E4F;color:white;font-size:0.8rem;font-weight:600;padding:8px 16px;border-radius:4px;text-decoration:none">+ Add Doctor</a>
+      </div>
+      <!-- Filter tabs -->
+      <div style="display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:16px">
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;font-weight:700;color:#0B6E4F;border-bottom:2px solid #0B6E4F;margin-bottom:-2px;text-decoration:none">Pending (0)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">Approved (50)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">Rejected (5)</a>
+        <a href="#" style="padding:8px 16px;font-size:0.85rem;color:#475569;text-decoration:none">All (55)</a>
+      </div>
+
+      <!-- Empty state -->
+      <div style="background:white;border-radius:8px;border:1px solid #e2e8f0;padding:60px 24px;text-align:center;position:relative">
+        <div class="ann" style="top:-28px;left:50%;transform:translateX(-50%)">→ Empty queue state — all pending doctors have been actioned</div>
+        <div style="width:72px;height:72px;border-radius:50%;background:#DCFCE7;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+          <svg width="36" height="36" fill="none" stroke="#16A34A" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3 style="font-size:1.1rem;font-weight:700;color:#0f172a;margin:0 0 8px">Approval queue is clear</h3>
+        <p style="color:#64748b;font-size:0.875rem;max-width:380px;margin:0 auto 24px;line-height:1.6">All pending doctor registrations have been reviewed. New registrations will appear here for verification against MCI records.</p>
+        <a href="#" style="background:#0B6E4F;color:white;font-size:0.85rem;font-weight:600;padding:10px 20px;border-radius:6px;text-decoration:none">View All Approved Doctors →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

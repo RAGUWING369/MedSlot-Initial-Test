@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-012] Availability Calendar — Loading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+    @keyframes nprogress { 0%{width:0%} 30%{width:40%} 70%{width:72%} 100%{width:85%} }
+    .nprogress-bar { animation: nprogress 1.4s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-012 Availability Calendar
+    STATE   : State 2 — Loading (Dashboard skeleton — form panels load independently)
+    ROUTE   : /doctor/calendar
+    PERSONA : Dr. Arjun Mehta (Doctor)
+    STORIES : US-DOC-007, US-DOC-008
+    FILE    : docs/visuals/ux/SCR-012-availability-calendar/state-2-loading.html
+    LOADING TYPE: Dashboard / data-heavy — per-widget skeleton (GET /api/v1/calendar/me/ fetches existing settings)
+  -->
+
+  <!-- NProgress slim top bar -->
+  <div style="position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;background:#e2e8f0">
+    <div class="nprogress-bar" style="height:3px;background:#2563eb;border-radius:0 2px 2px 0"></div>
+  </div>
+
+  <!-- FILE HEADER BAR -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-012 Availability Calendar</span>
+      <span style="background:#f59e0b;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 2 — Loading</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctor/calendar</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Dr. Arjun Mehta</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Loading type: Per-widget skeleton (dashboard)</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Doctor Nav -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+        <span class="ml-2 text-xs font-semibold text-blue-700 bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full">Doctor</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="/doctor/dashboard" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Dashboard</a>
+        <a href="#" class="text-blue-800 font-semibold text-sm px-3 py-2 rounded-lg bg-blue-50 border border-blue-200">Availability</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-blue-50">My Profile</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><span class="text-blue-800 font-semibold text-sm">A</span></div>
+        <div><span class="text-sm font-medium text-neutral-700 block leading-none">Dr. Arjun M.</span><span class="text-xs text-blue-600">Cardiologist</span></div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-screen-xl mx-auto px-6 py-8" aria-busy="true" aria-label="Loading availability settings">
+
+    <!-- Page header skeleton -->
+    <div class="mb-6 animate-pulse">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="h-3 w-24 bg-gray-200 rounded"></div>
+        <div class="h-3 w-3 bg-gray-200 rounded"></div>
+        <div class="h-3 w-36 bg-gray-200 rounded"></div>
+      </div>
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="h-7 w-56 bg-gray-200 rounded mb-2"></div>
+          <div class="h-4 w-80 bg-gray-200 rounded"></div>
+        </div>
+        <div class="h-10 w-36 bg-gray-200 rounded-xl"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+
+      <!-- Left col: form panels skeleton (col-span-2) -->
+      <div class="col-span-2 space-y-5">
+
+        <!-- Working Days Panel skeleton -->
+        <!-- @component: WorkingDaysSelectorSkeleton · animate-pulse · aria-hidden="true" -->
+        <div class="ann-wrapper" aria-hidden="true">
+          <span class="ann">WorkingDaysSelectorSkeleton · GET /api/v1/calendar/me/ → working_days[] · loads independently</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 animate-pulse" aria-hidden="true">
+            <div class="flex items-center justify-between mb-4">
+              <div class="h-5 w-36 bg-gray-200 rounded"></div>
+              <div class="h-4 w-48 bg-gray-200 rounded"></div>
+            </div>
+            <!-- 7 day toggle skeletons -->
+            <div class="flex gap-2 mb-4">
+              <div class="h-10 w-20 bg-blue-100 rounded-xl"></div>
+              <div class="h-10 w-20 bg-blue-100 rounded-xl"></div>
+              <div class="h-10 w-20 bg-blue-100 rounded-xl"></div>
+              <div class="h-10 w-20 bg-blue-100 rounded-xl"></div>
+              <div class="h-10 w-20 bg-blue-100 rounded-xl"></div>
+              <div class="h-10 w-20 bg-gray-100 rounded-xl"></div>
+              <div class="h-10 w-20 bg-gray-100 rounded-xl"></div>
+            </div>
+            <div class="h-4 w-52 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+
+        <!-- Working Hours Panel skeleton -->
+        <div class="ann-wrapper" aria-hidden="true">
+          <span class="ann">WorkingHoursSelectorSkeleton · GET /api/v1/calendar/me/ → start_time, end_time · loads independently</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 animate-pulse" aria-hidden="true">
+            <div class="h-5 w-36 bg-gray-200 rounded mb-4"></div>
+            <div class="flex items-end gap-6 mb-4">
+              <div class="flex-1">
+                <div class="h-4 w-20 bg-gray-200 rounded mb-2"></div>
+                <div class="h-11 bg-gray-100 rounded-xl"></div>
+              </div>
+              <div class="h-4 w-4 bg-gray-200 rounded-full mb-4"></div>
+              <div class="flex-1">
+                <div class="h-4 w-20 bg-gray-200 rounded mb-2"></div>
+                <div class="h-11 bg-gray-100 rounded-xl"></div>
+              </div>
+              <div class="flex-1">
+                <div class="h-4 w-24 bg-gray-200 rounded mb-2"></div>
+                <div class="h-11 bg-gray-100 rounded-xl"></div>
+              </div>
+            </div>
+            <div class="h-12 bg-blue-50 rounded-xl"></div>
+          </div>
+        </div>
+
+        <!-- Slot Duration Panel skeleton -->
+        <div class="ann-wrapper" aria-hidden="true">
+          <span class="ann">SlotDurationSelectorSkeleton · GET /api/v1/calendar/me/ → slot_duration_minutes · loads independently</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 animate-pulse" aria-hidden="true">
+            <div class="h-5 w-36 bg-gray-200 rounded mb-1"></div>
+            <div class="h-4 w-72 bg-gray-200 rounded mb-4"></div>
+            <div class="grid grid-cols-4 gap-3">
+              <div class="h-24 bg-gray-100 rounded-xl border border-gray-200"></div>
+              <div class="h-24 bg-blue-50 rounded-xl border border-blue-200"></div>
+              <div class="h-24 bg-gray-100 rounded-xl border border-gray-200"></div>
+              <div class="h-24 bg-gray-100 rounded-xl border border-gray-200"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blocked Dates Panel skeleton -->
+        <div class="ann-wrapper" aria-hidden="true">
+          <span class="ann">BlockedDatesPanelSkeleton · GET /api/v1/calendar/me/blocked-dates/ · loads independently</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 animate-pulse" aria-hidden="true">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="h-5 w-32 bg-gray-200 rounded mb-1"></div>
+                <div class="h-4 w-56 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+            <!-- Add date row skeleton -->
+            <div class="flex items-end gap-3 mb-4">
+              <div class="flex-1">
+                <div class="h-4 w-20 bg-gray-200 rounded mb-2"></div>
+                <div class="h-11 bg-gray-100 rounded-xl"></div>
+              </div>
+              <div class="flex-1">
+                <div class="h-4 w-16 bg-gray-200 rounded mb-2"></div>
+                <div class="h-11 bg-gray-100 rounded-xl"></div>
+              </div>
+              <div class="h-11 w-36 bg-gray-200 rounded-xl"></div>
+            </div>
+            <!-- Existing blocked dates skeleton -->
+            <div class="space-y-2">
+              <div class="h-14 bg-gray-50 rounded-xl border border-gray-200"></div>
+              <div class="h-14 bg-gray-50 rounded-xl border border-gray-200"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right col: Slot Preview Panel skeleton -->
+      <div class="col-span-1">
+        <div class="ann-wrapper" aria-hidden="true">
+          <span class="ann">SlotPreviewPanelSkeleton · computed client-side once form data loads · sticky top-[120px]</span>
+          <div class="bg-white rounded-2xl border border-neutral-200 shadow-sm p-5 sticky top-[120px] animate-pulse" aria-hidden="true">
+            <!-- Header skeleton -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="h-5 w-32 bg-gray-200 rounded"></div>
+              <div class="h-6 w-20 bg-gray-200 rounded-full"></div>
+            </div>
+            <!-- Calendar day header skeleton -->
+            <div class="h-10 bg-gray-200 rounded-xl mb-3"></div>
+            <!-- Slot chip grid skeleton -->
+            <div class="grid grid-cols-3 gap-1.5 mb-4">
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+              <div class="h-8 bg-gray-100 rounded-lg"></div>
+            </div>
+            <!-- Stats table skeleton -->
+            <div class="bg-neutral-50 rounded-xl p-3 mb-5 space-y-2">
+              <div class="flex justify-between"><div class="h-3 w-24 bg-gray-200 rounded"></div><div class="h-3 w-8 bg-gray-200 rounded"></div></div>
+              <div class="flex justify-between"><div class="h-3 w-24 bg-gray-200 rounded"></div><div class="h-3 w-16 bg-gray-200 rounded"></div></div>
+              <div class="flex justify-between"><div class="h-3 w-24 bg-gray-200 rounded"></div><div class="h-3 w-20 bg-gray-200 rounded"></div></div>
+            </div>
+            <!-- Save button skeleton -->
+            <div class="h-12 bg-blue-200 rounded-xl w-full"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

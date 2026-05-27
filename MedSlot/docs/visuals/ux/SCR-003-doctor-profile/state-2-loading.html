@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-003] Doctor Profile — Loading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-003 Doctor Profile
+    STATE   : State 2 — Loading (skeleton — data-heavy page with two independent panels)
+    ROUTE   : /doctors/{slug}
+    FILE    : docs/visuals/ux/SCR-003-doctor-profile/state-2-loading.html
+    LOADING TYPE: Per-section skeleton (left panel + right panel load independently)
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-003 Doctor Profile</span>
+      <span style="background:#f59e0b;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 2 — Loading</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctors/{slug}</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Loading type: Per-section skeleton</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg">Find Doctors</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Skeleton breadcrumb -->
+  <div class="bg-white border-b border-neutral-100 py-3 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="flex items-center gap-2 animate-pulse">
+        <div class="h-4 bg-neutral-200 rounded w-12"></div>
+        <span class="text-neutral-300">›</span>
+        <div class="h-4 bg-neutral-200 rounded w-40"></div>
+        <span class="text-neutral-300">›</span>
+        <div class="h-4 bg-neutral-200 rounded w-36"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKELETON LAYOUT -->
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+    <div class="flex gap-8 items-start">
+
+      <!-- LEFT: Doctor info skeleton -->
+      <div class="ann-wrapper w-80 flex-shrink-0">
+        <span class="ann">DoctorInfoPanel skeleton · left panel loads independently</span>
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 animate-pulse" aria-hidden="true">
+          <div class="flex flex-col items-center mb-6">
+            <div class="w-24 h-24 bg-neutral-200 rounded-full mb-4"></div>
+            <div class="h-5 bg-neutral-200 rounded w-40 mb-2"></div>
+            <div class="h-4 bg-neutral-200 rounded w-24 mb-2"></div>
+            <div class="h-6 bg-neutral-200 rounded-full w-28"></div>
+          </div>
+          <div class="space-y-4 border-t border-neutral-100 pt-5">
+            <div><div class="h-3 bg-neutral-200 rounded w-24 mb-2"></div><div class="h-4 bg-neutral-200 rounded w-36"></div></div>
+            <div><div class="h-3 bg-neutral-200 rounded w-16 mb-2"></div><div class="h-4 bg-neutral-200 rounded w-44"></div></div>
+            <div><div class="h-3 bg-neutral-200 rounded w-16 mb-2"></div><div class="h-4 bg-neutral-200 rounded w-48"></div><div class="h-4 bg-neutral-200 rounded w-40 mt-1"></div></div>
+          </div>
+          <div class="mt-6 h-11 bg-neutral-200 rounded-xl w-full"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: About + Slot calendar skeleton -->
+      <div class="flex-1 min-w-0 space-y-6">
+
+        <!-- About skeleton -->
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 animate-pulse" aria-hidden="true">
+          <div class="h-5 bg-neutral-200 rounded w-48 mb-4"></div>
+          <div class="space-y-2">
+            <div class="h-4 bg-neutral-200 rounded w-full"></div>
+            <div class="h-4 bg-neutral-200 rounded w-5/6"></div>
+            <div class="h-4 bg-neutral-200 rounded w-4/6"></div>
+          </div>
+        </div>
+
+        <!-- Slot calendar skeleton -->
+        <div class="ann-wrapper">
+          <span class="ann">SlotCalendar skeleton · date tabs + slot chips · per-section pulse</span>
+          <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 animate-pulse" aria-hidden="true">
+            <div class="h-5 bg-neutral-200 rounded w-64 mb-4"></div>
+            <!-- Date tab skeletons -->
+            <div class="flex gap-2 mb-6">
+              <div class="h-14 w-20 bg-neutral-300 rounded-lg"></div>
+              <div class="h-14 w-20 bg-neutral-200 rounded-lg"></div>
+              <div class="h-14 w-20 bg-neutral-200 rounded-lg"></div>
+              <div class="h-14 w-20 bg-neutral-200 rounded-lg"></div>
+              <div class="h-14 w-20 bg-neutral-200 rounded-lg"></div>
+              <div class="h-14 w-20 bg-neutral-200 rounded-lg"></div>
+              <div class="h-14 w-20 bg-neutral-200 rounded-lg"></div>
+            </div>
+            <!-- Slot chip skeletons -->
+            <div class="h-4 bg-neutral-200 rounded w-48 mb-3"></div>
+            <div class="flex flex-wrap gap-3">
+              <div class="h-10 w-24 bg-neutral-200 rounded-lg"></div>
+              <div class="h-10 w-24 bg-neutral-200 rounded-lg"></div>
+              <div class="h-10 w-24 bg-neutral-200 rounded-lg"></div>
+              <div class="h-10 w-24 bg-neutral-200 rounded-lg"></div>
+              <div class="h-10 w-24 bg-neutral-200 rounded-lg"></div>
+              <div class="h-10 w-24 bg-neutral-200 rounded-lg"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-8">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

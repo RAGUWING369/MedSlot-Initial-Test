@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-003] Doctor Profile — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+    .slot-chip { display: inline-block; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-003 Doctor Profile
+    STATE   : State 1 — Default
+    ROUTE   : /doctors/dr-arjun-mehta-cardiologist-bengaluru
+    PERSONA : Priya (public — unauthenticated)
+    STORIES : US-005, US-006
+    FILE    : docs/visuals/ux/SCR-003-doctor-profile/state-1-default.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-003 Doctor Profile</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctors/{slug}</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Priya (public)</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-005, US-006</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- NAV -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">For Doctors</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-emerald-800 border border-emerald-800 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-emerald-50">Login</a>
+        <a href="#" class="bg-emerald-800 text-white font-semibold text-sm px-5 py-2 rounded-lg hover:bg-emerald-900">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="bg-white border-b border-neutral-100 py-3 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <nav class="text-sm text-neutral-500">
+        <a href="/" class="hover:text-emerald-700">Home</a>
+        <span class="mx-2">›</span>
+        <a href="/search" class="hover:text-emerald-700">Cardiologists in Bengaluru</a>
+        <span class="mx-2">›</span>
+        <span class="text-neutral-900 font-medium">Dr. Arjun Mehta</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- PROFILE LAYOUT: 2-column -->
+  <div class="max-w-screen-xl mx-auto px-6 py-8">
+    <div class="flex gap-8 items-start">
+
+      <!-- LEFT PANEL — Doctor Info Card -->
+      <!-- @component: DoctorInfoPanel -->
+      <!-- @data-source: GET /api/v1/doctors/{slug}/ → name, specialty, mci_number, clinic_name, area, city, is_verified -->
+      <div class="ann-wrapper w-80 flex-shrink-0">
+        <span class="ann">DoctorInfoPanel · GET /api/v1/doctors/{slug}/ · sticky sidebar</span>
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 sticky top-32">
+          <!-- Avatar -->
+          <div class="flex flex-col items-center text-center mb-6">
+            <div class="w-24 h-24 bg-neutral-200 rounded-full flex items-center justify-center mb-4">
+              <span class="text-neutral-500 text-3xl font-bold">AM</span>
+            </div>
+            <h1 class="text-xl font-bold text-neutral-900">Dr. Arjun Mehta</h1>
+            <p class="text-emerald-700 font-semibold text-sm mt-1">Cardiologist</p>
+            <div class="mt-2">
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                MCI Verified
+              </span>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-sm border-t border-neutral-100 pt-5">
+            <div>
+              <p class="text-neutral-500 text-xs font-medium uppercase tracking-wide mb-1">MCI Registration</p>
+              <p class="text-neutral-700 font-mono text-sm">MCI-2009-KA-12345</p>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-xs font-medium uppercase tracking-wide mb-1">Clinic</p>
+              <p class="text-neutral-900 font-medium">Heart Care Clinic</p>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-xs font-medium uppercase tracking-wide mb-1">Address</p>
+              <p class="text-neutral-700">42, 3rd Main Road<br/>Banjara Hills, Bengaluru — 560034</p>
+            </div>
+          </div>
+
+          <!-- Book CTA -->
+          <div class="mt-6">
+            <button onclick="document.getElementById('slots-section').scrollIntoView({behavior:'smooth'})"
+              class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-semibold py-3 rounded-xl transition-colors">
+              Book Appointment
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL — Slot Calendar -->
+      <div class="flex-1 min-w-0">
+
+        <!-- About section -->
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-neutral-900 mb-3">About Dr. Arjun Mehta</h2>
+          <p class="text-neutral-700 text-sm leading-relaxed">
+            Dr. Arjun Mehta is a consultant Cardiologist with over 15 years of experience in interventional cardiology and heart failure management. He completed his MBBS from Osmania Medical College, Hyderabad, and MD (Cardiology) from AIIMS, New Delhi. He is registered with the Medical Council of India.
+          </p>
+        </div>
+
+        <!-- Slot Calendar -->
+        <!-- @component: SlotCalendar -->
+        <!-- @data-source: GET /api/v1/doctors/{slug}/slots/?days=7 → date, start_time, slot_id, is_available -->
+        <!-- @interaction: slot chip click → if unauth → /auth/patient?return_url=...&slot_id=... | if auth → open booking summary (SCR-004) -->
+        <div id="slots-section" class="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+          <div class="ann-wrapper">
+            <span class="ann">SlotCalendar · GET /api/v1/doctors/{slug}/slots/?days=7 · only is_available=true shown</span>
+            <div>
+              <h2 class="text-lg font-semibold text-neutral-900 mb-4">Available Appointments — Next 7 Days</h2>
+
+              <!-- Date tabs -->
+              <div class="flex gap-2 mb-6 overflow-x-auto pb-1">
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg bg-emerald-800 text-white text-sm font-semibold">
+                  <div class="text-xs opacity-80">Wed</div>
+                  <div>10 Jun</div>
+                </button>
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm font-medium hover:border-emerald-400 hover:bg-emerald-50 transition-colors">
+                  <div class="text-xs opacity-60">Thu</div>
+                  <div>11 Jun</div>
+                </button>
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm font-medium hover:border-emerald-400 hover:bg-emerald-50 transition-colors">
+                  <div class="text-xs opacity-60">Fri</div>
+                  <div>12 Jun</div>
+                </button>
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-500 text-sm font-medium opacity-50 cursor-not-allowed">
+                  <div class="text-xs">Sat</div>
+                  <div>13 Jun</div>
+                  <div class="text-xs">Closed</div>
+                </button>
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-500 text-sm font-medium opacity-50 cursor-not-allowed">
+                  <div class="text-xs">Sun</div>
+                  <div>14 Jun</div>
+                  <div class="text-xs">Closed</div>
+                </button>
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm font-medium hover:border-emerald-400 hover:bg-emerald-50 transition-colors">
+                  <div class="text-xs opacity-60">Mon</div>
+                  <div>15 Jun</div>
+                </button>
+                <button class="flex-shrink-0 px-4 py-2.5 rounded-lg border border-neutral-200 bg-white text-neutral-700 text-sm font-medium hover:border-emerald-400 hover:bg-emerald-50 transition-colors">
+                  <div class="text-xs opacity-60">Tue</div>
+                  <div>16 Jun</div>
+                </button>
+              </div>
+
+              <!-- Slots for selected date: Wed 10 Jun -->
+              <div class="mb-3">
+                <p class="text-sm font-medium text-neutral-600 mb-3">Wednesday, 10 June 2026 — 6 slots available</p>
+                <div class="ann-wrapper">
+                  <span class="ann">SlotChip · role="button" aria-label="Book 09:30 AM on Wed 10 Jun" · click → auth check → SCR-004</span>
+                  <div class="flex flex-wrap gap-3">
+                    <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 hover:border-emerald-400 transition-colors" aria-label="Book 09:30 AM on Wednesday 10 June 2026">
+                      09:30 AM
+                    </button>
+                    <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 hover:border-emerald-400 transition-colors" aria-label="Book 10:00 AM on Wednesday 10 June 2026">
+                      10:00 AM
+                    </button>
+                    <button class="px-5 py-2.5 bg-emerald-800 border border-emerald-800 text-white text-sm font-semibold rounded-lg" aria-pressed="true" aria-label="10:30 AM selected — Wednesday 10 June 2026">
+                      10:30 AM ✓
+                    </button>
+                    <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 hover:border-emerald-400 transition-colors" aria-label="Book 11:00 AM on Wednesday 10 June 2026">
+                      11:00 AM
+                    </button>
+                    <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 hover:border-emerald-400 transition-colors" aria-label="Book 11:30 AM on Wednesday 10 June 2026">
+                      11:30 AM
+                    </button>
+                    <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 hover:border-emerald-400 transition-colors" aria-label="Book 12:00 PM on Wednesday 10 June 2026">
+                      12:00 PM
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Booking summary (appears when slot selected) -->
+              <div class="ann-wrapper mt-6">
+                <span class="ann">BookingSummaryPanel · appears after slot selected · "Confirm Booking" → /auth/patient (unauthenticated) or SCR-004</span>
+                <div class="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl p-5">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <p class="text-sm font-semibold text-emerald-900 mb-1">Selected: 10:30 AM — Wednesday, 10 June 2026</p>
+                      <p class="text-sm text-emerald-700">Dr. Arjun Mehta · Heart Care Clinic, Banjara Hills</p>
+                    </div>
+                    <button class="bg-emerald-800 text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-emerald-900 transition-colors text-sm whitespace-nowrap">
+                      Confirm Booking
+                    </button>
+                  </div>
+                  <p class="text-xs text-emerald-600 mt-2">
+                    <svg class="w-3.5 h-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    You'll need to log in or register to complete this booking
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-8">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between">
+      <span class="text-white font-bold">MedSlot</span>
+      <div class="flex gap-6 text-sm"><a href="#" class="hover:text-white">Privacy Policy</a><a href="#" class="hover:text-white">Terms</a></div>
+      <p class="text-xs">© 2026 MedSlot</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-004] Appointment Booking Flow — Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-004 Appointment Booking Flow
+    STATE   : State 4 — Error (slot taken by concurrent booking / API failure)
+    FILE    : docs/visuals/ux/SCR-004-booking-flow/state-4-error.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-004 Appointment Booking Flow</span>
+      <span style="background:#dc2626;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 4 — Error</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div><span class="text-emerald-800 font-bold text-xl">MedSlot</span></div>
+      <div class="flex items-center gap-2"><div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center"><span class="text-emerald-800 font-semibold text-sm">P</span></div><span class="text-sm font-medium text-neutral-700">Priya S.</span></div>
+    </div>
+  </nav>
+  <div class="max-w-screen-xl mx-auto px-6 py-12">
+    <div class="max-w-lg mx-auto">
+      <h1 class="text-2xl font-bold text-neutral-900 mb-2 text-center">Confirm Your Appointment</h1>
+
+      <!-- Slot-taken error (race condition — most common error case) -->
+      <div class="ann-wrapper">
+        <span class="ann">SlotTakenError · US-006 AC: concurrent booking · inline error above CTA · auto-refreshes slot grid</span>
+        <div class="bg-red-50 border border-red-200 rounded-xl p-5 mb-6 flex items-start gap-3" role="alert">
+          <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <div>
+            <p class="text-red-800 font-semibold text-sm">This slot was just taken by another patient.</p>
+            <p class="text-red-700 text-sm mt-0.5">Please choose a different time from Dr. Arjun's available slots below.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary card shown dimmed -->
+      <div class="bg-white rounded-2xl shadow-md border border-red-200 p-8 mb-6 opacity-70">
+        <div class="flex items-start gap-4 mb-6 pb-6 border-b border-neutral-100">
+          <div class="w-14 h-14 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-neutral-500 text-lg font-bold">AM</span></div>
+          <div>
+            <h2 class="text-lg font-bold text-neutral-900">Dr. Arjun Mehta</h2>
+            <p class="text-emerald-700 font-medium text-sm">Cardiologist</p>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div><div><p class="text-xs text-neutral-500">Date</p><p class="text-neutral-900 font-semibold">Wednesday, 10 June 2026</p></div></div>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+            <div><p class="text-xs text-neutral-500">Time</p><p class="text-neutral-700 line-through">10:30 AM IST</p><span class="text-xs text-red-600 font-medium">No longer available</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Updated available slots inline -->
+      <div class="ann-wrapper">
+        <span class="ann">RefreshedSlotGrid · auto-refreshed after race condition · shows remaining available slots</span>
+        <div class="bg-white rounded-xl border border-neutral-200 p-6 mb-6">
+          <h3 class="text-sm font-semibold text-neutral-700 mb-3">Other available slots for Wednesday, 10 June 2026:</h3>
+          <div class="flex flex-wrap gap-3">
+            <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 transition-colors">09:30 AM</button>
+            <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 transition-colors">10:00 AM</button>
+            <button class="px-5 py-2.5 bg-neutral-100 border border-neutral-200 text-neutral-400 text-sm rounded-lg cursor-not-allowed line-through">10:30 AM</button>
+            <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 transition-colors">11:00 AM</button>
+            <button class="px-5 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-medium rounded-lg hover:bg-emerald-100 transition-colors">11:30 AM</button>
+          </div>
+        </div>
+      </div>
+
+      <a href="/doctors/dr-arjun-mehta" class="block w-full text-center text-neutral-600 font-medium py-3 rounded-xl border border-neutral-300 hover:bg-neutral-50 transition-colors">
+        ← Back to Doctor Profile
+      </a>
+    </div>
+  </div>
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-015] Doctor Profile & Settings — Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann { position: absolute; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 50; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-015 Doctor Profile & Settings
+    STATE   : State 4 — Error (save failed: duplicate mobile/validation error)
+    ROUTE   : /doctor/settings
+    FILE    : docs/visuals/ux/SCR-015-doctor-profile-settings/state-4-error.html
+  -->
+
+  <!-- Wireframe Label Bar -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-015 Doctor Profile & Settings</span>
+      <span style="background:#dc2626;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase">State 4 — Error</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /doctor/settings</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- Top Navigation -->
+  <nav style="background:#0B6E4F;color:white;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px">
+    <div style="display:flex;align-items:center;gap:32px">
+      <span style="font-weight:900;font-size:1.25rem;letter-spacing:-0.02em">Med<span style="color:#18A97A">Slot</span></span>
+      <div style="display:flex;gap:4px">
+        <a href="#" style="color:#a7f3d0;font-size:0.875rem;padding:6px 14px;border-radius:4px;text-decoration:none">Dashboard</a>
+        <a href="#" style="color:#a7f3d0;font-size:0.875rem;padding:6px 14px;border-radius:4px;text-decoration:none">Appointments</a>
+        <a href="#" style="color:#a7f3d0;font-size:0.875rem;padding:6px 14px;border-radius:4px;text-decoration:none">Availability</a>
+        <a href="#" style="background:rgba(255,255,255,0.15);color:white;font-size:0.875rem;padding:6px 14px;border-radius:4px;text-decoration:none;font-weight:600">Profile & Settings</a>
+      </div>
+    </div>
+    <div style="width:36px;height:36px;border-radius:50%;background:#18A97A;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem">AM</div>
+  </nav>
+
+  <!-- Inline error toast -->
+  <div style="background:#FEE2E2;border-bottom:1px solid #FCA5A5;padding:12px 32px;display:flex;align-items:center;gap:10px;position:relative">
+    <div class="ann" style="top:8px;right:40px">→ Toast notification — dismiss after 6s or manual close</div>
+    <svg width="18" height="18" fill="none" stroke="#DC2626" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span style="color:#991b1b;font-size:0.875rem;font-weight:600">Failed to save profile changes.</span>
+    <span style="color:#b91c1c;font-size:0.875rem">Please fix the errors highlighted below and try again.</span>
+    <button style="margin-left:auto;color:#991b1b;background:none;border:none;cursor:pointer;font-size:1rem">✕</button>
+  </div>
+
+  <main style="max-width:1100px;margin:0 auto;padding:32px 24px">
+    <div style="margin-bottom:28px">
+      <h1 style="font-size:1.5rem;font-weight:800;color:#0f172a;margin:0 0 4px">Profile & Settings</h1>
+      <p style="color:#64748b;font-size:0.9rem;margin:0">Manage your professional profile, clinic information, and account settings.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start">
+      <!-- Sidebar -->
+      <div style="background:white;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden">
+        <div style="padding:20px;border-bottom:1px solid #f1f5f9">
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#0B6E4F,#18A97A);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.5rem;color:white;margin:0 auto 10px">AM</div>
+          <p style="text-align:center;font-weight:700;color:#0f172a;margin:0 0 2px;font-size:0.9rem">Dr. Arjun Mehta</p>
+          <p style="text-align:center;color:#64748b;font-size:0.78rem;margin:0">Cardiology</p>
+        </div>
+        <nav style="padding:8px">
+          <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;background:#f0fdf4;color:#0B6E4F;font-size:0.875rem;font-weight:600;text-decoration:none">Professional Info</a>
+          <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;color:#475569;font-size:0.875rem;text-decoration:none">Clinic Information</a>
+          <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;color:#475569;font-size:0.875rem;text-decoration:none">Subscription</a>
+          <a href="#" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;color:#475569;font-size:0.875rem;text-decoration:none">Security</a>
+        </nav>
+      </div>
+
+      <!-- Edit Form with validation errors -->
+      <div style="background:white;border-radius:10px;border:1px solid #e2e8f0;padding:28px;position:relative">
+        <div class="ann" style="top:-28px;left:0">→ Edit mode — form fields open with inline validation errors</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <h2 style="font-size:1rem;font-weight:700;color:#0f172a;margin:0">Professional Information</h2>
+          <div style="display:flex;gap:8px">
+            <button style="background:white;border:1px solid #e2e8f0;color:#475569;font-size:0.8rem;padding:7px 14px;border-radius:6px;cursor:pointer">Cancel</button>
+            <button style="background:#0B6E4F;color:white;font-size:0.8rem;font-weight:600;padding:7px 14px;border-radius:6px;cursor:pointer">Save Changes</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <!-- Valid field -->
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#374151;margin-bottom:4px">Full Name *</label>
+            <input type="text" value="Dr. Arjun Mehta" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px 12px;font-size:0.875rem;color:#0f172a;box-sizing:border-box" />
+          </div>
+          <!-- Valid field -->
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#374151;margin-bottom:4px">Specialty *</label>
+            <select style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px 12px;font-size:0.875rem;color:#0f172a;background:white;box-sizing:border-box">
+              <option>Cardiology</option>
+            </select>
+          </div>
+          <!-- ERROR field: mobile number conflict -->
+          <div style="position:relative">
+            <div class="ann" style="top:-28px;left:0">→ Inline field error — mobile already registered to another account</div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#DC2626;margin-bottom:4px">Mobile Number *</label>
+            <input type="tel" value="+91 98765 00000" style="width:100%;border:2px solid #DC2626;border-radius:6px;padding:8px 12px;font-size:0.875rem;color:#0f172a;background:#FEF2F2;box-sizing:border-box" />
+            <p style="color:#DC2626;font-size:0.75rem;margin:4px 0 0;display:flex;align-items:center;gap:4px">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+              This mobile number is already registered to another account.
+            </p>
+          </div>
+          <!-- ERROR field: email format -->
+          <div style="position:relative">
+            <div class="ann" style="top:-28px;left:0">→ Client-side validation error — invalid email format</div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#DC2626;margin-bottom:4px">Email</label>
+            <input type="email" value="arjun.mehta@" style="width:100%;border:2px solid #DC2626;border-radius:6px;padding:8px 12px;font-size:0.875rem;color:#0f172a;background:#FEF2F2;box-sizing:border-box" />
+            <p style="color:#DC2626;font-size:0.75rem;margin:4px 0 0;display:flex;align-items:center;gap:4px">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+              Please enter a valid email address.
+            </p>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#374151;margin-bottom:4px">MCI Registration No. *</label>
+            <input type="text" value="MH/12345/2014" disabled style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:0.875rem;color:#94a3b8;background:#f8fafc;box-sizing:border-box;cursor:not-allowed" />
+            <p style="color:#64748b;font-size:0.75rem;margin:4px 0 0">Registration number cannot be changed. Contact support.</p>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#374151;margin-bottom:4px">Experience (years)</label>
+            <input type="number" value="12" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px 12px;font-size:0.875rem;color:#0f172a;box-sizing:border-box" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>[SCR-004] Appointment Booking Flow — Default</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { min-width: 1280px; }
+    .ann-wrapper { position: relative; margin-top: 28px; }
+    .ann { position: absolute; top: -24px; left: 0; display: block; border: 1.5px dashed #f59e0b; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 8px; border-radius: 3px; font-family: monospace; line-height: 1.6; white-space: nowrap; z-index: 10; pointer-events: none; }
+  </style>
+</head>
+<body class="bg-slate-100 font-sans" style="min-width:1280px">
+  <!--
+    SCREEN  : SCR-004 Appointment Booking Flow
+    STATE   : State 1 — Default (authenticated patient reviews booking summary)
+    ROUTE   : /book/{slot_id}
+    PERSONA : Priya (authenticated)
+    STORIES : US-006
+    FILE    : docs/visuals/ux/SCR-004-booking-flow/state-1-default.html
+  -->
+  <div style="background:#1e3a5f;color:white;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50">
+    <div style="display:flex;align-items:center;gap:20px">
+      <span style="font-weight:800;font-size:1rem">SCR-004 Appointment Booking Flow</span>
+      <span style="background:#3b82f6;color:white;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em">State 1 — Default</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Route: /book/{slot_id}</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Persona: Priya (authenticated)</span>
+      <span style="color:#93c5fd;font-size:0.8rem">Stories: US-006</span>
+    </div>
+    <span style="color:#64748b;font-size:0.72rem">MedSlot · Phase 5 Wireframe · Desktop 1440px</span>
+  </div>
+
+  <!-- NAV — authenticated patient -->
+  <nav class="bg-white border-b border-neutral-200 shadow-sm sticky top-[49px] z-40">
+    <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-800 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-sm">M</span></div>
+        <span class="text-emerald-800 font-bold text-xl">MedSlot</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">Find Doctors</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Appointments</a>
+        <a href="#" class="text-neutral-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-emerald-50">My Records</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+          <span class="text-emerald-800 font-semibold text-sm">P</span>
+        </div>
+        <span class="text-sm font-medium text-neutral-700">Priya S.</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Progress indicator -->
+  <!-- @component: BookingProgressBar · 3 steps: Select Slot → Confirm → Done -->
+  <div class="bg-white border-b border-neutral-100 py-4 px-6">
+    <div class="max-w-screen-xl mx-auto">
+      <div class="ann-wrapper">
+        <span class="ann">BookingProgressBar · 3-step indicator · step 2 (Confirm) is active</span>
+        <div class="flex items-center gap-3 max-w-sm">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+            <span class="text-sm text-neutral-500 line-through">Select Slot</span>
+          </div>
+          <div class="h-px w-8 bg-emerald-300"></div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-emerald-800 flex items-center justify-center">
+              <span class="text-white text-xs font-bold">2</span>
+            </div>
+            <span class="text-sm font-semibold text-emerald-800">Confirm</span>
+          </div>
+          <div class="h-px w-8 bg-neutral-300"></div>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-neutral-200 flex items-center justify-center">
+              <span class="text-neutral-500 text-xs font-bold">3</span>
+            </div>
+            <span class="text-sm text-neutral-400">Done</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN — Booking Summary -->
+  <div class="max-w-screen-xl mx-auto px-6 py-12">
+    <div class="max-w-lg mx-auto">
+
+      <h1 class="text-2xl font-bold text-neutral-900 mb-2 text-center">Confirm Your Appointment</h1>
+      <p class="text-neutral-500 text-sm text-center mb-8">Please review the details before confirming your booking.</p>
+
+      <!-- Booking summary card -->
+      <!-- @component: BookingSummaryCard -->
+      <!-- @data-source: slot_id from URL → GET /api/v1/slots/{slot_id}/ → doctor, date, time, clinic -->
+      <!-- @interaction: "Confirm Appointment" → POST /api/v1/appointments/ → SCR-005 on success -->
+      <div class="ann-wrapper">
+        <span class="ann">BookingSummaryCard · data from slot_id session state · POST /api/v1/appointments/ on confirm</span>
+        <div class="bg-white rounded-2xl shadow-md border border-neutral-200 p-8 mb-6">
+          <div class="flex items-start gap-4 mb-6 pb-6 border-b border-neutral-100">
+            <div class="w-14 h-14 bg-neutral-200 rounded-full flex items-center justify-center flex-shrink-0">
+              <span class="text-neutral-500 text-lg font-bold">AM</span>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-neutral-900">Dr. Arjun Mehta</h2>
+              <p class="text-emerald-700 font-medium text-sm">Cardiologist</p>
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full mt-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                MCI Verified
+              </span>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              </div>
+              <div>
+                <p class="text-xs text-neutral-500 font-medium">Date</p>
+                <p class="text-neutral-900 font-semibold">Wednesday, 10 June 2026</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <p class="text-xs text-neutral-500 font-medium">Time</p>
+                <p class="text-neutral-900 font-semibold">10:30 AM IST</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              </div>
+              <div>
+                <p class="text-xs text-neutral-500 font-medium">Clinic</p>
+                <p class="text-neutral-900 font-semibold">Heart Care Clinic</p>
+                <p class="text-neutral-600 text-sm">42, 3rd Main Road, Banjara Hills, Bengaluru — 560034</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking for patient info -->
+          <div class="mt-6 pt-5 border-t border-neutral-100 bg-neutral-50 rounded-xl p-4">
+            <p class="text-xs text-neutral-500 font-medium mb-1">Booking for</p>
+            <p class="text-sm font-semibold text-neutral-800">Priya Sharma</p>
+            <p class="text-xs text-neutral-500">priya.sharma@gmail.com · +91 98765 43210</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex flex-col gap-3">
+        <button class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-4 rounded-xl text-lg transition-colors shadow-sm">
+          Confirm Appointment
+        </button>
+        <a href="/doctors/dr-arjun-mehta" class="w-full text-center text-neutral-600 font-medium py-3 rounded-xl border border-neutral-300 hover:bg-neutral-50 transition-colors">
+          ← Choose a Different Slot
+        </a>
+      </div>
+
+      <p class="text-center text-xs text-neutral-400 mt-4">
+        A confirmation email will be sent to priya.sharma@gmail.com within 60 seconds of booking.
+      </p>
+    </div>
+  </div>
+
+  <footer class="bg-neutral-900 text-neutral-400 py-8 px-6 mt-4">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-between"><span class="text-white font-bold">MedSlot</span><p class="text-xs">© 2026 MedSlot</p></div>
+  </footer>
+</body>
+</html>
