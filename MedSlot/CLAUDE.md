@@ -79,52 +79,61 @@
 ---
 
 ## Repository Structure (Defined Phase 4 — Architecture)
+
+> **Note (updated Phase 7 — 2026-05-27):** All project source code lives under `medslot/` subdirectory. SDLC planning artifacts (docs/, .claude/, CLAUDE.md, memory/) remain at the repo root. `.github/` stays at the repo root (GitHub Actions requirement).
+
 ```
-medslot/
-├── frontend/                    ← Next.js 14 TypeScript app
-│   ├── app/                     ← App Router pages and layouts
-│   │   ├── (public)/            ← Doctor discovery, landing (SSR/SSG)
-│   │   ├── (patient)/           ← Patient-authenticated routes (CSR)
-│   │   └── (doctor)/            ← Doctor-authenticated routes (CSR)
-│   ├── components/
-│   │   ├── ui/                  ← Shared UI primitives (Tailwind-based)
-│   │   ├── patient/             ← Patient-specific components
-│   │   └── doctor/              ← Doctor-specific components
-│   ├── lib/                     ← Axios API client, Zustand stores, hooks, Zod schemas
-│   ├── public/
-│   └── Dockerfile
-├── backend/                     ← Django 5 REST API + Celery workers
-│   ├── medslot/                 ← Django project config (settings, urls, wsgi)
-│   ├── accounts/                ← CustomUser, PatientProfile, DoctorProfile, OTP auth, JWT, permissions
-│   ├── appointments/            ← AvailabilityCalendar, AppointmentSlot, Appointment, consultation start
-│   ├── prescriptions/           ← ConsultationNote, Prescription, WeasyPrint PDF task, templates/
-│   ├── records/                 ← HealthRecord, S3 presigned upload/download
-│   ├── notifications/           ← SendGrid email, MSG91 SMS, Celery notification tasks
-│   ├── subscriptions/           ← DoctorSubscription, Razorpay webhook handler
-│   ├── analytics/               ← AnalyticsEvent model + write endpoint
-│   ├── audit/                   ← AuditLog model + Django signal receivers
-│   ├── requirements.txt
-│   └── Dockerfile               ← Shared image for API, worker, and beat (different CMD)
-├── infra/                       ← AWS CDK v2 (TypeScript) infrastructure stack
-│   ├── lib/
-│   │   ├── vpc-stack.ts
-│   │   ├── ecs-stack.ts
-│   │   ├── rds-stack.ts
-│   │   └── s3-stack.ts
-│   └── package.json
-├── docker-compose.yml           ← Local development (API + frontend + Redis + PostgreSQL)
+(repo root)/
+├── .claude/                     ← Agent definitions and rule files
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml               ← Lint, test, coverage gate
 │       └── deploy.yml           ← Build → ECR push → ECS rolling update
-└── CLAUDE.md
+├── docs/                        ← All SDLC phase artifacts
+├── memory/                      ← AI memory files
+├── .gitignore                   ← Root gitignore
+├── CLAUDE.md                    ← Project source of truth
+└── medslot/                     ← All project source code lives here
+    ├── frontend/                    ← Next.js 14 TypeScript app
+    │   ├── app/                     ← App Router pages and layouts
+    │   │   ├── (public)/            ← Doctor discovery, landing (SSR/SSG)
+    │   │   ├── (patient)/           ← Patient-authenticated routes (CSR)
+    │   │   └── (doctor)/            ← Doctor-authenticated routes (CSR)
+    │   ├── components/
+    │   │   ├── ui/                  ← Shared UI primitives (Tailwind-based)
+    │   │   ├── patient/             ← Patient-specific components
+    │   │   └── doctor/              ← Doctor-specific components
+    │   ├── lib/                     ← Axios API client, Zustand stores, hooks, Zod schemas
+    │   ├── public/
+    │   └── Dockerfile
+    ├── backend/                     ← Django 5 REST API + Celery workers
+    │   ├── medslot/                 ← Django project config (settings, urls, wsgi)
+    │   ├── accounts/                ← CustomUser, PatientProfile, DoctorProfile, OTP auth, JWT, permissions
+    │   ├── appointments/            ← AvailabilityCalendar, AppointmentSlot, Appointment, consultation start
+    │   ├── prescriptions/           ← ConsultationNote, Prescription, WeasyPrint PDF task, templates/
+    │   ├── records/                 ← HealthRecord, S3 presigned upload/download
+    │   ├── notifications/           ← SendGrid email, MSG91 SMS, Celery notification tasks
+    │   ├── subscriptions/           ← DoctorSubscription, Razorpay webhook handler
+    │   ├── analytics/               ← AnalyticsEvent model + write endpoint
+    │   ├── audit/                   ← AuditLog model + Django signal receivers
+    │   ├── requirements.txt
+    │   └── Dockerfile               ← Shared image for API, worker, and beat (different CMD)
+    ├── infra/                       ← AWS CDK v2 (TypeScript) infrastructure stack
+    │   ├── lib/
+    │   │   ├── vpc-stack.ts
+    │   │   ├── ecs-stack.ts
+    │   │   ├── rds-stack.ts
+    │   │   └── s3-stack.ts
+    │   └── package.json
+    ├── docker-compose.yml           ← Local development (API + frontend + Redis + PostgreSQL)
+    └── .env.example                 ← Environment variable template
 ```
 
 ---
 
 ## Key Commands
 ```
-# ── Frontend (cd frontend/) ─────────────────────────
+# ── Frontend (cd medslot/frontend/) ─────────────────────────
 # Install dependencies
 npm install
 
@@ -143,7 +152,7 @@ npm run type-check
 # Build for production
 npm run build
 
-# ── Backend (cd backend/) ───────────────────────────
+# ── Backend (cd medslot/backend/) ───────────────────────────
 # Install dependencies
 pip install -r requirements.txt
 
@@ -171,10 +180,10 @@ celery -A medslot worker --loglevel=info --concurrency=2
 # Run Celery Beat scheduler (local dev)
 celery -A medslot beat --loglevel=info
 
-# ── Docker (full stack local) ────────────────────────
+# ── Docker (full stack local — cd medslot/) ─────────
 docker-compose up --build
 
-# ── Infra (cd infra/) ───────────────────────────────
+# ── Infra (cd medslot/infra/) ───────────────────────
 # Deploy AWS CDK stack to staging
 npx cdk deploy MedSlotStack --profile medslot-staging
 
