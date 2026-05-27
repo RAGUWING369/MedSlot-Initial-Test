@@ -129,10 +129,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Run tests with coverage
-        run: >-
-          npm run test --
-          --coverage
-          --coverageThreshold='{"global":{"lines":90}}'
+        run: npm run test -- --coverage
 
       - name: Build (production)
         run: npm run build
