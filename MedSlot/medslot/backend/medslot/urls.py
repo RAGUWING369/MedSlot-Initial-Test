@@ -6,18 +6,30 @@ built out. OpenAPI schema and Swagger UI endpoints are available in all
 environments — restrict via SPECTACULAR_SETTINGS['SERVE_PERMISSIONS'] in
 production if needed.
 """
+
 from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerUIView
+
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # API v1 — app routers included per epic as they are implemented
-    path("api/v1/", include([
-        # Auth endpoints added in TASK-013
-    ])),
+    path(
+        "api/v1/",
+        include(
+            [
+                # EPIC-002: Authentication & User Identity (TASK-013)
+                path("", include("accounts.urls")),
+            ]
+        ),
+    ),
     # OpenAPI schema — raw schema JSON/YAML download
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Swagger UI — interactive API browser
-    path("api/docs/", SpectacularSwaggerUIView.as_view(url_name="schema"), name="swagger-ui"),
+    path(
+        "api/docs/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
 ]

@@ -368,33 +368,34 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
 - **Wireframe Ref:** —
 - **API Ref:** POST /api/v1/auth/otp/request/, POST /api/v1/auth/otp/verify/
-- **Implementation Note:** `accounts/enums.py` introduces `OTPResult` enum (5 variants); `accounts/services.py` implements `OTPService` (generate_otp, verify_otp, check_rate_limit, is_locked, _record_failure, _clear_failure_counter) and `MSG91Adapter` (send_otp with single retry on 5xx); all cache operations via Django's `cache` framework (not direct Redis) for testability; OTP stored as SHA-256+PEPPER hex digest; phone numbers never appear in log entries; 43 unit tests; 100% coverage on both new files; no DB migrations required.
+- **Implementation Note:** OTPService with generate_otp (SHA-256+PEPPER hash, 5-min TTL), verify_otp state machine (VALID/INVALID/EXPIRED/LOCKED/RATE_LIMITED), 3-failure lockout (15-min), 5-req/60-min rate limit; MSG91Adapter with single 5xx retry; 43 unit tests with all cache and HTTP fully mocked; 100% coverage on services.py and enums.py.
 
 ### TASK-012 — JWT Auth Service & DRF Permission Classes * (Critical Path)
 - **Type:** backend
 - **Story Points:** 2
 - **Parent Story:** US-001, US-002, US-013
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-013, TASK-020, TASK-030, TASK-050, TASK-060, TASK-070, TASK-080
 - **Blocked By:** TASK-010, TASK-011
 - **Acceptance Criteria:**
-  - [ ] `AuthService.issue_jwt(user)` returns HS256 JWT with payload: `user_id`, `role`, `exp` (24h)
-  - [ ] `accounts/permissions.py`: `IsPatient`, `IsApprovedDoctor`, `IsAdmin`, `IsApprovedOrTrialDoctor` DRF permission classes; each checks `request.user.role` and doctor `account_status`
-  - [ ] `IsApprovedOrTrialDoctor` allows access if status=Approved AND (subscription Active OR trial not expired)
-  - [ ] Cross-role tests: Patient JWT on doctor endpoint returns 403; Doctor JWT on patient endpoint returns 403; missing JWT on protected endpoint returns 401
-  - [ ] simplejwt configured: `ACCESS_TOKEN_LIFETIME = timedelta(hours=24)`, no refresh tokens in v1
+  - [x] `AuthService.issue_jwt(user)` returns HS256 JWT with payload: `user_id`, `role`, `exp` (24h)
+  - [x] `accounts/permissions.py`: `IsPatient`, `IsApprovedDoctor`, `IsAdmin`, `IsApprovedOrTrialDoctor` DRF permission classes; each checks `request.user.role` and doctor `account_status`
+  - [x] `IsApprovedOrTrialDoctor` allows access if status=Approved AND (subscription Active OR trial not expired)
+  - [x] Cross-role tests: Patient JWT on doctor endpoint returns 403; Doctor JWT on patient endpoint returns 403; missing JWT on protected endpoint returns 401
+  - [x] simplejwt configured: `ACCESS_TOKEN_LIFETIME = timedelta(hours=24)`, no refresh tokens in v1
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
 - **Wireframe Ref:** —
 - **API Ref:** —
+- **Implementation Note:** AuthService.issue_jwt() with simplejwt AccessToken + custom role claim; IsPatient, IsApprovedDoctor, IsAdmin, IsApprovedOrTrialDoctor DRF permission classes with 30-day trial logic; 41 tests (35 unit/mocked + 6 DB integration); 100% coverage on permissions.py.
 
 ### TASK-013 — Auth API Endpoints (OTP Request, OTP Verify, Patient Profile Create) * (Critical Path)
 - **Type:** backend
 - **Story Points:** 3
 - **Parent Story:** US-001, US-002, US-013
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟡 In Progress
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-040, TASK-041
 - **Blocked By:** TASK-011, TASK-012
