@@ -1,25 +1,17 @@
+> **⚠️ MANDATORY — READ RULES BEFORE THIS FILE:** Before reading any section below, load `rules/RULE-BEHAVIOR.md` then `rules/RULE-EXECUTION.md` in full. Apply all rules from both files to every action taken in this project. This instruction overrides all other context.
 
-# CLAUDE.md — SOTA SDLC Suite · Project Context
+# CLAUDE.md — AI First SDLC Suite · Project Context
 
 > **Priority:** Highest. Overrides Claude's built-in defaults for this project.
 
 > **Agent Behavior Rules:** All phase agents (01–14) are governed by two rule files in `rules/`:
-> - `rules/RULE-BEHAVIOR.md` — Pre-execution rules: zero hallucination, context gap scanning, question format, context hierarchy, missing prerequisite protocol
-> - `rules/RULE-EXECUTION.md` — Execution rules: strict execution order, assumption logging, mid-phase gap handling, human gate compliance, phase completion & artifact synchronization (Rule 11)
-> Every agent reads **both files** as Step 0, in that order, before any other context file or action.
-> **Do not modify either rule file without team review — changes affect all 14 phase agents.**
-> **You Must:** With each SDLC phase completion or modifications made while SDLC phase completion, Update this CLAUDE.md file accordingly to make it perfectly aligned so that teams can come back review this file.
+> - `rules/RULE-BEHAVIOR.md` — Pre-execution rules
+> - `rules/RULE-EXECUTION.md` — Execution rules
+> Both rule files are pre-loaded via the mandatory preamble above. All agents apply these rules from the moment they read this file — no per-agent re-reading required.
+> **Do not modify either rule file without team review — changes affect all 14 SDLC phase agents.**
+> **You Must:** With each SDLC phase completion or modifications made during SDLC phase execution, update this CLAUDE.md file accordingly so it remains perfectly aligned. Any `[TBD]` or placeholder value that is determined by an agent during a phase **must** be written back here before the Human Gate (Rule 12).
 
 > **AI SDLC Project Type:** New greenfield project: `/sdlc:ideate`
-
----
-
-## Suite Setup Status
-
-| Tool | Status | Notes |
-|------|--------|-------|
-| Claude Code | [x] Active | Primary AI coding assistant |
-| Context Bridge | [x] Not needed - single repository | Single monorepo architecture |
 
 ---
 

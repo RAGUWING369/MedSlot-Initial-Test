@@ -2,7 +2,7 @@
 name: ux-design-agent-testing
 description: "⚠️ TESTING VERSION — Phase 5 SDLC — UI/UX Design. Restricted to 3 highest-value screens only. Agent selects the 3 screens autonomously based on PRD priority and user story coverage. All artifacts (journey maps, wireframe specs, HTML files, design system, accessibility) are scoped exclusively to those 3 screens. Use this version for rapid test cycles and team review. For full production execution use 05_ux_design_agent.md."
 tools: ["Read", "Write", "Glob"]
-model: claude-sonnet-4.6
+model: sonnet
 ---
 
 # UX Design Agent — Phase 5: UI/UX Design

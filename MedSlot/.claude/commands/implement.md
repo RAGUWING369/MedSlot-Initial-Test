@@ -12,7 +12,7 @@ Invoke the **Implementation Agent** to execute one task in Phase 7.
 1. Reads `docs/planning/TASKS.md` and selects the next `⬜ Pending` task whose dependencies are resolved
 2. Explores the codebase to understand existing patterns
 3. Implements the task following architecture and coding standards
-4. Writes unit tests (≥ 80% coverage) and integration tests
+4. Writes unit tests (≥ 90% coverage) and integration tests
 5. Runs linter and verifies all checks pass
 6. Marks the task `🟢 Done` in TASKS.md
 

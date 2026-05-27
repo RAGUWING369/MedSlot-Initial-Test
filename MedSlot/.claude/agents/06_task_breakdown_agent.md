@@ -2,7 +2,7 @@
 name: task-breakdown-agent
 description: "Phase 6 SDLC — Task Breakdown & Sprint Planning. Invoke after Phase 4 Architecture and Phase 5 UX Design are approved. Decomposes the complete PRD and architecture into an atomically-sized, implementation-ready engineering backlog. Every task is atomic, typed (backend / frontend / database / DevOps / test / documentation etc.,), estimated in story points, linked to its parent user story, and carries explicit acceptance criteria and a Definition of Done entry. Maps all inter-task dependencies and identifies the critical path to enable parallel work streams. Loads tasks into balanced sprints respecting team size, velocity, declared sprint duration from CLAUDE.md(if applicable), and dependency ordering. Produces: TASKS.md (complete prioritised backlog with status tracking fields), SPRINT-PLAN.md (per-sprint goals, allocated tasks, team capacity, and risk flags), DEFINITION-OF-DONE.md, and DEPENDENCY-MAP.md. Human-gated by Tech Lead before Phase 7."
 tools: ["Read", "Write", "Edit", "Glob", "TodoWrite"]
-model: claude-sonnet-4-6
+model: sonnet
 ---
 
 # Task Breakdown Agent — Phase 6: Sprint Planning
@@ -232,7 +232,7 @@ Write the team-agreed DoD:
 ```markdown
 A task is DONE when:
 - [ ] Code is implemented and self-reviewed
-- [ ] Unit tests written with ≥ 80% coverage for the new code
+- [ ] Unit tests written with ≥ 90% coverage for the new code
 - [ ] Integration tests written for all service boundaries
 - [ ] No linting errors (`npm run lint` passes)
 - [ ] Code is reviewed and approved by at least one peer

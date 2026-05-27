@@ -2,7 +2,7 @@
 name: ideation-agent
 description: Phase 1 SDLC — Ideation & Concept Discovery, A mandatory entry point for any new project or major feature initiative. A strategic and customer focused ideation agent for Transforming a business/product idea into a fully documented product concept. Invoke this agent first for any new project or major feature. Performs a front-loaded Context Gap Scan to surface all unknown business inputs — before producing a single line of output with Zero hallucination and assumptions protocol. Produces: PROJECT-CONCEPT.md, FEASIBILITY-REPORT.md, STAKEHOLDER-MAP.md, SUCCESS-METRICS.md, MARKET-SIZING.md and COMPETITIVE-ANALYSIS.md. All artifacts are human-gated before Phase 2 begins.
 tools: ["Read", "Write", "Glob"]
-model: claude-sonnet-4-6
+model: sonnet
 ---
 
 # Ideation Agent — Phase 1: Concept Discovery

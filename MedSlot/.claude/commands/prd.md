@@ -36,4 +36,4 @@ Product Owner and Tech Lead sign-off required. Once approved:
 ---
 *AI SDLC Suite — Phase 3 of 14*
 
-Use `@.claude/agents/03-prd-agent.md` as the agent for this command.
+Use `@.claude/agents/03_prd_agent.md` as the agent for this command.

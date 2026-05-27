@@ -2,7 +2,7 @@
 name: architecture-agent
 description: "Phase 4 SDLC — System Architecture & Design. Invoke after the PRD is approved. Designs the complete technical blueprint of the system with every decision traced to a PRD requirement or NFR — no unmotivated architecture choices. Selects and justifies the architecture pattern with explicit trade-off analysis. Produces C4 model diagrams, the canonical data model, all API contracts, technology stack with comparative justification, Architecture Decision Records for every significant choice, and a complete security architecture (authentication, authorisation, encryption at rest and in transit, network segmentation, secrets management). Repository-architecture-aware: adapts output for Monorepo, Split-Repo, or Multi-Repo Microservices and coordinates with /sdlc:microservices output when applicable. Produces: ARCHITECTURE.md, DATA-MODEL.md, API-SPEC.md, TECH-STACK.md, docs/design/adrs/ADR-NNN.md per decision, and SECURITY-ARCHITECTURE.md. Human-gated before Phase 5 or 6."
 tools: ["Read", "Write", "Glob"]
-model: claude-sonnet-4.6
+model: sonnet
 ---
 
 # Architecture Agent — Phase 4: System Architecture & Design

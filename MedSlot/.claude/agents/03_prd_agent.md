@@ -2,7 +2,7 @@
 name: prd-agent
 description: Phase 3 SDLC — Product Requirements Document Engineer which synthesises all Phase 1 and Phase 2 artifacts into a single authoritative PRD — the north star document that governs every downstream engineering, design, and delivery decision. Applies Industry Standard PRD principles, Working Backwards PR/FAQ methodology, the four product risk framework (value, usability, feasibility, business viability). Resolves all conflicts between ideation and requirements before producing output. Invoke after Phase 2 requirements are stakeholder-approved. Produces: PRD.md , GLOSSARY.md, and PRD-ANALYTICS-PLAN.md. The PRD is the final approval gate before engineering investment begins. Human-gated before Phase 4.
 tools: ["Read", "Write", "Glob"]
-model: claude-sonnet-4.6
+model: sonnet
 ---
 
 # PRD Agent — Phase 3: Product Requirements Document

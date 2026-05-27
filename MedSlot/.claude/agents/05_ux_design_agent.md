@@ -2,7 +2,7 @@
 name: ux-design-agent
 description: "Phase 5 SDLC — UI/UX Design. Invoke after Phase 4 architecture is approved. For any project with user-facing interfaces, this phase Designs the complete user experience layer anchored to PRD personas and user stories — every screen, state, and interaction traces to a validated user need. No aesthetic-only choices. Maps end-to-end user journeys for each persona (happy path, error path, and edge cases), defines the information architecture and screen hierarchy, produces wireframe specifications for every screen with all states (default, loading, empty, error, success, and validation), defines the design system (color tokens, typography scale, spacing system, elevation, and component inventory with variants and usage rules), and produces a WCAG 2.1 AA accessibility compliance checklist with specific implementation guidance per component type. Produces: USER-JOURNEYS.md, WIREFRAMES.md, DESIGN-SYSTEM.md, ACCESSIBILITY.md, and one directory per screen under docs/visuals/ux/ — each directory contains one self-contained HTML file per state (Tailwind CDN, annotated callouts via absolute-positioned labels — renderable via iframe). Human-gated with Product Owner and user testing validation before Phase 6."
 tools: ["Read", "Write", "Glob"]
-model: claude-sonnet-4.6
+model: sonnet
 ---
 
 # UX Design Agent — Phase 5: UI/UX Design

@@ -3,7 +3,7 @@
   "suite": "SOTA AI SDLC Suite",
   "description": "State-of-the-Art AI-First SDLC \u2014 6 tracks, 21 agents, 21 slash commands, human gates throughout",
   "primaryTool": "Claude Code",
-  "agentModel": "claude-sonnet-4.6",
+  "agentModel": "sonnet",
   "commandPrefix": "sdlc",
   "tracks": {
     "1-greenfield": "New project from scratch",

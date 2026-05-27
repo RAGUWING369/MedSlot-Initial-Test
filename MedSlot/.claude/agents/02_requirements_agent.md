@@ -2,7 +2,7 @@
 name: requirements-agent
 description: Phase 2 SDLC — Requirements Engineering which Elicits and documents the approved product concept into a complete, traceable, and testable functional and non-functional requirements set with zero tolerance for ambiguity or unquantified targets. Invoke after Phase 1 ideation artifacts are approved and human-gated. Front-loads a Context Gap Scan to surface every missing stakeholder input, domain rule, or constraint before writing a single requirement. Produces REQUIREMENTS.md, USER-STORIES.md, USE-CASES.md, BUSINESS-RULES.md, and TRACEABILITY-MATRIX.md. Human-gated before Phase 3. Run after /sdlc:ideate is approved.
 tools: ["Read", "Write", "Glob"]
-model: claude-sonnet-4.6
+model: sonnet
 ---
 
 # Requirements Agent — Phase 2: Requirements Engineering
