@@ -395,20 +395,21 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** US-001, US-002, US-013
 - **Sprint:** Sprint 1
-- **Status:** 🟡 In Progress
+- **Status:** 🟢 Done
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-040, TASK-041
 - **Blocked By:** TASK-011, TASK-012
 - **Acceptance Criteria:**
-  - [ ] `POST /api/v1/auth/otp/request/`: accepts `{phone, role}`; validates Indian phone format; calls OTPService; returns 200 or 429
-  - [ ] `POST /api/v1/auth/otp/verify/`: accepts `{phone, otp_code}`; verifies OTP; if new patient → returns `{token, is_new_user: true}`; if existing → `{token, is_new_user: false}`; if pending doctor → 403 with message
-  - [ ] `POST /api/v1/patient/profile/`: creates PatientProfile (authenticated patient); validates name, DOB, gender, email (RFC 5322); returns 201
-  - [ ] `GET /api/v1/patient/profile/`: returns patient profile; IsPatient permission
-  - [ ] All endpoints return DRF serializer field-level validation errors on invalid input
-  - [ ] Integration tests cover all acceptance criteria from US-001 and US-002
+  - [x] `POST /api/v1/auth/otp/request/`: accepts `{phone, role}`; validates Indian phone format; calls OTPService; returns 200 or 429
+  - [x] `POST /api/v1/auth/otp/verify/`: accepts `{phone, otp_code}`; verifies OTP; if new patient → returns `{token, is_new_user: true}`; if existing → `{token, is_new_user: false}`; if pending doctor → 403 with message
+  - [x] `POST /api/v1/patient/profile/`: creates PatientProfile (authenticated patient); validates name, DOB, gender, email (RFC 5322); returns 201
+  - [x] `GET /api/v1/patient/profile/`: returns patient profile; IsPatient permission
+  - [x] All endpoints return DRF serializer field-level validation errors on invalid input
+  - [x] Integration tests cover all acceptance criteria from US-001 and US-002
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
 - **Wireframe Ref:** —
 - **API Ref:** POST /api/v1/auth/otp/request/, POST /api/v1/auth/otp/verify/, POST /api/v1/patient/profile/
+- **Implementation Note:** OTPRequestSerializer + OTPVerifySerializer + PatientProfileSerializer (accounts/serializers.py); OTPRequestView, OTPVerifyView, PatientProfileView (accounts/views.py); accounts/urls.py wired into medslot/urls.py under /api/v1/; 47 integration tests across 4 test classes + 6 phone-validation unit tests; all OTPService/MSG91Adapter calls mocked in tests; phone numbers normalised to E.164 at serializer boundary; SpectacularSwaggerUIView import bug (pre-existing from TASK-007) corrected to SpectacularSwaggerView.
 
 ### TASK-014 — Patient OTP Auth Screen (SCR-006) * (Critical Path)
 - **Type:** frontend
