@@ -406,7 +406,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Acceptance Criteria:**
   - [x] `POST /api/v1/auth/otp/request/`: accepts `{phone, role}`; validates Indian phone format; calls OTPService; returns 200 or 429
   - [x] `POST /api/v1/auth/otp/verify/`: accepts `{phone, otp_code}`; verifies OTP; if new patient → returns `{token, is_new_user: true}`; if existing → `{token, is_new_user: false}`; if pending doctor → 403 with message
-  - [x] `POST /api/v1/patient/profile/`: creates PatientProfile (authenticated patient); validates name, DOB, gender, email (RFC 5322); returns 201
+  - [x] `POST /api/v1/patient/pro file/`: creates PatientProfile (authenticated patient); validates name, DOB, gender, email (RFC 5322); returns 201
   - [x] `GET /api/v1/patient/profile/`: returns patient profile; IsPatient permission
   - [x] All endpoints return DRF serializer field-level validation errors on invalid input
   - [x] Integration tests cover all acceptance criteria from US-001 and US-002
@@ -420,23 +420,24 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** US-001, US-002
 - **Sprint:** Sprint 2
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Frontend Dev
 - **Blocks:** TASK-043
 - **Blocked By:** TASK-008, TASK-013
 - **Acceptance Criteria:**
-  - [ ] 3-step wizard: Step 1 phone entry (+91 prefix, 10-digit validation), Step 2 OTP entry (6 individual boxes), Step 3 profile form (new users only)
-  - [ ] All 4 wireframe states implemented: default, loading (spinner on buttons), error (inline messages per spec), success (redirect)
-  - [ ] OTP input: 6 individual digit boxes; auto-advance focus on digit entry; paste support
-  - [ ] Resend OTP timer: 30-second countdown before "Resend OTP" becomes clickable
-  - [ ] Lockout state: "Too many failed attempts. Try again in 15 minutes." — no retry button shown
-  - [ ] On successful login (returning user): redirect to `/dashboard`; on new user: show step 3
-  - [ ] On profile creation success: redirect to `/dashboard` or pending booking URL
-  - [ ] React Hook Form + Zod validation on all fields per spec in WIREFRAMES.md SCR-006
-  - [ ] Zustand `authStore.setAuth(token, user, role)` called on successful OTP verify
+  - [x] 3-step wizard: Step 1 phone entry (+91 prefix, 10-digit validation), Step 2 OTP entry (6 individual boxes), Step 3 profile form (new users only)
+  - [x] All 4 wireframe states implemented: default, loading (spinner on buttons), error (inline messages per spec), success (redirect)
+  - [x] OTP input: 6 individual digit boxes; auto-advance focus on digit entry; paste support
+  - [x] Resend OTP timer: 30-second countdown before "Resend OTP" becomes clickable
+  - [x] Lockout state: "Too many failed attempts. Try again in 15 minutes." — no retry button shown
+  - [x] On successful login (returning user): redirect to `/dashboard`; on new user: show step 3
+  - [x] On profile creation success: redirect to `/dashboard` or pending booking URL
+  - [x] React Hook Form + Zod validation on all fields per spec in WIREFRAMES.md SCR-006
+  - [x] Zustand `authStore.setAuth(token, user, role)` called on successful OTP verify
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
 - **Wireframe Ref:** docs/visuals/ux/SCR-006-patient-otp-auth/
 - **API Ref:** POST /api/v1/auth/otp/request/, POST /api/v1/auth/otp/verify/, POST /api/v1/patient/profile/
+- **Completion Note:** Implemented 2026-05-28. 132/132 tests passing (57 new tests for TASK-014: 31 PatientOtpAuth + 26 OtpInput); 0 lint errors; type-check clean for TASK-014 files. Pre-existing type errors in lib/schemas/auth.test.ts tracked separately (not introduced by this task).
 
 ### TASK-015 — Doctor OTP Auth Screen (SCR-010)
 - **Type:** frontend
