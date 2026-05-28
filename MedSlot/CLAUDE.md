@@ -282,7 +282,7 @@ Key decisions (Phase 4 — Architecture):
 | 4. Architecture | ✅ Complete | `docs/design/ARCHITECTURE.md` | 2026-05-25 |
 | 5. UX Design | ✅ Complete | `docs/ux/USER-JOURNEYS.md` | 2026-05-27 |
 | 6. Task Breakdown | ✅ Complete | `docs/planning/TASKS.md` | 2026-05-27 |
-| 7. Implementation | [TO BE UPDATED] | `src/` | TO BE UPDATED |
+| 7. Implementation | 🟡 In Progress — Sprint 2 in progress (12/113 tasks done, 32 SP) | `medslot/` | 2026-05-28 |
 | 8. Code Review | [TO BE UPDATED] | PRs in GitHub/GitLab | TO BE UPDATED |
 | 9. Testing | [TO BE UPDATED] | `docs/qa/TEST-RESULTS.md` | TO BE UPDATED |
 | 10. Security | [TO BE UPDATED] | `docs/security/SECURITY-REVIEW.md` | TO BE UPDATED |
@@ -306,7 +306,7 @@ Key decisions (Phase 4 — Architecture):
 | OQ-002: Razorpay Subscriptions plan configuration — monthly-only, annual option, or both? | Tech Lead | Open — Must be decided before Phase 7 Razorpay integration (impacts FR-SUB-002) |
 | OQ-003: Doctor subscription pricing — validated willingness-to-pay at ₹1,000/month? | Product Owner | Open — Pricing interview with ≥5 target doctors required before Phase 7 |
 | OQ-004: Soft launch city count — 1 city or 2–3 simultaneously? | Product Owner | Open — Informs Phase 5 UX localisation requirements |
-| OQ-005: WeasyPrint performance — POC required to validate ≤4s P95 under 50 concurrent requests? | Tech Lead | Open — Risk mitigation for NFR-PE-004; run before Phase 7 Sprint 1 |
+| OQ-005: WeasyPrint performance — POC required to validate ≤4s P95 under 50 concurrent requests? | Tech Lead | ✅ Closed — Spike PASSED: P95 ~680ms << 4000ms. WeasyPrint 60.2 confirmed viable. See docs/assumptions/06-task-breakdown-assumptions.md (2026-05-28) |
 
 ---
 
@@ -327,6 +327,8 @@ Key decisions (Phase 4 — Architecture):
 | Phase 4 — Architecture & Design | ✅ Approved | Stakeholder | 2026-05-25 | None |
 | Phase 5 — UX Design | ✅ Approved | Stakeholder | 2026-05-27 | None |
 | Phase 6 — Task Breakdown & Sprint Planning | ✅ Approved | Stakeholder | 2026-05-27 | None |
+| Phase 7 — Implementation Sprint 1 | ✅ Approved | Stakeholder | 2026-05-28 | 11 tasks / 24 SP delivered; WeasyPrint spike passed; TASK-113 (Next.js 15) tracked in Sprint 10 |
+| Phase 7 — TASK-006 (AWS CDK Infrastructure Stack) | ✅ Approved | Stakeholder | 2026-05-28 | 102/102 CDK tests; cdk synth clean; cross-stack cycle fixed; TASK-005 unblocked |
 
 ---
 
