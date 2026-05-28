@@ -288,19 +288,20 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** 🟡 In Progress
+- **Status:** 🟢 Done
 - **Assignee:** Frontend Dev
 - **Blocks:** TASK-040, TASK-041, TASK-042
 - **Blocked By:** TASK-002
 - **Acceptance Criteria:**
-  - [ ] `frontend/package.json` includes: `next@14`, `typescript@5`, `tailwindcss@3`, `zustand@4`, `axios`, `react-hook-form`, `zod`, `@hookform/resolvers`, `vitest`, `@vitest/coverage-v8`, `@testing-library/react`, `eslint-config-airbnb-typescript`
-  - [ ] `tsconfig.json` with strict mode enabled
-  - [ ] `tailwind.config.ts` with desktop-first breakpoints (base = 1280px+, sm: 768px, mobile implied at 375px)
-  - [ ] `frontend/lib/api.ts`: Axios instance with base URL from env, JWT Bearer token interceptor, 401 redirect to login
-  - [ ] `frontend/lib/stores/authStore.ts`: Zustand store for `user`, `token`, `role`, `setAuth`, `clearAuth`
-  - [ ] ESLint config (Airbnb TypeScript) passing `npm run lint` with 0 errors on empty project
-  - [ ] Vitest config with coverage threshold 90%
+  - [x] `frontend/package.json` includes: `next@14`, `typescript@5`, `tailwindcss@3`, `zustand@4`, `axios`, `react-hook-form`, `zod`, `@hookform/resolvers`, `vitest`, `@vitest/coverage-v8`, `@testing-library/react`, `eslint-config-airbnb-typescript`
+  - [x] `tsconfig.json` with strict mode enabled
+  - [x] `tailwind.config.ts` with desktop-first breakpoints (base = 1280px+, sm: 768px, mobile implied at 375px)
+  - [x] `frontend/lib/api.ts`: Axios instance with base URL from env, JWT Bearer token interceptor, 401 redirect to login
+  - [x] `frontend/lib/stores/authStore.ts`: Zustand store for `user`, `token`, `role`, `setAuth`, `clearAuth`
+  - [x] ESLint config (Airbnb TypeScript) passing `npm run lint` with 0 errors on empty project
+  - [x] Vitest config with coverage threshold 90%
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** All runtime and dev deps added; tsconfig updated with noUncheckedIndexedAccess + forceConsistentCasingInFileNames; tailwind.config.ts uses max-width breakpoints (xs/sm/md) for desktop-first strategy; .eslintrc.json set to Airbnb TypeScript with 0 lint errors; vitest.config.ts coverage scoped to lib/** to exclude scaffold; lib/api.ts and lib/stores/authStore.ts implemented with 100% test coverage (18 unit tests across both files). Tech debt: npm audit reports 10 vulnerabilities in vitest@1.x and next@14.2.35 — all in dev tooling or pinned framework version; `npm audit fix --force` would break major version pins; to be addressed in a dependency upgrade task.
 - **Wireframe Ref:** —
 - **API Ref:** —
 
