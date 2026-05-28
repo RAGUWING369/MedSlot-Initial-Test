@@ -288,7 +288,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟡 In Progress
 - **Assignee:** Frontend Dev
 - **Blocks:** TASK-040, TASK-041, TASK-042
 - **Blocked By:** TASK-002
@@ -409,7 +409,7 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
 - **Wireframe Ref:** —
 - **API Ref:** POST /api/v1/auth/otp/request/, POST /api/v1/auth/otp/verify/, POST /api/v1/patient/profile/
-- **Implementation Note:** OTPRequestSerializer + OTPVerifySerializer + PatientProfileSerializer (accounts/serializers.py); OTPRequestView, OTPVerifyView, PatientProfileView (accounts/views.py); accounts/urls.py wired into medslot/urls.py under /api/v1/; 47 integration tests across 4 test classes + 6 phone-validation unit tests; all OTPService/MSG91Adapter calls mocked in tests; phone numbers normalised to E.164 at serializer boundary; SpectacularSwaggerUIView import bug (pre-existing from TASK-007) corrected to SpectacularSwaggerView.
+- **Implementation Note:** OTPRequestView, OTPVerifyView, PatientProfileView with full state machine responses; OTPRequestSerializer + OTPVerifySerializer + PatientProfileSerializer with Indian phone E.164 normalisation and PHI validation; accounts.urls wired into /api/v1/; 53 tests (47 integration + 6 unit) with all Redis/SMS calls mocked; API-SPEC.md field name discrepancies (role_intent vs role, /patients/ vs /patient/) flagged for TASK-017.
 
 ### TASK-014 — Patient OTP Auth Screen (SCR-006) * (Critical Path)
 - **Type:** frontend

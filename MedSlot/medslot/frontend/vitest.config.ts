@@ -10,6 +10,11 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
+      // Only measure coverage on application source files under lib/ and components/
+      // Config files (next.config.mjs, tailwind.config.ts, postcss.config.mjs) and
+      // scaffold app/page.tsx / layout.tsx are excluded — they are not testable units.
+      include: ['lib/**/*.ts', 'lib/**/*.tsx', 'components/**/*.ts', 'components/**/*.tsx'],
+      exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx'],
       thresholds: {
         lines: 90,
         functions: 90,
