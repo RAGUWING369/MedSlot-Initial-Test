@@ -227,18 +227,19 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 3
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 2
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Full-stack Lead
 - **Blocks:** —
 - **Blocked By:** TASK-004, TASK-006
 - **Acceptance Criteria:**
-  - [ ] `.github/workflows/deploy.yml` triggers on merge to `main`
-  - [ ] Builds Docker images for `backend` and `frontend`
-  - [ ] Pushes images to AWS ECR (ap-south-1) with commit SHA tag + `latest` tag
-  - [ ] Triggers ECS rolling update for `medslot-api`, `medslot-frontend`, `medslot-worker`, `medslot-beat` services
-  - [ ] Deployment waits for ECS service stability before marking success
-  - [ ] AWS credentials via GitHub OIDC (no static secrets)
+  - [x] `.github/workflows/deploy.yml` triggers on merge to `main`
+  - [x] Builds Docker images for `backend` and `frontend`
+  - [x] Pushes images to AWS ECR (ap-south-1) with commit SHA tag (latest tag omitted — ECR IMMUTABLE tag mutability set by TASK-006 makes latest tag rewrites fail; SHA-only is correct; see A-07-009)
+  - [x] Triggers ECS rolling update for `medslot-api`, `medslot-frontend`, `medslot-worker`, `medslot-beat` services
+  - [x] Deployment waits for ECS service stability before marking success
+  - [x] AWS credentials via GitHub OIDC (no static secrets)
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** Created `.github/workflows/deploy.yml` — two-job pipeline: `build-and-push` (OIDC → ECR login → Docker Buildx → build+push backend production stage and frontend with GHA layer cache) and `deploy` (OIDC → `deploy_service()` bash function that describes/patches/registers task def + updates service with explicit desiredCount → `aws ecs wait services-stable` for all 4 services). SHA-only tagging due to ECR IMMUTABLE mutability. `concurrency: cancel-in-progress` prevents stale parallel deploys. `environment: production` gates on GitHub Environment approval rules.
 - **Wireframe Ref:** —
 - **API Ref:** —
 

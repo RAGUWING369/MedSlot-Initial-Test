@@ -282,7 +282,7 @@ Key decisions (Phase 4 — Architecture):
 | 4. Architecture | ✅ Complete | `docs/design/ARCHITECTURE.md` | 2026-05-25 |
 | 5. UX Design | ✅ Complete | `docs/ux/USER-JOURNEYS.md` | 2026-05-27 |
 | 6. Task Breakdown | ✅ Complete | `docs/planning/TASKS.md` | 2026-05-27 |
-| 7. Implementation | 🟡 In Progress — Sprint 2 in progress (12/113 tasks done, 32 SP) | `medslot/` | 2026-05-28 |
+| 7. Implementation | 🟡 In Progress — Sprint 2 in progress (13/113 tasks done, 35 SP) | `medslot/` | 2026-05-28 |
 | 8. Code Review | [TO BE UPDATED] | PRs in GitHub/GitLab | TO BE UPDATED |
 | 9. Testing | [TO BE UPDATED] | `docs/qa/TEST-RESULTS.md` | TO BE UPDATED |
 | 10. Security | [TO BE UPDATED] | `docs/security/SECURITY-REVIEW.md` | TO BE UPDATED |
@@ -329,6 +329,7 @@ Key decisions (Phase 4 — Architecture):
 | Phase 6 — Task Breakdown & Sprint Planning | ✅ Approved | Stakeholder | 2026-05-27 | None |
 | Phase 7 — Implementation Sprint 1 | ✅ Approved | Stakeholder | 2026-05-28 | 11 tasks / 24 SP delivered; WeasyPrint spike passed; TASK-113 (Next.js 15) tracked in Sprint 10 |
 | Phase 7 — TASK-006 (AWS CDK Infrastructure Stack) | ✅ Approved | Stakeholder | 2026-05-28 | 102/102 CDK tests; cdk synth clean; cross-stack cycle fixed; TASK-005 unblocked |
+| Phase 7 — TASK-005 (GitHub Actions CD Pipeline) | ✅ Approved | Stakeholder | 2026-05-28 | SHA-only ECR tagging approved (IMMUTABLE repo constraint); deploy.yml committed |
 
 ---
 
