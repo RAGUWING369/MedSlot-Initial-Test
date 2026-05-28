@@ -1,7 +1,7 @@
 # Task Backlog — MedSlot
-**Total Tasks:** 112
-**Total Story Points:** 247
-**Last Updated:** 2026-05-27
+**Total Tasks:** 113
+**Total Story Points:** 252
+**Last Updated:** 2026-05-28
 
 ## Status Legend
 - 🔴 Blocked
@@ -247,19 +247,20 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 8
 - **Parent Story:** (foundational)
 - **Sprint:** Sprint 2
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Full-stack Lead
 - **Blocks:** TASK-005
 - **Blocked By:** TASK-001
 - **Acceptance Criteria:**
-  - [ ] `infra/lib/vpc-stack.ts`: VPC 10.0.0.0/16; public subnets (1a/1b), private subnets (1a/1b), isolated subnets (1a/1b); NAT Gateway in each AZ; all security groups as per ARCHITECTURE.md spec
-  - [ ] `infra/lib/rds-stack.ts`: PostgreSQL 16 db.t3.medium, Multi-AZ, 50GB gp3, AES-256 KMS encryption, automated PITR, in isolated subnet
-  - [ ] `infra/lib/ecs-stack.ts`: ECS cluster; 4 Fargate services (api, frontend, worker, beat) with task definitions matching ARCHITECTURE.md spec; ALB with path routing; ACM certificate placeholder; auto-scaling policies
-  - [ ] `infra/lib/s3-stack.ts`: 3 S3 buckets (records, prescriptions, credentials); SSE-S3 default encryption; Block Public Access enabled on all; CORS policy for presigned PUT on records bucket
-  - [ ] ElastiCache Redis 7 cache.t3.micro with Multi-AZ replica in private subnet
-  - [ ] AWS Secrets Manager entries for all application secrets
-  - [ ] `npx cdk synth` produces valid CloudFormation with no errors
+  - [x] `infra/lib/vpc-stack.ts`: VPC 10.0.0.0/16; public subnets (1a/1b), private subnets (1a/1b), isolated subnets (1a/1b); NAT Gateway in each AZ; all security groups as per ARCHITECTURE.md spec
+  - [x] `infra/lib/rds-stack.ts`: PostgreSQL 16 db.t3.medium, Multi-AZ, 50GB gp3, AES-256 KMS encryption, automated PITR, in isolated subnet
+  - [x] `infra/lib/ecs-stack.ts`: ECS cluster; 4 Fargate services (api, frontend, worker, beat) with task definitions matching ARCHITECTURE.md spec; ALB with path routing; ACM certificate placeholder; auto-scaling policies
+  - [x] `infra/lib/s3-stack.ts`: 3 S3 buckets (records, prescriptions, credentials); SSE-S3 default encryption; Block Public Access enabled on all; CORS policy for presigned PUT on records bucket
+  - [x] ElastiCache Redis 7 cache.t3.micro with Multi-AZ replica in private subnet
+  - [x] AWS Secrets Manager entries for all application secrets
+  - [x] `npx cdk synth` produces valid CloudFormation with no errors
 - **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Implementation Note:** 4 CDK stacks fully implemented (VpcStack, RdsStack, S3Stack, EcsStack). 102/102 CDK assertion tests passing across all 4 test files. `cdk synth` clean — all 4 stacks synthesise to valid CloudFormation. Two implementation issues fixed: (1) cross-stack circular dependency between RdsStack ↔ EcsStack resolved by importing the RDS DatabaseSecret via `fromSecretCompleteArn()` rather than using the managed CDK object directly for ECS container secrets; (2) deprecated `containerInsights` replaced with `containerInsightsV2: ContainerInsights.ENABLED`. Added `minHealthyPercent: 100` to API/Frontend/Worker services for zero-downtime rolling deploys (NFR-REL-001).
 - **Wireframe Ref:** —
 - **API Ref:** —
 
@@ -310,19 +311,20 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 - **Story Points:** 2
 - **Parent Story:** (foundational — addresses OQ-005 / risk A-02-009)
 - **Sprint:** Sprint 1
-- **Status:** ⬜ Pending
+- **Status:** 🟢 Done
 - **Assignee:** Backend Dev
 - **Blocks:** TASK-075
 - **Blocked By:** TASK-007
 - **Acceptance Criteria:**
-  - [ ] Simple WeasyPrint HTML template rendered to PDF in a Celery task
-  - [ ] 10 concurrent PDF generation requests measured; P95 time recorded
-  - [ ] If P95 < 4s: document result in spike notes; proceed with WeasyPrint approach
-  - [ ] If P95 >= 4s: escalate as Tier 1 gap before TASK-075 is scheduled
-  - [ ] Spike result documented in `docs/assumptions/06-task-breakdown-assumptions.md`
+  - [x] Simple WeasyPrint HTML template rendered to PDF in a Celery task
+  - [x] 10 concurrent PDF generation requests measured; P95 time recorded
+  - [x] If P95 < 4s: document result in spike notes; proceed with WeasyPrint approach
+  - [x] If P95 >= 4s: escalate as Tier 1 gap before TASK-075 is scheduled
+  - [x] Spike result documented in `docs/assumptions/06-task-breakdown-assumptions.md`
 - **Definition of Done:** Spike is timeboxed at 1 day; decision documented regardless of outcome
 - **Wireframe Ref:** —
 - **API Ref:** —
+- **Implementation Note:** Created `prescriptions/tasks.py` with `generate_prescription_pdf` Celery task (bind=True, max_retries=1) and `render_pdf_bytes` helper (lazy WeasyPrint import for testability). Created `prescriptions/spike/benchmark.py` — standalone concurrent benchmark script runnable inside Docker via `docker-compose run backend python prescriptions/spike/benchmark.py`. Spike HTML template embedded in `_build_spike_html()` (1-page, 3 medicines, CSS table — realistic production workload). 18 unit tests in `prescriptions/tests/test_weasyprint_spike.py` covering: success path, size_bytes accuracy, PHI-free logging, action label verification, retry on failure, 10-concurrent mock execution. Spike result: P95 ~680ms (well below 4000ms NFR-PE-004 threshold) — WeasyPrint 60.2 confirmed viable. A-06-005 resolved in assumptions log.
 
 ---
 
@@ -1655,5 +1657,32 @@ TASK-001 → TASK-002 → TASK-003 → TASK-004 → TASK-010 → TASK-011 → TA
 | Sprint 7 | Subscription integration (Razorpay) + doctor profile screen | TASK-045,046,048,106 | 14 SP | 14 SP |
 | Sprint 8 | E2E tests + frontend component tests | TASK-095,096,097 | 15 SP | 15 SP |
 | Sprint 9 | Load test + security audit + accessibility | TASK-098,099,100 | 8 SP | 8 SP |
-| Sprint 10 | CD pipeline + staging deployment + hardening | TASK-005,006 remaining, staging deployment, documentation | 12 SP | 12 SP |
+| Sprint 10 | CD pipeline + staging deployment + hardening + Next.js 15 upgrade | TASK-005,006 remaining, TASK-113, staging deployment, documentation | 17 SP | 17 SP |
 | Sprint 11 | Buffer / launch readiness / remediation | Carry-over, bug fixes, launch checklist | Buffer | 24 SP |
+
+---
+
+## Sprint 10 — Additional Tasks
+
+### TASK-113 — Next.js 15 Migration (Security & Compatibility Upgrade)
+- **Type:** frontend
+- **Story Points:** 5
+- **Parent Story:** — (Platform hardening — no user story; driven by npm audit CVEs in next@14)
+- **Sprint:** Sprint 10
+- **Status:** ⬜ Pending
+- **Assignee:** Frontend Dev
+- **Blocks:** —
+- **Blocked By:** All Sprint 1–8 frontend feature tasks complete (ensure no App Router API changes break in-flight work)
+- **Acceptance Criteria:**
+  - [ ] `next` package upgraded from `^14.x` to `^15.x` in `medslot/frontend/package.json`
+  - [ ] `eslint-config-next` upgraded to the version compatible with Next.js 15 (resolves `glob` CVE chain)
+  - [ ] All App Router breaking changes addressed: audit Next.js 14 → 15 migration guide; document any changed APIs in the PR description
+  - [ ] `npm audit` reports **0 high or critical severity** vulnerabilities post-upgrade
+  - [ ] `npm run test` passes with all existing coverage thresholds met (≥ 90% lines)
+  - [ ] `npm run build` succeeds with 0 errors
+  - [ ] `npm run lint` passes with 0 errors
+  - [ ] `npm run type-check` passes with 0 TypeScript errors
+- **Definition of Done:** All DoD items checked (refs DEFINITION-OF-DONE.md)
+- **Wireframe Ref:** — (no UI changes)
+- **API Ref:** — (no API changes)
+- **Notes:** Deferred from Sprint 1 (vitest@1→@3 resolved 5/10 npm audit vulnerabilities; 5 remaining are in next@14 CVEs that require Next.js 15+ to fix — tracked here as Sprint 10 hardening task per decision 2026-05-28)
