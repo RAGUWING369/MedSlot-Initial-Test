@@ -1,0 +1,257 @@
+name: Deploy to Production
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Prerequisites — configure once before first run:
+#
+#   1. GitHub Repository Secret:
+#        AWS_DEPLOY_ROLE_ARN  — ARN of the IAM role created for GitHub OIDC
+#                               (e.g. arn:aws:iam::123456789012:role/medslot-github-deploy)
+#
+#   2. GitHub Environment:
+#        Create a "production" environment in repo Settings → Environments.
+#        Add required reviewers or deployment branch rules as needed.
+#
+#   3. AWS IAM OIDC trust policy — the deploy role must trust GitHub's OIDC provider:
+#        Provider URL : https://token.actions.githubusercontent.com
+#        Audience     : sts.amazonaws.com
+#        Condition    : token.actions.githubusercontent.com:sub =
+#                         repo:<org>/<repo>:ref:refs/heads/main
+#
+#   4. AWS IAM permissions on the deploy role (minimum required):
+#        ecr:GetAuthorizationToken
+#        ecr:BatchGetImage, ecr:BatchCheckLayerAvailability
+#        ecr:PutImage, ecr:InitiateLayerUpload, ecr:UploadLayerPart, ecr:CompleteLayerUpload
+#        ecs:DescribeTaskDefinition, ecs:RegisterTaskDefinition
+#        ecs:DescribeServices, ecs:UpdateService
+#        iam:PassRole  (for the ECS execution role and task role)
+#
+#   5. CDK infrastructure must be deployed at least once before this workflow runs:
+#        cd medslot/infra && npx cdk deploy --all
+#      This creates the ECS cluster, task definitions, and ECR repos.
+#
+# Image tagging strategy:
+#   Only git SHA tags are pushed. ECR is configured with IMMUTABLE tag mutability
+#   (set in TASK-006 CDK stack) so that deployed images cannot be silently overwritten.
+#   ECS task definitions are updated to reference the exact SHA tag on each deploy.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches:
+      - main
+
+# Cancel any in-progress deploy when a new commit is pushed to main.
+# Only one production deployment runs at a time; the newest commit wins.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+permissions:
+  id-token: write  # Required for OIDC token exchange with AWS STS
+  contents: read   # Required to checkout the repository
+
+env:
+  AWS_REGION: ap-south-1
+  ECS_CLUSTER: medslot
+  BACKEND_REPO: medslot-backend
+  FRONTEND_REPO: medslot-frontend
+
+jobs:
+  # ── Build and push Docker images to ECR ──────────────────────────────────────
+  build-and-push:
+    name: Build & Push Images to ECR
+    runs-on: ubuntu-latest
+
+    outputs:
+      backend-image: ${{ steps.image-refs.outputs.backend }}
+      frontend-image: ${{ steps.image-refs.outputs.frontend }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set image references
+        id: image-refs
+        # Tag format: <registry>/<repo>:<git-sha>
+        # ECR has IMMUTABLE tag mutability — SHA tags are unique per commit and
+        # can never be overwritten, ensuring full deploy traceability.
+        run: |
+          REGISTRY="${{ steps.login-ecr.outputs.registry }}"
+          TAG="${{ github.sha }}"
+          echo "backend=${REGISTRY}/${{ env.BACKEND_REPO }}:${TAG}" >> "$GITHUB_OUTPUT"
+          echo "frontend=${REGISTRY}/${{ env.FRONTEND_REPO }}:${TAG}" >> "$GITHUB_OUTPUT"
+          echo "Image tag: ${TAG}"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        # Buildx is required for GitHub Actions layer cache (type=gha)
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: medslot/backend
+          # Use the production stage — non-root user, Gunicorn CMD.
+          # This same image is used by API, Celery worker, and Celery beat services
+          # (different CMD per ECS task definition).
+          target: production
+          push: true
+          tags: ${{ steps.image-refs.outputs.backend }}
+          # GitHub Actions layer cache: survives between workflow runs.
+          # Scoped per image to prevent cross-contamination.
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,mode=max,scope=backend
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: medslot/frontend
+          # next.config.mjs must have output: 'standalone' for the multi-stage
+          # Dockerfile to produce a minimal runner image.
+          push: true
+          tags: ${{ steps.image-refs.outputs.frontend }}
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,mode=max,scope=frontend
+
+  # ── Deploy all ECS services ───────────────────────────────────────────────────
+  deploy:
+    name: Deploy to ECS (ap-south-1)
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: production
+
+    steps:
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy all ECS services
+        env:
+          BACKEND_IMAGE: ${{ needs.build-and-push.outputs.backend-image }}
+          FRONTEND_IMAGE: ${{ needs.build-and-push.outputs.frontend-image }}
+        run: |
+          set -euo pipefail
+
+          # ────────────────────────────────────────────────────────────────────
+          # deploy_service <service> <container> <image> <desired-count>
+          #
+          # 1. Downloads the current task definition from ECS (live state)
+          # 2. Swaps the named container's image to the newly pushed SHA tag
+          # 3. Registers a new task definition revision
+          # 4. Updates the ECS service to use the new revision + enforces
+          #    desired count (handles the desiredCount:0 initial CDK state
+          #    on first real deployment)
+          # ────────────────────────────────────────────────────────────────────
+          deploy_service() {
+            local SERVICE="$1"
+            local CONTAINER="$2"
+            local IMAGE="$3"
+            local DESIRED="$4"
+
+            echo "▶ Deploying ${SERVICE}..."
+            echo "  Container : ${CONTAINER}"
+            echo "  Image     : ${IMAGE##*/}"   # basename only for readability
+            echo "  Desired   : ${DESIRED} task(s)"
+
+            # Fetch current task definition; strip read-only fields that cannot
+            # be included in register-task-definition.
+            TASK_DEF_JSON=$(aws ecs describe-task-definition \
+              --task-definition "${SERVICE}" \
+              --query 'taskDefinition' \
+              --output json | \
+              jq 'del(
+                .taskDefinitionArn,
+                .revision,
+                .status,
+                .requiresAttributes,
+                .placementConstraints,
+                .compatibilities,
+                .registeredAt,
+                .registeredBy
+              )')
+
+            # Update the target container's image reference.
+            # All other container properties (env vars, secrets, resources) are
+            # inherited unchanged from the existing task definition.
+            NEW_TASK_DEF_JSON=$(echo "${TASK_DEF_JSON}" | \
+              jq \
+                --arg img "${IMAGE}" \
+                --arg ctr "${CONTAINER}" \
+                '(.containerDefinitions[] | select(.name == $ctr) | .image) = $img')
+
+            # Register the new revision.
+            NEW_REVISION=$(echo "${NEW_TASK_DEF_JSON}" | \
+              aws ecs register-task-definition \
+                --cli-input-json /dev/stdin \
+                --query 'taskDefinition.taskDefinitionArn' \
+                --output text)
+
+            echo "  Registered revision: ${NEW_REVISION##*:}"
+
+            # Update the ECS service. --desired-count ensures the service runs
+            # the correct number of tasks even on the first deploy (CDK sets
+            # desiredCount:0 as a placeholder until the CD pipeline provides
+            # real images).
+            aws ecs update-service \
+              --cluster "${ECS_CLUSTER}" \
+              --service "${SERVICE}" \
+              --task-definition "${NEW_REVISION}" \
+              --desired-count "${DESIRED}" \
+              --query 'service.{service:serviceName, desired:desiredCount, running:runningCount, revision:taskDefinition}' \
+              --output table
+
+            echo "  ✓ ${SERVICE} update submitted"
+          }
+
+          echo "════════════════════════════════════════════════════════════"
+          echo "  MedSlot Production Deploy"
+          echo "  Commit : ${{ github.sha }}"
+          echo "  Author : ${{ github.actor }}"
+          echo "  Time   : $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          echo "════════════════════════════════════════════════════════════"
+          echo ""
+
+          # Backend services — all use the same backend image, different CMD per task def.
+          # API: 2 tasks (auto-scaling floor); Worker: 1 task; Beat: 1 task (singleton)
+          deploy_service "medslot-api"      "api"      "${BACKEND_IMAGE}"  2
+          deploy_service "medslot-worker"   "worker"   "${BACKEND_IMAGE}"  1
+          deploy_service "medslot-beat"     "beat"     "${BACKEND_IMAGE}"  1
+
+          # Frontend service — separate image built from medslot/frontend Dockerfile
+          deploy_service "medslot-frontend" "frontend" "${FRONTEND_IMAGE}" 2
+
+          echo ""
+          echo "All service updates submitted. Waiting for stability..."
+
+      - name: Wait for ECS services to reach steady state
+        # aws ecs wait services-stable polls DescribeServices every 15 seconds
+        # for up to 40 attempts (10 minutes total). If any service fails to
+        # stabilise within that window, this step exits non-zero and the
+        # deployment is marked failed — the circuit breaker (configured in CDK)
+        # will have already triggered a rollback on the ECS side.
+        run: |
+          echo "⏳ Waiting for ECS services to stabilise (up to 10 minutes)..."
+          aws ecs wait services-stable \
+            --cluster "${ECS_CLUSTER}" \
+            --services medslot-api medslot-frontend medslot-worker medslot-beat
+
+          echo ""
+          echo "✅ All ECS services are stable."
+          echo ""
+          echo "Deployment summary:"
+          aws ecs describe-services \
+            --cluster "${ECS_CLUSTER}" \
+            --services medslot-api medslot-frontend medslot-worker medslot-beat \
+            --query 'services[].{Service:serviceName, Desired:desiredCount, Running:runningCount, Pending:pendingCount, Status:status}' \
+            --output table

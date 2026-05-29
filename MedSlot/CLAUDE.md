@@ -79,52 +79,61 @@
 ---
 
 ## Repository Structure (Defined Phase 4 — Architecture)
+
+> **Note (updated Phase 7 — 2026-05-27):** All project source code lives under `medslot/` subdirectory. SDLC planning artifacts (docs/, .claude/, CLAUDE.md, memory/) remain at the repo root. `.github/` stays at the repo root (GitHub Actions requirement).
+
 ```
-medslot/
-├── frontend/                    ← Next.js 14 TypeScript app
-│   ├── app/                     ← App Router pages and layouts
-│   │   ├── (public)/            ← Doctor discovery, landing (SSR/SSG)
-│   │   ├── (patient)/           ← Patient-authenticated routes (CSR)
-│   │   └── (doctor)/            ← Doctor-authenticated routes (CSR)
-│   ├── components/
-│   │   ├── ui/                  ← Shared UI primitives (Tailwind-based)
-│   │   ├── patient/             ← Patient-specific components
-│   │   └── doctor/              ← Doctor-specific components
-│   ├── lib/                     ← Axios API client, Zustand stores, hooks, Zod schemas
-│   ├── public/
-│   └── Dockerfile
-├── backend/                     ← Django 5 REST API + Celery workers
-│   ├── medslot/                 ← Django project config (settings, urls, wsgi)
-│   ├── accounts/                ← CustomUser, PatientProfile, DoctorProfile, OTP auth, JWT, permissions
-│   ├── appointments/            ← AvailabilityCalendar, AppointmentSlot, Appointment, consultation start
-│   ├── prescriptions/           ← ConsultationNote, Prescription, WeasyPrint PDF task, templates/
-│   ├── records/                 ← HealthRecord, S3 presigned upload/download
-│   ├── notifications/           ← SendGrid email, MSG91 SMS, Celery notification tasks
-│   ├── subscriptions/           ← DoctorSubscription, Razorpay webhook handler
-│   ├── analytics/               ← AnalyticsEvent model + write endpoint
-│   ├── audit/                   ← AuditLog model + Django signal receivers
-│   ├── requirements.txt
-│   └── Dockerfile               ← Shared image for API, worker, and beat (different CMD)
-├── infra/                       ← AWS CDK v2 (TypeScript) infrastructure stack
-│   ├── lib/
-│   │   ├── vpc-stack.ts
-│   │   ├── ecs-stack.ts
-│   │   ├── rds-stack.ts
-│   │   └── s3-stack.ts
-│   └── package.json
-├── docker-compose.yml           ← Local development (API + frontend + Redis + PostgreSQL)
+(repo root)/
+├── .claude/                     ← Agent definitions and rule files
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml               ← Lint, test, coverage gate
 │       └── deploy.yml           ← Build → ECR push → ECS rolling update
-└── CLAUDE.md
+├── docs/                        ← All SDLC phase artifacts
+├── memory/                      ← AI memory files
+├── .gitignore                   ← Root gitignore
+├── CLAUDE.md                    ← Project source of truth
+└── medslot/                     ← All project source code lives here
+    ├── frontend/                    ← Next.js 14 TypeScript app
+    │   ├── app/                     ← App Router pages and layouts
+    │   │   ├── (public)/            ← Doctor discovery, landing (SSR/SSG)
+    │   │   ├── (patient)/           ← Patient-authenticated routes (CSR)
+    │   │   └── (doctor)/            ← Doctor-authenticated routes (CSR)
+    │   ├── components/
+    │   │   ├── ui/                  ← Shared UI primitives (Tailwind-based)
+    │   │   ├── patient/             ← Patient-specific components
+    │   │   └── doctor/              ← Doctor-specific components
+    │   ├── lib/                     ← Axios API client, Zustand stores, hooks, Zod schemas
+    │   ├── public/
+    │   └── Dockerfile
+    ├── backend/                     ← Django 5 REST API + Celery workers
+    │   ├── medslot/                 ← Django project config (settings, urls, wsgi)
+    │   ├── accounts/                ← CustomUser, PatientProfile, DoctorProfile, OTP auth, JWT, permissions
+    │   ├── appointments/            ← AvailabilityCalendar, AppointmentSlot, Appointment, consultation start
+    │   ├── prescriptions/           ← ConsultationNote, Prescription, WeasyPrint PDF task, templates/
+    │   ├── records/                 ← HealthRecord, S3 presigned upload/download
+    │   ├── notifications/           ← SendGrid email, MSG91 SMS, Celery notification tasks
+    │   ├── subscriptions/           ← DoctorSubscription, Razorpay webhook handler
+    │   ├── analytics/               ← AnalyticsEvent model + write endpoint
+    │   ├── audit/                   ← AuditLog model + Django signal receivers
+    │   ├── requirements.txt
+    │   └── Dockerfile               ← Shared image for API, worker, and beat (different CMD)
+    ├── infra/                       ← AWS CDK v2 (TypeScript) infrastructure stack
+    │   ├── lib/
+    │   │   ├── vpc-stack.ts
+    │   │   ├── ecs-stack.ts
+    │   │   ├── rds-stack.ts
+    │   │   └── s3-stack.ts
+    │   └── package.json
+    ├── docker-compose.yml           ← Local development (API + frontend + Redis + PostgreSQL)
+    └── .env.example                 ← Environment variable template
 ```
 
 ---
 
 ## Key Commands
 ```
-# ── Frontend (cd frontend/) ─────────────────────────
+# ── Frontend (cd medslot/frontend/) ─────────────────────────
 # Install dependencies
 npm install
 
@@ -143,7 +152,7 @@ npm run type-check
 # Build for production
 npm run build
 
-# ── Backend (cd backend/) ───────────────────────────
+# ── Backend (cd medslot/backend/) ───────────────────────────
 # Install dependencies
 pip install -r requirements.txt
 
@@ -171,10 +180,10 @@ celery -A medslot worker --loglevel=info --concurrency=2
 # Run Celery Beat scheduler (local dev)
 celery -A medslot beat --loglevel=info
 
-# ── Docker (full stack local) ────────────────────────
+# ── Docker (full stack local — cd medslot/) ─────────
 docker-compose up --build
 
-# ── Infra (cd infra/) ───────────────────────────────
+# ── Infra (cd medslot/infra/) ───────────────────────
 # Deploy AWS CDK stack to staging
 npx cdk deploy MedSlotStack --profile medslot-staging
 
@@ -273,8 +282,8 @@ Key decisions (Phase 4 — Architecture):
 | 4. Architecture | ✅ Complete | `docs/design/ARCHITECTURE.md` | 2026-05-25 |
 | 5. UX Design | ✅ Complete | `docs/ux/USER-JOURNEYS.md` | 2026-05-27 |
 | 6. Task Breakdown | ✅ Complete | `docs/planning/TASKS.md` | 2026-05-27 |
-| 7. Implementation | [TO BE UPDATED] | `src/` | TO BE UPDATED |
-| 8. Code Review | [TO BE UPDATED] | PRs in GitHub/GitLab | TO BE UPDATED |
+| 7. Implementation | 🟡 In Progress — Sprint 2 in progress (14/113 tasks done, 38 SP) | `medslot/` | 2026-05-28 |
+| 8. Code Review | In Progress - Sprint 1/2 re-review APPROVED; REM-001 (12/12 items resolved); branch feature/TASK-006 approved | PR #2 on GitHub | 2026-05-29 |
 | 9. Testing | [TO BE UPDATED] | `docs/qa/TEST-RESULTS.md` | TO BE UPDATED |
 | 10. Security | [TO BE UPDATED] | `docs/security/SECURITY-REVIEW.md` | TO BE UPDATED |
 | 11. CI/CD | [TO BE UPDATED] | `.github/workflows/` | TO BE UPDATED |
@@ -297,7 +306,7 @@ Key decisions (Phase 4 — Architecture):
 | OQ-002: Razorpay Subscriptions plan configuration — monthly-only, annual option, or both? | Tech Lead | Open — Must be decided before Phase 7 Razorpay integration (impacts FR-SUB-002) |
 | OQ-003: Doctor subscription pricing — validated willingness-to-pay at ₹1,000/month? | Product Owner | Open — Pricing interview with ≥5 target doctors required before Phase 7 |
 | OQ-004: Soft launch city count — 1 city or 2–3 simultaneously? | Product Owner | Open — Informs Phase 5 UX localisation requirements |
-| OQ-005: WeasyPrint performance — POC required to validate ≤4s P95 under 50 concurrent requests? | Tech Lead | Open — Risk mitigation for NFR-PE-004; run before Phase 7 Sprint 1 |
+| OQ-005: WeasyPrint performance — POC required to validate ≤4s P95 under 50 concurrent requests? | Tech Lead | ✅ Closed — Spike PASSED: P95 ~680ms << 4000ms. WeasyPrint 60.2 confirmed viable. See docs/assumptions/06-task-breakdown-assumptions.md (2026-05-28) |
 
 ---
 
@@ -318,6 +327,11 @@ Key decisions (Phase 4 — Architecture):
 | Phase 4 — Architecture & Design | ✅ Approved | Stakeholder | 2026-05-25 | None |
 | Phase 5 — UX Design | ✅ Approved | Stakeholder | 2026-05-27 | None |
 | Phase 6 — Task Breakdown & Sprint Planning | ✅ Approved | Stakeholder | 2026-05-27 | None |
+| Phase 7 — Implementation Sprint 1 | ✅ Approved | Stakeholder | 2026-05-28 | 11 tasks / 24 SP delivered; WeasyPrint spike passed; TASK-113 (Next.js 15) tracked in Sprint 10 |
+| Phase 7 — TASK-006 (AWS CDK Infrastructure Stack) | ✅ Approved | Stakeholder | 2026-05-28 | 102/102 CDK tests; cdk synth clean; cross-stack cycle fixed; TASK-005 unblocked |
+| Phase 7 — TASK-005 (GitHub Actions CD Pipeline) | ✅ Approved | Stakeholder | 2026-05-28 | SHA-only ECR tagging approved (IMMUTABLE repo constraint); deploy.yml committed |
+| Phase 7 — TASK-014 (Patient OTP Auth Screen) | ✅ Approved | Stakeholder | 2026-05-29 | 132/132 tests; 0 lint errors; 3-step wizard delivered |
+| Phase 8 — Code Review Sprint 1/2 (REM-001) | ✅ Approved | Engineering Lead | 2026-05-29 | 5 Critical + 7 Warning resolved; re-review APPROVED; PR #2 ready to merge |
 
 ---
 
