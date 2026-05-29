@@ -283,7 +283,7 @@ Key decisions (Phase 4 — Architecture):
 | 5. UX Design | ✅ Complete | `docs/ux/USER-JOURNEYS.md` | 2026-05-27 |
 | 6. Task Breakdown | ✅ Complete | `docs/planning/TASKS.md` | 2026-05-27 |
 | 7. Implementation | 🟡 In Progress — Sprint 2 in progress (14/113 tasks done, 38 SP) | `medslot/` | 2026-05-28 |
-| 8. Code Review | [TO BE UPDATED] | PRs in GitHub/GitLab | TO BE UPDATED |
+| 8. Code Review | In Progress - Sprint 1/2 re-review APPROVED; REM-001 (12/12 items resolved); branch feature/TASK-006 approved | PR #2 on GitHub | 2026-05-29 |
 | 9. Testing | [TO BE UPDATED] | `docs/qa/TEST-RESULTS.md` | TO BE UPDATED |
 | 10. Security | [TO BE UPDATED] | `docs/security/SECURITY-REVIEW.md` | TO BE UPDATED |
 | 11. CI/CD | [TO BE UPDATED] | `.github/workflows/` | TO BE UPDATED |

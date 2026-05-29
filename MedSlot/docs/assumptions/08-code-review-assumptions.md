@@ -34,3 +34,43 @@
 | ID | Original Assumption | Resolution | Resolved By | Date |
 |----|--------------------|-----------|-----------:|------|
 | — | — | — | — | — |
+
+
+---
+
+## Re-Review Pass — REM-001 (Cycle 2)
+
+**Date:** 2026-05-29
+**Commit verified:** 86d79bb (fix(security): apply REM-001 code review remediation)
+**Branch:** feature/TASK-006-aws-cdk-infrastructure-stack
+**Result:** ALL 12 ITEMS RESOLVED — RE-REVIEW STATUS: APPROVED
+
+### Item-by-item verification
+
+| Item | File | Status | What was verified |
+|------|------|--------|-------------------|
+| REM-C1 | accounts/services.py | PASS | `import secrets` present; `import random` and `import string` absent; OTP uses `secrets.choice` in a loop |
+| REM-C2 | accounts/services.py | PASS | `import hmac` present; `hmac.compare_digest(submitted_hash, stored_hash)` used for OTP hash comparison |
+| REM-C3 | accounts/models.py | PASS | `DoctorProfile.__str__` returns `f"DoctorProfile(id={self.pk})"` — no `full_name`, no `specialty` |
+| REM-C4 | infra/lib/s3-stack.ts | PASS | `corsOrigins` populated from `tryGetContext` with explicit domain default; no wildcard `*` present |
+| REM-C5 | infra/lib/ecs-stack.ts | PASS | Separate `addToPrincipalPolicy` calls for logs and metrics; logs ARN scoped to `/medslot/ecs/*` |
+| REM-W1 | infra/lib/ecs-stack.ts | PASS | `makeSecrets()` includes `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET` |
+| REM-W2 | infra/lib/ecs-stack.ts | PASS | `NEXT_PUBLIC_API_URL` uses `tryGetContext("apiUrl")` with ALB DNS as fallback — context-overridable |
+| REM-W3 | infra/lib/vpc-stack.ts | PASS | VPC flow log group uses `cdk.RemovalPolicy.RETAIN` |
+| REM-W4 | accounts/services.py | PASS | MSG91 payload has no `"authkey"` field; API key sent as `Authorization` header |
+| REM-W5 (views) | accounts/views.py | PASS | `except DoctorProfile.DoesNotExist` and `except PatientProfile.DoesNotExist`; no bare `except Exception` |
+| REM-W5 (perms) | accounts/permissions.py | PASS | `except DoctorProfile.DoesNotExist` in `IsApprovedDoctor` and `IsApprovedOrTrialDoctor` |
+| REM-W6 | accounts/views.py | PASS | `hasattr(user, "patient_profile")` replaces `PatientProfile.objects.filter().exists()` |
+| REM-W7 | accounts/services.py | PASS | `_record_failure` uses `cache.add` then `cache.incr` atomically; get-then-set race eliminated |
+
+### Prior open flags resolved by this remediation
+
+| Flag | Original Issue | Resolution |
+|------|---------------|------------|
+| F-08-001 / A-08-001 | `random.choices` used for OTP generation | Fixed: `secrets.choice` used (REM-C1) |
+| F-08-002 / A-08-002 | `!=` string comparison on OTP hash | Fixed: `hmac.compare_digest` used (REM-C2) |
+| F-08-003 / A-08-003 | `DoctorProfile.__str__` exposed `full_name` PHI | Fixed: returns id-only string (REM-C3) |
+| A-08-004 | CORS wildcard assumed narrowed at deploy | Fixed: `corsOrigins` variable with explicit domain defaults (REM-C4) |
+| A-08-005 | Razorpay keys not mapped as individual env vars in `makeSecrets` | Fixed: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET` added (REM-W1) |
+
+No new issues introduced by remediation commit 86d79bb.
