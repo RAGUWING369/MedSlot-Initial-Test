@@ -330,6 +330,8 @@ Key decisions (Phase 4 — Architecture):
 | Phase 7 — Implementation Sprint 1 | ✅ Approved | Stakeholder | 2026-05-28 | 11 tasks / 24 SP delivered; WeasyPrint spike passed; TASK-113 (Next.js 15) tracked in Sprint 10 |
 | Phase 7 — TASK-006 (AWS CDK Infrastructure Stack) | ✅ Approved | Stakeholder | 2026-05-28 | 102/102 CDK tests; cdk synth clean; cross-stack cycle fixed; TASK-005 unblocked |
 | Phase 7 — TASK-005 (GitHub Actions CD Pipeline) | ✅ Approved | Stakeholder | 2026-05-28 | SHA-only ECR tagging approved (IMMUTABLE repo constraint); deploy.yml committed |
+| Phase 7 — TASK-014 (Patient OTP Auth Screen) | ✅ Approved | Stakeholder | 2026-05-29 | 132/132 tests; 0 lint errors; 3-step wizard delivered |
+| Phase 8 — Code Review Sprint 1/2 (REM-001) | ✅ Approved | Engineering Lead | 2026-05-29 | 5 Critical + 7 Warning resolved; re-review APPROVED; PR #2 ready to merge |
 
 ---
 
