@@ -15,7 +15,7 @@ from unittest.mock import Mock, PropertyMock
 import pytest
 from django.utils import timezone
 
-from accounts.models import DoctorAccountStatus, UserRole
+from accounts.models import DoctorAccountStatus, DoctorProfile, UserRole
 from accounts.permissions import (
     DOCTOR_TRIAL_DAYS,
     IsAdmin,
@@ -219,7 +219,7 @@ class TestIsApprovedDoctorPermission:
         """Returns False when doctor_profile does not exist."""
         user = _make_user(UserRole.DOCTOR)
         # Simulate missing related object by raising on attribute access
-        type(user).doctor_profile = PropertyMock(side_effect=Exception("no profile"))
+        type(user).doctor_profile = PropertyMock(side_effect=DoctorProfile.DoesNotExist)
         request = _make_request(user)
         assert self.permission.has_permission(request, None) is False
 
@@ -374,7 +374,7 @@ class TestIsApprovedOrTrialDoctorPermission:
     def test_denies_doctor_without_profile(self) -> None:
         """Returns False when doctor_profile does not exist."""
         user = _make_user(UserRole.DOCTOR)
-        type(user).doctor_profile = PropertyMock(side_effect=Exception("no profile"))
+        type(user).doctor_profile = PropertyMock(side_effect=DoctorProfile.DoesNotExist)
         request = _make_request(user)
         assert self.permission.has_permission(request, None) is False
 

@@ -180,6 +180,11 @@ export class EcsStack extends cdk.Stack {
     for (const secret of [jwtSecret, otpPepperSecret, msg91Secret, sendgridSecret, razorpaySecret]) {
       secret.grantRead(taskRole);
     }
+
+    // ECS secrets injection (makeSecrets) runs via the execution role at container start,
+    // not the task role. The execution role needs explicit read on razorpaySecret so the
+    // ECS agent can fetch the secret value before the container starts.
+    razorpaySecret.grantRead(executionRole);
     // RDS credentials secret: cannot use grantRead() across stacks — CDK adds a resource policy
     // to the secret (in RdsStack) referencing the task role ARN (in EcsStack), creating a
     // RdsStack → EcsStack reverse edge that cycles with EcsStack → RdsStack.
@@ -193,11 +198,23 @@ export class EcsStack extends cdk.Stack {
       }),
     );
 
-    // CloudWatch — structured JSON logs from all services
+    // CloudWatch Metrics — no resource-level restriction available for PutMetricData
     taskRole.addToPrincipalPolicy(
       new iam.PolicyStatement({
-        actions: ['cloudwatch:PutMetricData', 'logs:CreateLogStream', 'logs:PutLogEvents'],
+        actions: ['cloudwatch:PutMetricData'],
         resources: ['*'],
+      }),
+    );
+
+    // CloudWatch Logs — scoped to MedSlot ECS log groups only.
+    // Prevents a compromised container from writing to arbitrary log groups
+    // in the account (OWASP A01 — least-privilege IAM).
+    taskRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        actions: ['logs:CreateLogStream', 'logs:PutLogEvents'],
+        resources: [
+          `arn:${this.partition}:logs:${this.region}:${this.account}:log-group:/medslot/ecs/*`,
+        ],
       }),
     );
 
@@ -258,6 +275,11 @@ export class EcsStack extends cdk.Stack {
       SENDGRID_API_KEY: ecs.Secret.fromSecretsManager(sendgridSecret),
       DATABASE_USER: ecs.Secret.fromSecretsManager(dbCredSecretImported, 'username'),
       DATABASE_PASSWORD: ecs.Secret.fromSecretsManager(dbCredSecretImported, 'password'),
+      // Razorpay — subscriptions app (TASK-089). Secret JSON contains
+      // key_id, key_secret, and webhook_secret fields.
+      RAZORPAY_KEY_ID: ecs.Secret.fromSecretsManager(razorpaySecret, 'key_id'),
+      RAZORPAY_KEY_SECRET: ecs.Secret.fromSecretsManager(razorpaySecret, 'key_secret'),
+      RAZORPAY_WEBHOOK_SECRET: ecs.Secret.fromSecretsManager(razorpaySecret, 'webhook_secret'),
     });
 
     // ── ALB ────────────────────────────────────────────────────────────────────
@@ -388,13 +410,18 @@ export class EcsStack extends cdk.Stack {
       executionRole,
       taskRole,
     });
+    // API URL for the frontend container. Override with CDK context to use a custom
+    // domain or CloudFront distribution without a CDK redeploy just for this value.
+    // Example: cdk deploy --context apiUrl=https://api.medslot.in
+    const apiUrl: string = this.node.tryGetContext('apiUrl') ?? `https://${alb.loadBalancerDnsName}`;
+
     feTaskDef.addContainer('frontend', {
       image: ecs.ContainerImage.fromEcrRepository(this.frontendRepo, 'latest'),
       command: ['node', 'server.js'],
       portMappings: [{ containerPort: 3000 }],
       environment: {
         NODE_ENV: 'production',
-        NEXT_PUBLIC_API_URL: `https://${alb.loadBalancerDnsName}`,
+        NEXT_PUBLIC_API_URL: apiUrl,
       },
       logging: ecs.LogDrivers.awsLogs({
         streamPrefix: 'frontend',

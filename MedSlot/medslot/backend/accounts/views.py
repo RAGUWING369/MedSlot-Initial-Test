@@ -23,7 +23,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .enums import OTPResult
-from .models import CustomUser, PatientProfile, UserRole
+from .models import CustomUser, DoctorProfile, PatientProfile, UserRole
 from .permissions import IsPatient
 from .serializers import (
     OTPRequestSerializer,
@@ -178,7 +178,7 @@ class OTPVerifyView(APIView):
                         },
                         status=status.HTTP_403_FORBIDDEN,
                     )
-            except Exception:
+            except DoctorProfile.DoesNotExist:
                 # doctor_profile does not exist — registration incomplete
                 return Response(
                     {
@@ -195,7 +195,7 @@ class OTPVerifyView(APIView):
         # Determine if patient needs to complete profile
         is_new_user = False
         if user.role == UserRole.PATIENT:
-            is_new_user = not PatientProfile.objects.filter(user=user).exists()
+            is_new_user = not hasattr(user, "patient_profile")
 
         logger.info(
             "OTP verified — JWT issued",

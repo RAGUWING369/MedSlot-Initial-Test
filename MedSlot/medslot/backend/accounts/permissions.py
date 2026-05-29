@@ -24,7 +24,7 @@ from rest_framework.permissions import BasePermission
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
-from .models import DoctorAccountStatus, UserRole
+from .models import DoctorAccountStatus, DoctorProfile, UserRole
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class IsApprovedDoctor(BasePermission):
             return (
                 request.user.doctor_profile.account_status == DoctorAccountStatus.APPROVED
             )
-        except Exception:
+        except DoctorProfile.DoesNotExist:
             # doctor_profile does not exist yet (registration incomplete)
             logger.warning(
                 "IsApprovedDoctor: doctor_profile missing",
@@ -125,7 +125,7 @@ class IsApprovedOrTrialDoctor(BasePermission):
 
         try:
             profile = request.user.doctor_profile
-        except Exception:
+        except DoctorProfile.DoesNotExist:
             logger.warning(
                 "IsApprovedOrTrialDoctor: doctor_profile missing",
                 extra={"action": "permission_check_no_profile"},

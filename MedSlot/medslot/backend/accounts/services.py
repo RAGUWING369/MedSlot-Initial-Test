@@ -15,9 +15,9 @@ Use structured logging with sanitised fields only.
 """
 
 import hashlib
+import hmac
 import logging
-import random
-import string
+import secrets
 from typing import Optional
 
 from django.conf import settings
@@ -86,7 +86,7 @@ class OTPService:
             The plaintext 6-digit OTP string (returned once to the caller for
             delivery via MSG91 — never stored in plaintext).
         """
-        otp_code = "".join(random.choices(string.digits, k=OTP_LENGTH))
+        otp_code = "".join(secrets.choice("0123456789") for _ in range(OTP_LENGTH))
         hashed = _hash_otp(otp_code)
 
         rate_key = _OTP_RATE_KEY.format(phone=phone)
@@ -182,10 +182,10 @@ class OTPService:
             )
             return OTPResult.EXPIRED
 
-        # 4. Hash comparison (both are hex strings — constant length prevents
-        #    timing attacks based on short-circuit string comparison)
+        # 4. Hash comparison — hmac.compare_digest is constant-time even for
+        #    hex strings of equal length, preventing timing side-channel attacks.
         submitted_hash = _hash_otp(otp_code)
-        if submitted_hash != stored_hash:
+        if not hmac.compare_digest(submitted_hash, stored_hash):
             cls._record_failure(phone)
             logger.info(
                 "OTP verification failed — invalid code",
@@ -212,25 +212,21 @@ class OTPService:
             phone: E.164 format phone number.
         """
         fail_key = _OTP_FAIL_KEY.format(phone=phone)
-        failure_count = cache.get(fail_key, 0)
+        # Atomic: cache.add is SETNX — sets the key only if it does not exist.
+        # cache.incr is atomic INCRBY. Together they eliminate the get-then-set
+        # race condition where two concurrent failures could both read count=0
+        # and both write count=1, preventing the lockout threshold from firing.
+        cache.add(fail_key, 0, timeout=OTP_FAIL_TTL_SECONDS)
+        new_count = cache.incr(fail_key)
 
-        if failure_count == 0:
-            cache.set(fail_key, 1, timeout=OTP_FAIL_TTL_SECONDS)
-        else:
-            new_count = int(failure_count) + 1
-            # Re-set with full window on each increment (sliding window).
-            # Django cache does not expose TTL for partial updates, so this
-            # is the safest approach without a custom Redis script.
-            cache.set(fail_key, new_count, timeout=OTP_FAIL_TTL_SECONDS)
-
-            if new_count >= OTP_MAX_FAILURES:
-                lock_key = _OTP_LOCK_KEY.format(phone=phone)
-                cache.set(lock_key, True, timeout=OTP_LOCK_TTL_SECONDS)
-                cache.delete(fail_key)
-                logger.info(
-                    "OTP account locked after max failures",
-                    extra={"action": "otp_account_locked"},
-                )
+        if new_count >= OTP_MAX_FAILURES:
+            lock_key = _OTP_LOCK_KEY.format(phone=phone)
+            cache.set(lock_key, True, timeout=OTP_LOCK_TTL_SECONDS)
+            cache.delete(fail_key)
+            logger.info(
+                "OTP account locked after max failures",
+                extra={"action": "otp_account_locked"},
+            )
 
     @classmethod
     def _clear_failure_counter(cls, phone: str) -> None:
@@ -283,15 +279,18 @@ class MSG91Adapter:
         payload = {
             "template_id": template_id,
             "mobile": phone.lstrip("+"),  # MSG91 expects number without '+'
-            "authkey": api_key,
             "otp": otp_code,
         }
+        # API key sent as Authorization header — keeps it out of the request body
+        # and therefore out of HTTP access logs that record request payloads.
+        headers = {"Authorization": api_key}
 
         for attempt in range(1, 3):  # attempt 1, then retry attempt 2
             try:
                 response = requests.post(
                     cls.MSG91_OTP_URL,
                     json=payload,
+                    headers=headers,
                     timeout=cls.REQUEST_TIMEOUT_SECONDS,
                 )
                 if response.status_code < 500:

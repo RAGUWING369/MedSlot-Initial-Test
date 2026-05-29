@@ -370,7 +370,7 @@ class TestDoctorProfile:
     def test_str_representation(
         self, doctor_user: CustomUser, specialty: Specialty
     ) -> None:
-        """__str__ returns doctor name and specialty."""
+        """__str__ returns PHI-safe pk-only representation (no name or specialty in logs)."""
         profile = DoctorProfile.objects.create(
             user=doctor_user,
             full_name="Dr. Rajan Mehta",
@@ -380,7 +380,12 @@ class TestDoctorProfile:
             clinic_area="Andheri",
             clinic_city="Mumbai",
         )
-        assert "Dr. Rajan Mehta" in str(profile)
+        representation = str(profile)
+        # PHI-safe: name and specialty must NOT appear in the string representation
+        assert "Dr. Rajan Mehta" not in representation
+        # Must include the primary key so log entries are traceable
+        assert str(profile.pk) in representation
+        assert representation.startswith("DoctorProfile(id=")
 
     def test_credential_document_s3_key_defaults_empty(
         self, doctor_user: CustomUser, specialty: Specialty

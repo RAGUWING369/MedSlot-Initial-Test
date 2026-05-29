@@ -67,7 +67,9 @@ export class VpcStack extends cdk.Stack {
     const flowLogGroup = new logs.LogGroup(this, 'VpcFlowLogGroup', {
       logGroupName: '/medslot/vpc/flow-logs',
       retention: logs.RetentionDays.THREE_MONTHS,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      // RETAIN: VPC flow logs are compliance audit evidence — they must survive
+      // stack teardown. DESTROY would permanently delete network security logs.
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
     new ec2.FlowLog(this, 'VpcFlowLog', {
       resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),

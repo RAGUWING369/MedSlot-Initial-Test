@@ -234,8 +234,9 @@ class TestOTPServiceVerifyOtp:
     def test_verify_returns_invalid_on_wrong_otp(self, mock_cache: MagicMock) -> None:
         """Returns INVALID and increments failure counter on wrong OTP."""
         stored_hash = _hash_otp("999999")  # stored for '999999'
-        # is_locked=None, rate=0, otp_key=stored_hash, fail_counter=0
-        mock_cache.get.side_effect = [None, 0, stored_hash, 0]
+        # is_locked=None, rate=0, otp_key=stored_hash
+        mock_cache.get.side_effect = [None, 0, stored_hash]
+        mock_cache.incr.return_value = 1  # first failure → count=1 (below threshold)
         result = OTPService.verify_otp(TEST_PHONE, "111111")  # wrong code
         assert result == OTPResult.INVALID
 
@@ -243,24 +244,28 @@ class TestOTPServiceVerifyOtp:
     def test_verify_invalid_first_failure_sets_counter(
         self, mock_cache: MagicMock
     ) -> None:
-        """First failure sets fail counter to 1 with OTP_FAIL_TTL_SECONDS TTL."""
+        """First failure uses atomic cache.add + cache.incr to set counter to 1."""
         stored_hash = _hash_otp("999999")
-        mock_cache.get.side_effect = [None, 0, stored_hash, 0]
+        mock_cache.get.side_effect = [None, 0, stored_hash]
+        mock_cache.incr.return_value = 1  # first failure → count=1
         OTPService.verify_otp(TEST_PHONE, "111111")
         fail_key = f"otp_fail:{TEST_PHONE}"
-        mock_cache.set.assert_any_call(fail_key, 1, timeout=OTP_FAIL_TTL_SECONDS)
+        # cache.add initialises the key atomically (SETNX)
+        mock_cache.add.assert_called_once_with(fail_key, 0, timeout=OTP_FAIL_TTL_SECONDS)
+        # cache.incr atomically increments and returns the new value
+        mock_cache.incr.assert_called_once_with(fail_key)
 
     @patch("accounts.services.cache")
     def test_verify_locks_after_max_failures(self, mock_cache: MagicMock) -> None:
         """Account is locked after OTP_MAX_FAILURES invalid attempts."""
         stored_hash = _hash_otp("999999")
-        # is_locked=None, rate=0, otp_key=stored_hash, fail_counter=(max-1)
         mock_cache.get.side_effect = [
-            None,  # is_locked → not locked
-            0,  # rate limit check → ok
-            stored_hash,  # OTP key → exists
-            OTP_MAX_FAILURES - 1,  # fail counter → about to hit threshold
+            None,        # is_locked → not locked
+            0,           # rate limit check → ok
+            stored_hash, # OTP key → exists
         ]
+        # cache.incr returns OTP_MAX_FAILURES → triggers lockout
+        mock_cache.incr.return_value = OTP_MAX_FAILURES
 
         result = OTPService.verify_otp(TEST_PHONE, "111111")
         assert result == OTPResult.INVALID
@@ -275,12 +280,8 @@ class TestOTPServiceVerifyOtp:
     def test_verify_lock_also_clears_fail_counter(self, mock_cache: MagicMock) -> None:
         """Fail counter key is deleted when lockout is triggered."""
         stored_hash = _hash_otp("999999")
-        mock_cache.get.side_effect = [
-            None,
-            0,
-            stored_hash,
-            OTP_MAX_FAILURES - 1,
-        ]
+        mock_cache.get.side_effect = [None, 0, stored_hash]
+        mock_cache.incr.return_value = OTP_MAX_FAILURES  # triggers lockout
         OTPService.verify_otp(TEST_PHONE, "111111")
         fail_key = f"otp_fail:{TEST_PHONE}"
         delete_calls = [str(c) for c in mock_cache.delete.call_args_list]
@@ -290,13 +291,18 @@ class TestOTPServiceVerifyOtp:
     def test_verify_second_failure_increments_counter(
         self, mock_cache: MagicMock
     ) -> None:
-        """Second failure increments fail counter to 2 via cache.set."""
+        """Second failure: cache.incr returns 2 (below threshold — no lockout)."""
         stored_hash = _hash_otp("999999")
-        # fail_counter is 1 (second attempt)
-        mock_cache.get.side_effect = [None, 0, stored_hash, 1]
+        mock_cache.get.side_effect = [None, 0, stored_hash]
+        mock_cache.incr.return_value = 2  # second failure → count=2 (below max)
         OTPService.verify_otp(TEST_PHONE, "111111")
         fail_key = f"otp_fail:{TEST_PHONE}"
-        mock_cache.set.assert_any_call(fail_key, 2, timeout=OTP_FAIL_TTL_SECONDS)
+        # Confirm cache.incr was called (atomic increment — no cache.set for counter)
+        mock_cache.incr.assert_called_once_with(fail_key)
+        # Confirm no lock was set (count < OTP_MAX_FAILURES)
+        lock_key = f"otp_lock:{TEST_PHONE}"
+        set_calls = [str(c) for c in mock_cache.set.call_args_list]
+        assert not any(lock_key in c for c in set_calls)
 
 
 # ── MSG91Adapter ───────────────────────────────────────────────────────────────

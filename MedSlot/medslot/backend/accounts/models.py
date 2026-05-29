@@ -215,7 +215,10 @@ class DoctorProfile(models.Model):
         verbose_name_plural = "Doctor Profiles"
 
     def __str__(self) -> str:
-        return f"Dr. {self.full_name} ({self.specialty})"
+        # PHI-SAFE: returns only the primary key — full_name and specialty are PHI
+        # and must never appear in application logs via str(instance) interpolation.
+        # Matches the pattern used by PatientProfile.__str__.
+        return f"DoctorProfile(id={self.pk})"
 
     @property
     def is_approved(self) -> bool:
